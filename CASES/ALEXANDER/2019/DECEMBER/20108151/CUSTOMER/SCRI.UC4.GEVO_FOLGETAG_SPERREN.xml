@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.UC4.GEVO_FOLGETAG_SPERREN</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Plant das Sperren der GeVos fuer Folgetag(e) ein</description>
+         <versioning_id>-1017596474</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! eventuelles einplanen von GeVo sperren am/n Folgetag/en
+:SET &RUN_OBJECT# = "JOBS.UC4.GEVO_SPERREN"
+:SET &RERUNTME# = "06:25:00"
+:WHILE &RERUNCNT# > 0
+:  SET &NEXTRUN# = ADD_DAYS(&$LDATE_YYMMDD#, &RERUNCNT#)
+:  SET &NEXTRUN# = CONV_DATE(&NEXTRUN#, "JJJJ-MM-TT")
+:  SET &RERUNCNT# = SUB(&RERUNCNT#, 1)
+:  SET &START_TIME# = "&NEXTRUN# &RERUNTME#"
+:  P "&START_TIME#"
+:  INC JOBI.RUN_OBJECT_AT_TIME_PASS_VALUES
+:ENDWHILE
+
+
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

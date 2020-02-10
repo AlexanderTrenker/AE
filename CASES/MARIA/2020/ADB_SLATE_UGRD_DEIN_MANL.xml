@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>26</ert>
+         <platform>PS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>ADB_SLATE_UGRD_DEIN_MANL</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <time_zone>TZ.MST</time_zone>
+         <versioning_id>-277164603</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Date: 04/13/2018
+
+Created By:  Jeff Gloyd
+
+PS Navigation :Student Admissions > Processing Applications > Update Applications > Update Program Action/Reason 
+
+AD/PROCESS_FLOWS/SLATE_DECISION/UCB
+Description: 
+
+Developer: Phillip Curry, Matthew Glover
+
+Script used: 
+ 
+Calendar: 
+
+Triggered by:				Triggering message:
+
+Rerun Instructions: Email Phillip Curry amd Matthew Glover
+
+Call job:   __ YES    _X_ NO   All jobs are call jobs unless otherwise noted.
+
+Criticality:
+
+Fixer: PS.CC
+
+Abend History:
+
+Change History:
+
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process>PS_RUN_JOB JOBNAME='SADEIPAP',RUNCONTROLID='ADB_SLATE_UGRD_DEIN_MANL',OUTDESTTYPE='NONE'</process>
+      </row>
+      <row>
+         <pre_process><![CDATA[!:SET &DATE=SYS_DATE('YYYYMMDD')
+!:PRINT "PUT INDICATOR_DATE  = &DATE"
+!:PUT_VAR INDICATOR_DATE,"START DATE", "&DATE"]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>PS</platform>
+         <agent>ICSPRD_PS</agent>
+         <login>LOGINS</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <ps_job_delete></ps_job_delete>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

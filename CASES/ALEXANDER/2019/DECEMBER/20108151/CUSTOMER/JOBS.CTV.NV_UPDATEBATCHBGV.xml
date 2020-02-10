@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>CTV</archive_key1>
+         <archive_key2>DOPE</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>63</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_allowed_retcode>2</max_allowed_retcode>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.CTV.NV_UPDATEBATCHBGV</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>CTV Nachverarbeitung Step UpdateBatchBGV</description>
+         <versioning_id>255384869</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &PROGRAM# = "Nachverarbeitung_UpdateBGV.sh"
+:SET &OPTIONS# = ""
+
+:INC JOBI.CTV.ALLGEMEIN_EXPORTS
+
+!Default mässig ist für NV_Batch kein Wert in der Variablen eingetragen, sodass dieser berechnet wird.
+:SET &CTV_UPDATE_BGV_MAX# = GET_VAR (VARA.CTV.PARAMETER, "CTV_UPDATEBGV_MAX_&OB#")
+:IF &CTV_UPDATE_BGV_MAX# = ""
+!  Anzahl Brief = Minuten bis CTV_UPDATE_DEADLINE * CTV_FACTOR_LETTERS / 60
+:  SET &FACTOR_LETTERS#  = GET_VAR(VARA.CTV.PARAMETER, CTV_UPDATEBGV_FACTOR_LETTERS)
+:  SET &DEADLINE#        = GET_VAR(VARA.CTV.PARAMETER, CTV_UPDATEBGV_DEADLINE)
+:  SET &DEADLINE#        = "&DEADLINE#:00"
+:  SET &CURRENTTIME#     = SYS_TIME_PHYSICAL("HHMM")
+:  SET &DIFFTIME#       = SUB_TIME("HH:MM:SS;&DEADLINE#", "HHMM;&CURRENTTIME#", "MM")
+:  SET &CTV_UPDATE_BGV_MAXM# = MULT(&DIFFTIME#, &FACTOR_LETTERS#)
+:  SET &CTV_UPDATE_BGV_MAX#  = DIV(&CTV_UPDATE_BGV_MAXM#, 60)
+:  SET &CTV_UPDATE_BGV_MAX#  = FORMAT(&CTV_UPDATE_BGV_MAX#)
+:ENDIF
+
+!Berechneter Wert soll für Batch nicht über den MAX_B_MAX Wert steigen können
+:IF &OB# = "B"
+:  SET &CTV_UPDATE_BGV_MAX_B_MAX# = GET_VAR (VARA.CTV.PARAMETER, "CTV_UPDATEBGV_MAX_B_MAX")
+:  IF &CTV_UPDATE_BGV_MAX# > &CTV_UPDATE_BGV_MAX_B_MAX#
+:    SET &CTV_UPDATE_BGV_MAX# = &CTV_UPDATE_BGV_MAX_B_MAX#
+:  ENDIF
+:ENDIF
+
+export CTV_UPDATE_BGV_MAX=&CTV_UPDATE_BGV_MAX#
+echo '$CTV_UPDATE_BGV_MAX:        '$CTV_UPDATE_BGV_MAX
+
+:INC JOBI.STANDARDJOB]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[!PSET Variable wird in Pre condition des Nachfolgejobs ausgewertet
+:SET &RETURN# = GET_STATISTIC_DETAIL(,RETURN_CODE)
+:SET &RETURN# = FORMAT(&RETURN#)
+:PSET &RC_MAX_UpdateBatchBGV# = &RETURN#
+
+:INC JOBI.SHELL_POST
+
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.APPS</agent>
+         <login>LOGIN.DOPE</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.BS20_EXPORT_LOGDIR</name>
+         <type>JOBI</type>
+         <description>Exports BS20_LOGDIR Variable to Unix Shell</description>
+         <versioning_id>221835391</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.BS20_EXPORT_LOGDIR]======================================"
+echo "export BS20_LOGDIR=&APPL#/"
+export BS20_LOGDIR=&APPL#/
+:PRINT "[END JOBI.BS20_EXPORT_LOGDIR]======================================"]]></process>
+      </row>
+   </scripts>
+</jobi>

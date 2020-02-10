@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>VTK</archive_key1>
+         <archive_key2>SAP FI</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>574</ert>
+         <platform>R3</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.SAP.PROVISIONSBATCH_PZT10100</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>SAP VTK Fälligkeiten umsetzen gem. Tab. ZRWT962</description>
+         <versioning_id>910122316</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[R3_SET_PRINT_DEFAULTS COPIES=001,EXPIRATION=9,LAYOUT="X_65_132",DESTINATION="STD",RECEIVER="&JOBNAME#",SAP_COVER_PAGE="X",OS_COVER_PAGE="X"
+R3_ACTIVATE_REPORT REPORT="ZRWFIVTK_FAE_TERMINE",VARIANT="PROD",EXPIRATION=9,SAP_COVER_PAGE="X",COVERPAGE="YES",OS_COVER_PAGE="X",WAIT="YES"]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>R3</platform>
+         <agent>HG.SAP</agent>
+         <optional_reports>PLOG</optional_reports>
+         <job_report_path>2</job_report_path>
+         <sap_client>01</sap_client>
+         <job_class>B</job_class>
+         <sap_job_delete>0</sap_job_delete>
+         <sap_lang></sap_lang>
+         <job_name></job_name>
+         <sap_dst_system></sap_dst_system>
+         <sap_startmode>0</sap_startmode>
+         <sap_job_del_not_on_error>0</sap_job_del_not_on_error>
+         <sap_recipient>oliver.deininger@athene.de</sap_recipient>
+         <sap_addresstype></sap_addresstype>
+         <sap_express>0</sap_express>
+         <sap_copy>0</sap_copy>
+         <sap_blindcopy>0</sap_blindcopy>
+         <sap_noforward>0</sap_noforward>
+         <sap_noprint>0</sap_noprint>
+         <sap_deliver></sap_deliver>
+         <sap_statusbymail></sap_statusbymail>
+         <sap_job_type>0</sap_job_type>
+         <sap_override_login></sap_override_login>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

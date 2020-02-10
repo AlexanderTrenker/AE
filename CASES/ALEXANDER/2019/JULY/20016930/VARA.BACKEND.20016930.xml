@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.BACKEND.20016930</name>
+         <type>VARA</type>
+         <sub_type>BACKEND</sub_type>
+         <versioning_id>1286018122</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <agent>UNIX01</agent>
+         <login>@LOGIN.ALL</login>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>BACKEND</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <backend_tabs>
+      <row>
+         <platform>WINDOWS</platform>
+         <tab_number>1</tab_number>
+         <name>WINDOWS</name>
+      </row>
+      <row>
+         <platform>UNIX</platform>
+         <tab_number>2</tab_number>
+         <name>UNIX</name>
+      </row>
+   </backend_tabs>
+   <commands>
+      <row>
+         <command>ls -l $(find /opt/automic/Automation.Platform/AutomationEngine/temp -name "WPsrv_log_0[0-9][0-9]_00.txt" -type f -mmin +20 ) null 2&gt;/dev/null  | awk '{printf ("%s-%s %s %s\n",$6,$7,$8,$9)}'</command>
+         <column_descriptions>process:1(100);pid:25(100)</column_descriptions>
+         <line_number>1</line_number>
+         <operating_system>Linux*</operating_system>
+         <backend_tab_number>2</backend_tab_number>
+         <version>3*</version>
+      </row>
+   </commands>
+</vara>

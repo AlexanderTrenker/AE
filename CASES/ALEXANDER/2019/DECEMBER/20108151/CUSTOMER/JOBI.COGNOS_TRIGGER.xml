@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.COGNOS_TRIGGER</name>
+         <type>JOBI</type>
+         <description>triggersev.sh Skript erstellen</description>
+         <versioning_id>1383361011</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[cat << __EOF__ > &PROGRAM#
+/opt/cognos/c101/webapps/utilities/trigger/trigger.sh \$1
+if [ \$? = 1 ]; then
+        echo "##CODE## 1000"
+        echo "##MESSAGE## Trigger \"\$1\" was fired successful"
+        echo "##DESCRIPTION## Ein Cognos-Bericht wurde mit Trigger \"\$1\" beauftragt ..."
+else
+        echo "##CODE## 3004"
+        echo "##MESSAGE## Trigger \"\$1\" was not fired !!!"
+        echo "##DESCRIPTION## Ein Cognos-Bericht konnte mit Trigger \"\$1\" nicht beauftragt werden!"
+        echo "##DESCRIPTION## Bitte setzen Sie sich mit dem System Management [2920] in Verbindung ... "
+fi
+__EOF__
+
+]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.ACTION.BACKUP.DELETE_VHOST@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1802434217</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.SANITY_CHECK
+:INCLUDE PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ATTACH_RES
+
+! Check WSAdmin Tool Bin Directory
+:IF &UC4_WSADMIN_DIR_PATH# = ''
+:  SET &UC4_WSADMIN_DIR_PATH# = "$UC4_WSADMIN_DIR_PATH"
+:ENDIF
+
+:SWITCH &$PLATFORM#
+:CASE "WINDOWS"
+! insert these lines in your script to determine if an error occurred
+! @set retcode=%errorlevel%
+! @if NOT %ERRORLEVEL% == 0 goto :retcode
+!
+:INCLUDE PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.DEFINE_WSADMIN@WINDOWS
+
+:SET &UC4RB_BACKUP_DIRECTORY# = STR_SUB(&UC4RB_BACKUP_DIRECTORY#, '\', '/')
+:SET &UC4RB_BACKUP_REPORT# = STR_SUB(&UC4RB_BACKUP_REPORT#, '\', '/')
+
+:INCLUDE PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ROLLBACK.BACKUP_VHOST
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+
+:CASE "UNIX"
+
+PATH=$PATH:&UC4_WSADMIN_DIR_PATH#;export PATH
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+:SET &UC4RB_BACKUP_DIRECTORY# = STR_SUB(&UC4RB_BACKUP_DIRECTORY#, '\', '/')
+:SET &UC4RB_BACKUP_REPORT# = STR_SUB(&UC4RB_BACKUP_REPORT#, '\', '/')
+
+:INC PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.DEFINE_WSADMIN@UNIX
+
+:INC PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ROLLBACK.BACKUP_VHOST
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+:OTHER
+
+:ENDSWITCH
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &value# = ""
+:SET &variableName# = "PCK.AUTOMIC_IBM_WEBSPHERE.PRV.VARA.TEMP.DELETE_VHOST_BACKUP"
+:SET &variablePath# = ""
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+:SET &hnd# = PREP_PROCESS_REPORT(,,,"RESULT: *")
+:PROCESS &hnd#
+:   SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:   SET &pos# = STR_FIND(&line#," = ")
+:   SET &pos# = &pos# + 9
+:   SET &value# = MID(&line#, &pos#)
+:ENDPROCESS
+
+:IF &value# <> ""
+:PUT_VAR &variableName#, "&BACKUPKEY#", "&value#"
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

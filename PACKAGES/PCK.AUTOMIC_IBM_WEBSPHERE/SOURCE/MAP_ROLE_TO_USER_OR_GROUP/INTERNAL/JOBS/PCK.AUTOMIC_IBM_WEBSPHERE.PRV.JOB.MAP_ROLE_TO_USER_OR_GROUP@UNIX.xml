@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.JOB.MAP_ROLE_TO_USER_OR_GROUP@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>map role to user or usergroup</description>
+         <versioning_id>1471593548</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &CHECK# = 0
+: IF &UC4RB_WAS_USER# <> ""
+:   SET &CHECK# = &CHECK# + 1
+: ENDIF
+: IF &UC4RB_WAS_USER_GROUP# <> ""
+:   SET &CHECK# = &CHECK# + 1
+: ENDIF
+:IF &CHECK# = 0
+: STOP MSG, 50, "Either Users or User Groups must be provided."
+:ENDIF
+:IF &CHECK# = 2
+: STOP MSG, 50, "Both Users or User Groups should not be provided."
+:ENDIF
+
+: DEFINE &STRING_ARR#, string, 30
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_HEADER
+
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+! Host
+: SET &UC4RB_LOGGING_PARAMETER# = "Host"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_HOST#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Port
+: SET &UC4RB_LOGGING_PARAMETER# = "Port"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_PORT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Username
+: SET &UC4RB_LOGGING_PARAMETER# = "Username"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_USERNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! WSAdmin Tool Bin Directory
+: SET &UC4RB_LOGGING_PARAMETER# = "WSAdmin Tool Bin Directory"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4_WSADMIN_DIR_PATH#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Application Name
+: SET &UC4RB_LOGGING_PARAMETER# = "Application Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_APPLICATION_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Role
+: SET &UC4RB_LOGGING_PARAMETER# = "Role"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_ROLE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! User
+: SET &UC4RB_LOGGING_PARAMETER# = "User"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_USER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! User Group
+: SET &UC4RB_LOGGING_PARAMETER# = "User Group"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_USER_GROUP#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Advanced Options
+: SET &UC4RB_LOGGING_PARAMETER# = "Advanced Options"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_ADV_OPTIONS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! logging start of execution
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!-------------------------------------------------Forming the command--------------------------------------------
+: SET &UC4RB_ESCAPED_STRING# = "&UC4_WSADMIN_DIR_PATH#/wsadmin.sh"
+  PATH=$PATH:&UC4_WSADMIN_DIR_PATH#;export PATH
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+
+: INCLUDE PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ATTACH_RES
+: SET &UC4RB_WAS_CMD# = "java -jar ""&$AGENT_RESOURCES_CLIENT#itpa-tool.jar"" arb -cmd execute &UC4RB_ESCAPED_STRING#"
+
+! Username
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_USERNAME#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -username &UC4RB_ESCAPED_STRING#")
+
+! Password
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_PASSWORD#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -password &UC4RB_ESCAPED_STRING#")
+
+: IF &UC4RB_WAS_HOST# <> ""
+!     Host
+:     SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_HOST#
+:     INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+:     SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#," -host &UC4RB_ESCAPED_STRING#")
+
+!     Port
+:     SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_PORT#
+:     INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+:     SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -port &UC4RB_ESCAPED_STRING#")
+: ENDIF
+
+! Advanced Options	
+: IF &UC4RB_WAS_ADV_OPTIONS# <> ""
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_WAS_ADV_OPTIONS#")
+: ENDIF
+
+! Attach python file to prepare running
+: ATTACH_RES "PCK.AUTOMIC_IBM_WEBSPHERE.PRV.STORE", "MAP_ROLE_TO_USER_OR_GROUP", T
+: SET &FILENAME# = STR_CAT(&$AGENT_RESOURCES_TASK#, "pck_websphere_map_role_to_user_or_group.py")
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -f ""&FILENAME#""")
+
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " ""&UC4RB_WAS_WSADMINLIB#""")
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " ""&UC4RB_WAS_UTILSLIB#""")
+
+! Application name
+:   SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_APPLICATION_NAME#
+:   INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Role
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_ROLE#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! User
+: SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+: SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_USER#")
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! USer Group
+: SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+: SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_USER_GROUP#")
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! logging the command
+: PRINT &UC4RB_WAS_CMD#
+
+! Invoking java binary
+  &UC4RB_WAS_CMD#
+
+! Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** MAP ROLE TO USER OR GROUP ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** MAP ROLE TO USER OR GROUP ACTION FAILED ********"
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.CHECK_JOBSTATUS
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_FOOTER]]></process>
+      </row>
+      <row>
+         <pre_process>:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

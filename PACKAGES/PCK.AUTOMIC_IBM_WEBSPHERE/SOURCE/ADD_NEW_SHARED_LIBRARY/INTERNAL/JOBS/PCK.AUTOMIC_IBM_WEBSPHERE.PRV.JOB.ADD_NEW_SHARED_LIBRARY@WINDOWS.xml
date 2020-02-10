@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>N</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.JOB.ADD_NEW_SHARED_LIBRARY@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Add New Shared Library</description>
+         <versioning_id>2103996122</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[@echo off
+
+!Check for node, cluster and server name
+
+
+:IF &UC4RB_WAS_SCOPE# EQ "Cell"
+:  SET &FLAG# = 0
+:  IF &UC4RB_WAS_NODE_NAME# NE ""
+:    SET &FLAG# = ADD(&FLAG#,1)
+:  ENDIF
+:  IF &UC4RB_WAS_SERVER_NAME# NE ""
+:    SET &FLAG# = ADD(&FLAG#,1)
+:  ENDIF
+:  IF &UC4RB_WAS_CLUSTER_NAME# NE ""
+:    SET &FLAG# = ADD(&FLAG#,1)
+:  ENDIF
+:  IF &FLAG# NE 0
+:    STOP MSG, 50, "Scope is selected as a Cell. So none of Node, Server or Cluster field value is allowed."
+:  ENDIF
+:ENDIF
+
+
+:IF &UC4RB_WAS_SCOPE# EQ "Cluster"
+:  SET &FLAG# = 1
+:  IF &UC4RB_WAS_CLUSTER_NAME# NE ""
+:    SET &FLAG# = &FLAG#-1
+:  ENDIF
+:  IF &UC4RB_WAS_NODE_NAME# NE ""
+:    SET &FLAG# = ADD(&FLAG#,1)
+:  ENDIF
+:  IF &UC4RB_WAS_SERVER_NAME# NE ""
+:    SET &FLAG# = ADD(&FLAG#,1)
+:  ENDIF
+:  IF &FLAG# NE 0
+:    STOP MSG, 50, "Scope is selected as a Cluster. So Cluster is mandatory none of Server or Node field value is allowed."
+:  ENDIF
+:ENDIF
+
+
+:IF &UC4RB_WAS_SCOPE# EQ "Node"
+:  SET &FLAG# = 1
+:  IF &UC4RB_WAS_NODE_NAME# NE ""
+:    SET &FLAG# = &FLAG#-1
+:  ENDIF
+:  IF &UC4RB_WAS_CLUSTER_NAME# NE ""
+:    SET &FLAG# = ADD(&FLAG#,1)
+:  ENDIF
+:  IF &UC4RB_WAS_SERVER_NAME# NE ""
+:    SET &FLAG# = ADD(&FLAG#,1)
+:  ENDIF
+:  IF &FLAG# NE 0
+:    STOP MSG, 50, "Scope is selected as a Node. So Node is mandatory none of Server or Cluster field value is allowed."
+:  ENDIF
+:ENDIF
+
+
+:IF &UC4RB_WAS_SCOPE# EQ "Server"
+:  SET &FLAG# = 2
+:  IF &UC4RB_WAS_NODE_NAME# NE ""
+:    SET &FLAG# = &FLAG#-1
+:  ENDIF
+:  IF &UC4RB_WAS_SERVER_NAME# NE ""
+:    SET &FLAG# = &FLAG#-1
+:  ENDIF
+:  IF &UC4RB_WAS_CLUSTER_NAME# NE ""
+:    SET &FLAG# = ADD(&FLAG#,1)
+:  ENDIF
+:  IF &FLAG# NE 0
+:    STOP MSG, 50, "Scope is selected as a Server. So Node and Server both are mandatory and Cluster field value is not allowed."
+:  ENDIF
+:ENDIF
+
+
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+! Host
+: SET &UC4RB_LOGGING_PARAMETER# = "Host"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_HOST#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Port
+: SET &UC4RB_LOGGING_PARAMETER# = "Port"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_PORT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Username
+: SET &UC4RB_LOGGING_PARAMETER# = "Username"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_USERNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! WSAdmin Tool Bin Directory
+: SET &UC4RB_LOGGING_PARAMETER# = "WSAdmin Tool Bin Directory"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4_WSADMIN_DIR_PATH#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Scope of Shared Library	
+: SET &UC4RB_LOGGING_PARAMETER# = "Scope"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_SCOPE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Node Name
+: SET &UC4RB_LOGGING_PARAMETER# = "Node Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_NODE_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Server Name
+: SET &UC4RB_LOGGING_PARAMETER# = "Server Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_SERVER_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Cluster Name
+: SET &UC4RB_LOGGING_PARAMETER# = "Cluster Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_CLUSTER_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Shared Library Name
+: SET &UC4RB_LOGGING_PARAMETER# = "Shared Library"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_LIB_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Shared Library Description
+: SET &UC4RB_LOGGING_PARAMETER# = "Shared Library Description"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_LIB_DESC#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Classpath
+: SET &UC4RB_LOGGING_PARAMETER# = "Classpath"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_LIB_CLASSPATH#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Native Library path
+: SET &UC4RB_LOGGING_PARAMETER# = "Native Library Path"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_NAT_LIB_PATH#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Classloader Value
+: SET &UC4RB_LOGGING_PARAMETER# = "Classloader"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_CLASS_LOADER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Advanced Options
+: SET &UC4RB_LOGGING_PARAMETER# = "Advanced Options"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_ADV_OPTIONS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! logging start of execution
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!-------------------------------------------------Forming the command--------------------------------------------
+: SET &UC4RB_ESCAPED_STRING# = "&UC4_WSADMIN_DIR_PATH#\wsadmin.bat"
+
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+
+: INCLUDE PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ATTACH_RES
+: SET &UC4RB_WAS_CMD# = "java -jar ""&$AGENT_RESOURCES_CLIENT#itpa-tool.jar"" arb -cmd execute &UC4RB_ESCAPED_STRING#"
+
+! Username
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_USERNAME#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -username &UC4RB_ESCAPED_STRING#")
+
+: IF &UC4RB_WAS_HOST# <> ""
+!     Host
+:     SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_HOST#
+:     INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+:     SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#," -host &UC4RB_ESCAPED_STRING#")
+
+!     Port
+:     SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -port &UC4RB_WAS_PORT#")
+: ENDIF
+
+! Advanced Options	
+: IF &UC4RB_WAS_ADV_OPTIONS# <> ""
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_WAS_ADV_OPTIONS#")
+: ENDIF
+
+! Attach python file to prepare running
+: ATTACH_RES "PCK.AUTOMIC_IBM_WEBSPHERE.PRV.STORE", "ADD_NEW_SHARED_LIBRARY", T
+: SET &FILENAME# = STR_CAT(&$AGENT_RESOURCES_TASK#, "pck_websphere_add_new_shared_library.py")
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -f ""&FILENAME#""")
+
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " ""&UC4RB_WAS_WSADMINLIB#""")
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " ""&UC4RB_WAS_UTILSLIB#""")
+
+! Scope	
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_WAS_SCOPE#")
+
+! Node Name	
+: SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+: SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_NODE_NAME#")	
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Server Name	
+: SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+: SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_SERVER_NAME#")	
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Cluster Name	
+: SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+: SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_CLUSTER_NAME#")	
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Shared Library Name
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_LIB_NAME#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Shared Library Description
+: SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+: SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_LIB_DESC#")	
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Shared Library Classpath
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_LIB_CLASSPATH#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Native Library Path
+: SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+: SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_NAT_LIB_PATH#")	
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Isolated Classloader
+: SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+: SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_CLASS_LOADER#")	
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Password
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_PASSWORD#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+
+! logging the command
+: PRINT &UC4RB_WAS_CMD#
+
+! Invoking java binary
+  &UC4RB_WAS_CMD# -password &UC4RB_ESCAPED_STRING#
+
+! Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** ADD NEW SHARED LIBRARY EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "********ADD NEW SHARED LIBRARY ACTION FAILED ********"
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process>: INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

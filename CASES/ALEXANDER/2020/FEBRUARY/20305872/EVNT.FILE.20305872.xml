@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>134</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>hgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt>600</mrt>
+         <mrt_method>257</mrt_method>
+         <mrt_time>000000</mrt_time>
+         <name>EVNT.FILE.20305872</name>
+         <type>EVNT</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>FT</sub_type>
+         <versioning_id>581115974</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process>:SEND_MSG ,,"20305872"</process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <check_within>60</check_within>
+         <sub_type2>FS</sub_type2>
+         <type>FT</type>
+         <platform>WINDOWS</platform>
+         <destination_agent>WIN01</destination_agent>
+         <destination_login>@LOGIN.ALL</destination_login>
+         <operator>L</operator>
+         <path>c:\temp\deletdgdge.bat</path>
+         <repeat_type>F</repeat_type>
+         <execution_type>S</execution_type>
+         <time_period>0010</time_period>
+         <unit>3</unit>
+         <check_value>100</check_value>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

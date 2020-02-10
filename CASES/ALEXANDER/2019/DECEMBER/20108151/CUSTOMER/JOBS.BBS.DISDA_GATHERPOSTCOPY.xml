@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>DISDA</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>8</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.DISDA_GATHERPOSTCOPY</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; GATHER POSTCOPY [ZIEL_DB]</description>
+         <versioning_id>-637991164</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! ----------------------------------
+! Parameter für JOBI.SQL definieren:
+! ----------------------------------
+:SET &ORASCRIPT# = "&BATCH_LC#.sql"
+:SET &ORADB# = "DLLW2&IDT#"
+:SET &ORAUSER# = "DISDAAPP"
+! ----------------------------------
+cat << __EOF__  > &RUNDIR#/&ORASCRIPT#
+select substr(dld_info,1,50) as "DLD_INFO" from dual;
+set timing on
+exec disda.gather.postcopy;
+__EOF__
+! ----------------------------------------
+! Aufruf des SQL-Includes für csv-Ausgabe:
+! ----------------------------------------
+:INC JOBI.SQL
+! ------------------
+! Returncode setzen:
+! ------------------
+  exit $rc]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH6_BATCH</agent>
+         <login>LOGIN.BBSBATCH</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

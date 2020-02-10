@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.ZZZ.MAKE_JUNK_FILES</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.COMMON.REGULAR_PRIORITY</queue>
+         <versioning_id>1895250326</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! JOBS.TEST.MAKE_JUNK_FILES
+!
+!
+:include jobi.common.all_jobs
+
+echo "x" > test01.txt
+echo "x" > test02.txt
+echo "x" > test03.txt
+echo "x" > test04.txt
+echo "x" > test05.txt
+echo "x" > test06.txt
+echo "x" > test07.txt
+echo "x" > test08.txt
+echo "x" > test09.txt]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HOSTG.JOBSUB</agent>
+         <login>LOGIN.COMMON.UNIX.JOBSUB.AUTOMIC</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <resources_needed>1</resources_needed>
+         <unix_shell>bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.COMMON.CONTEXT</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

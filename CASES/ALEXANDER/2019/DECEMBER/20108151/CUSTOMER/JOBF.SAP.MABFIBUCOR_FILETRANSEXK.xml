@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobf>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>SAP_FI</archive_key1>
+         <archive_key2>FIBU_ABGLEICH</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBF.SAP.MABFIBUCOR_FILETRANSEXK</name>
+         <type>JOBF</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>02 Uebertraegt ein csv file in das SQL Loader Input Verzeichnis batchserver:/mnt/filer/EBENE/SAP/input/FIBUABGLEICH</description>
+         <versioning_id>99802544</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC JOBI.FT_HG_REPLACE_SRC "HG.SOURCE" = "HG.SAP.UX"
+:INC JOBI.FT_HG_REPLACE_DST "HG.DST"    = "HG.RH6_BATCH"
+
+:INC JOBI.INC.BASISPARAM
+
+:PUT_ATT FT_SRC_FILE = "/BLVPROD/outputfiles/&SAP#/&SAPCLIENT#/9999/SAP_*_RSVEXK"
+:PUT_ATT FT_DST_FILE = "&WORKDIR#/SAP_*_RSVEXK"
+]]></process>
+      </row>
+   </scripts>
+   <file_transfer_attributes>
+      <row>
+         <erase_source_files>1</erase_source_files>
+         <destination_path>[ autofill ]</destination_path>
+         <source_path>[autofill ]</source_path>
+         <destination_agent><![CDATA[<WIN>]]></destination_agent>
+         <source_agent><![CDATA[<WIN>]]></source_agent>
+         <destination_login>LOGIN.BBSBATCH</destination_login>
+         <source_login>LOGIN.UC4</source_login>
+         <max_parallel_ft>1</max_parallel_ft>
+         <allow_overwrite>1</allow_overwrite>
+         <repeat_type>S</repeat_type>
+         <additional_attributes>1=''2=''</additional_attributes>
+         <text_type>0</text_type>
+         <use_wild_cards>1</use_wild_cards>
+      </row>
+   </file_transfer_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobf>

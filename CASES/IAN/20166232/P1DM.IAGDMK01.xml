@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>26</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>P1DM.IAGDMK01</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Agency Portal Documaker Job</description>
+         <versioning_id>-693661501</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+!*** SET VARIABLES FOR THE JOB ***
+
+:INC P1DM.I.AG.JOBI.VARS
+:INC P1DM.I.AG.JOBI.DATETIME
+
+SET NSCPY_SW=N
+
+!*** CAPTURE CALLING JOB PLAN NUMBER TO PASS TO EMAIL NOTIFICATIONS & FACILITATE UC4 STATISTICS IDENTIFICATION ***
+
+:SET &JPNR# = SYS_ACT_TOP_NR()
+
+!*** SET DNS FOR DR IP ADDRESS RESOLUTION BASED ON 11th CHARACTER OF JOBNAME (ENVSYM) ***
+!*** SET APPSTOR SERVER PATHS FOR THE ENVIRONMENT ***
+
+:IF &ENVSYM# = "T"
+:SET &PATH_RPT# = "&PATH_NS_RPT_TEST#"
+:SET &PATH_NS_UC4_OUTPUT# = "&PATH_NS_UC4_TEST#"
+:ENDIF
+
+:IF &ENVSYM# = "M"
+:SET &PATH_RPT# = "&PATH_NS_RPT_MODL#"
+:SET &PATH_NS_UC4_OUTPUT# = "&PATH_NS_UC4_MODL#"
+:ENDIF
+
+:IF &ENVSYM# = "P"
+:SET &PATH_RPT# = "\\&NS_DNS#\&PATH_NS_RPT_PROD#"
+:SET &PATH_NS_UC4_OUTPUT# = "\\&NS_DNS#\&PATH_NS_UC4_PROD#"
+:ENDIF
+
+:SET &HOST_DMK01#  = SYS_ACT_HOST()
+ECHO You are now on server &HOST_DMK01# in DMK01
+ECHO
+
+!*** BEGIN PRE-DOCUMAKER PROCESS ***
+
+!*** SET FOLDER PATH BASED ON TRIGGER FILE NAME ***
+!*** DELETE WORKING FILES IN DATA FOLDER FOR JOBNAME ***
+!*** IF NEW ACCT CREATE NEW FOLDER BASED ON JOBNAME ***
+
+IF NOT EXIST %DIRPATH% (
+   mkdir %DIRPATH%
+   ECHO %curr_Key% - &FILE#.dat file received >%DIRPATH%\&FILE#.log
+   ECHO %curr_Key% - %DIRPATH% created >>%DIRPATH%\&FILE#.log
+) ELSE (
+   DEL /Q %DIRPATH%\*.*
+   ECHO %curr_Key% - &FILE#.dat file received >%DIRPATH%\&FILE#.log
+   ECHO %curr_Key% - %DIRPATH% existence verified >>%DIRPATH%\&FILE#.log
+)
+
+!*** IF INPUT FILE IS EMPTY BACK UP FILE DELETE FROM FOLDER, DELETE TEMP FILE SEND EMAIL & GET OUT ***
+
+for %%R in (&PATH_AS_SOURCE#\&FILE#.dat)    do if %%~zR equ 0 GOTO :retcod50
+
+!*** CREATE SED INPUT TEXT FILE FOR JOBNAME ***
+!*** CAPTURE CURRENT INPUT FILE NAME IN WORK VARIABLE FOR BUILDING SED COMMAND FILE ***
+!*** NAME SED COMMAND FILE ACCOUNT NAME.TXT I.E. XXXXXXXX,TXT ***
+
+ECHO s/DATA\\/DATA\\&FILE#\\/g > &PATH_SED#\&FILE#_SED.txt
+ECHO s/extrfile.dat/&FILE#.dat/g >> &PATH_SED#\&FILE#_SED.txt
+
+!*** COPY GENERIC FSIUSER TO FILENAME FSIUSER IN SED WORKING FOLDER FOR SPECIFIC JOB NAME CHANGES ***
+
+COPY /Y &PATH_ROOT#\FSIUSER.INI &PATH_SED#\&FILE#_FSIUSER.ini
+
+:INC P1DM.I.AG.JOBI.DATETIME
+ECHO %curr_Key% - &FILE#_FSIUSER.ini file created >>%DIRPATH%\&FILE#.log
+
+!*** NOW EXECUTE SED PROGRAM TO CHANGE THE FSIUSER TO BE ACCOUNT SPECIFIC ***
+
+&PATH_SED_EXE#\sed.exe -f &PATH_SED#\&FILE#_SED.txt &PATH_SED#\&FILE#_FSIUSER.ini >&PATH_SED#\&FILE#.ini
+
+!*** NOW COPY FILES FOR DOCUMAKER ***
+
+!*** MIRROR GENERATE PRINT BAT PROCESS FILE LOCATIONS ***
+!*** COPY JOB SPECIFIC FSIUSER TO BASE DIRECTORY FOR EXECUTION ***
+!*** CLEAN UP SED DIRECTORY ***
+
+COPY /Y &PATH_SED#\&FILE#.ini &PATH_ROOT#\&FILE#.ini
+
+IF %ERRORLEVEL% EQU 0 (
+  DEL /Q &PATH_SED#\&FILE#_SED.txt
+  DEL /Q &PATH_SED#\&FILE#_FSIUSER.ini
+  DEL /Q &PATH_SED#\&FILE#.ini
+)
+
+!*** COPY CURRRENT EXTRACT FILE TO DATA\INPUT DIRECTORY FOR PROCESSING ***
+
+ROBOCOPY &PATH_AS_SOURCE# &PATH_INPUT# &FILE#.dat > NUL
+
+!*** LOG THE START TIME OF DOCUMAKER RP TO JOB LOG FILE ***
+
+ECHO %curr_Key% - Documaker RP has started processing extract >>%DIRPATH%\&FILE#.log
+
+!*** NOW CALL BAT FILE TO START DOCUMAKER RP
+
+:DATA CALL %BASEDIR%\UC4_AG_Automic_Documaker.bat &FILE# %DIRPATH% %BASEDIR%
+
+:DATA SET DM_RC=%ERRORLEVEL%
+
+IF %DM_RC% EQU 80 goto :retcod80
+IF %DM_RC% EQU 88 call :retcod88
+IF %DM_RC% EQU 89 goto :retcod89
+
+:INC P1DM.I.AG.JOBI.DATETIME
+
+ECHO %curr_Key% - Documaker RP has finished processing the extract. >>%DIRPATH%\&FILE#.log
+
+!*** EMAIL PDFs ***
+
+:DATA CALL %BASEDIR%\UC4_AG_EMAIL_PROC_HA.bat ASP_PMS &FILE# &ENVSYM# &CLIENT#
+IF %ERRORLEVEL% NEQ 0 (
+   CALL :RETCOD91
+)
+
+!*** IMPORT ARCHIVE FILES ***
+
+:DATA CALL %BASEDIR%\UC4_AG_PDF_ARCHIVE_HA.bat &FILE# &ENVSYM# &PATH_NS_UC4_OUTPUT# &HOST_DMK01# &JPNR#
+IF NOT %ERRORLEVEL% EQU 0 CALL :RETCOD90
+
+!*** CALL ROUTINE TO BACKUP INPUT TO APPSTOR & DELETE FILE FROM DIRECTORY TO AVOID RE_TRIGGERING
+
+:DATA CALL :BKPINPUT
+
+!*** SEND SUCCESS EMAIL NOTIFICATION OF CYCLE END ***
+
+:DATA CALL %BASEDIR%\UC4_AG_SUCCESS.bat &FILE# &ENVSYM# &HOST_DMK01# &JPNR# &CLIENT#
+
+!*** CALL ROUTINE TO BACKUP JOB DATA FOLDER TO APPSTOR & CALL CLEAN UP
+
+:DATA CALL :BKPZIP
+
+
+GOTO :EOF
+
+
+:DATA :retcod50
+:INC P1DM.I.AG.JOBI.DATETIME
+ECHO  %curr_Key% - *extract is empty* >>%DIRPATH%\&FILE#.log
+:DATA CALL :BKPINPUT
+GOTO :EOF
+
+:DATA :retcod80
+:INC P1DM.I.AG.JOBI.DATETIME
+:DATA CALL %BASEDIR%\UC4_AG_ERRFILE.bat &FILE# &ENVSYM# &HOST_DMK01# &JPNR# 80 &CLIENT#
+ECHO %curr_Key% - *Gentrn failed* >>%DIRPATH%\&FILE#.log
+:DATA CALL :BKPINPUT
+:DATA CALL :BKPERROR
+:DATA CALL :BKPZIP
+GOTO :EOF
+
+:DATA :retcod88
+:INC P1DM.I.AG.JOBI.DATETIME
+:DATA CALL %BASEDIR%\UC4_AG_ERRFILE.bat &FILE# &ENVSYM# &HOST_DMK01# &JPNR# 88 &CLIENT#
+ECHO %curr_Key% - *Gendata error* >>%DIRPATH%\&FILE#.log
+:DATA CALL :BKPERRORNOSTOP
+GOTO :EOF
+
+:DATA :retcod89
+:INC P1DM.I.AG.JOBI.DATETIME
+:DATA CALL %BASEDIR%\UC4_AG_ERRFILE.bat &FILE# &ENVSYM# &HOST_DMK01# &JPNR# 89 &CLIENT#
+ECHO %curr_Key% - *Genprint error* >>%DIRPATH%\&FILE#.log
+:DATA CALL :BKPINPUT
+:DATA CALL :BKPERROR
+:DATA CALL :BKPZIP
+GOTO :EOF
+
+:DATA :retcod90
+:INC P1DM.I.AG.JOBI.DATETIME
+:DATA CALL %BASEDIR%\UC4_AG_ERRFILE.bat &FILE# &ENVSYM# &HOST_DMK01# &JPNR# 90 &CLIENT#
+ECHO %curr_Key% - *Archive Import failed* >>%DIRPATH%\&FILE#.log
+GOTO :EOF
+
+:DATA :RETCOD91
+:INC P1DM.I.AG.JOBI.DATETIME
+echo %curr_Key% - *Efullfillment failed* >>%DIRPATH%\&FILE#.log
+GOTO :EOF
+
+:DATA :BKPINPUT
+
+!*** COPY CURRENT EXTRACT FILE TO BACK UP FOLDER ON APPSTOR ***
+!*** IF COPY SUCCESSFUL DELETE EXTRACT FILE LONG NAME FROM SOURCE INPUT DIRECTORY SINCE COPIED TO APPSTOR BACKUP ***
+
+COPY /Y &PATH_AS_SOURCE#\&FILE#.dat &PATH_RPT#\&FILE#_%curr_stamp%.dat
+
+IF %ERRORLEVEL% EQU 0 (
+   SET NSCPY_SW=Y
+   DEL /Q &PATH_AS_SOURCE#\&FILE#.dat
+)
+
+!*** IF COPY TO APPSTOR IS NOT SUCCESSFUL THEN SEND EMAIL NOTIFICATION ***
+
+IF %NSCPY_SW% == N (
+   CALL %BASEDIR%\UC4_AG_NSCPY_ERROR.bat &FILE# &ENVSYM# &HOST_DMK01# &JPNR#
+)
+
+GOTO :EOF
+
+
+:DATA :BKPERROR
+
+COPY /Y %DIRPATH%\&FILE_ERROR#.dat &PATH_RPT#\&FILE#_&FILE_ERROR#_%curr_stamp%.dat
+
+DEL /Q &PATH_ROOT#\&FILE#.ini
+
+GOTO :EOF
+
+
+:DATA :BKPERRORNOSTOP
+
+COPY /Y %DIRPATH%\&FILE_ERROR#.dat &PATH_RPT#\&FILE#_&FILE_ERROR#_%curr_stamp%.dat
+
+GOTO :EOF
+
+
+:DATA :BKPZIP
+
+!*** ZIP CURRENT JOB DATA FOLDER AND DELETE & SEND EMAIL NOTIFICATION IF ZIP FAILS ***
+!*** CALL CLEAN ROUTINE TO DELETE DATA FOLDER FROM DOCUMAKER SERVER TO CONSERVE SPACE ***
+!*** AND TO DELETE DELETE CURRENT FSIUSER & EXTRACT FILE COPIED TO INPUT DIRECTORY ***
+
+:DATA CALL %BASEDIR%\UC4_AG_ZIP_DATA.bat &FILE# &ENVSYM# &PATH_NS_UC4_OUTPUT# &HOST_DMK01# &JPNR#
+
+:DATA CALL :CLEAN
+
+GOTO :EOF
+
+
+:DATA :CLEAN
+
+DEL /Q &PATH_ROOT#\&FILE#.ini
+DEL /Q &PATH_INPUT#\&FILE#.dat
+DEL /Q %DIRPATH%\*.*
+
+CD &PATH_DATA#
+
+RD &FILE#
+
+CD &PATH_ROOT#
+
+GOTO :EOF
+
+
+:DATA :END
+
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[
+:PUT_ATT ARCHIVE_KEY1 = "&PATH_AS_SOURCE# \ &FILE#"]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &HND50# = PREP_PROCESS_REPORT(,,,"*extract is empty*")
+:PROCESS &HND50#
+:  MODIFY_STATE STATUS_TEXT=" Empty File found"
+:  MODIFY_STATE RETCODE=00
+:SET &ACTOBJ# = ACTIVATE_UC_OBJECT( ,P1DM.IAGEML50, , , , , PASS_VALUES)
+:ENDPROCESS
+
+:SET &HND80# = PREP_PROCESS_REPORT(,,,"*Gentrn failed*")
+:PROCESS &HND80#
+:  MODIFY_STATE STATUS_TEXT="Gentrn failed"
+:  MODIFY_STATE RETCODE=80
+:ENDPROCESS
+
+:SET &HND88# = PREP_PROCESS_REPORT(,,,"*Gendata error*")
+:PROCESS &HND88#
+:  MODIFY_STATE STATUS_TEXT="GENDATA Error"
+:  MODIFY_STATE RETCODE=00
+:ENDPROCESS
+
+:SET &HND89# = PREP_PROCESS_REPORT(,,,"*Genprint error*")
+:PROCESS &HND89#
+:  MODIFY_STATE STATUS_TEXT="GENPRNT Error"
+:  MODIFY_STATE RETCODE=89
+:ENDPROCESS
+
+:SET &HND90# = PREP_PROCESS_REPORT(,,,"*Archive Import failed*")
+:PROCESS &HND90#
+:  MODIFY_STATE STATUS_TEXT="Import of Archive files failed"
+:  MODIFY_STATE RETCODE=00
+:ENDPROCESS
+
+:SET &HND91# = PREP_PROCESS_REPORT(,,,"*Efullfillment failed*")
+:PROCESS &HND91#
+:  MODIFY_STATE STATUS_TEXT="Email of PDF files failed"
+:  MODIFY_STATE RETCODE=00
+:  SET &ACTOBJ# = ACTIVATE_UC_OBJECT( ,P1DM.IAGEML91, , , , , PASS_VALUES)
+:ENDPROCESS]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent>P1DM.HOSTGROUP.WIN.NEARSTOR.2016</agent>
+         <login>P1DM.LOGIN.NEARSTOR</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>E:\FAP\ASP_PMS</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

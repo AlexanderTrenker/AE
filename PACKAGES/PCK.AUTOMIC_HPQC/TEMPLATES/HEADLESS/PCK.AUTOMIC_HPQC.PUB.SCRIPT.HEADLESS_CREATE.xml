@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_HPQC.PUB.SCRIPT.HEADLESS_CREATE</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Headless Create Script</description>
+         <versioning_id>-1392856733</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+!--------------------------- Getting Template for Defect fields------------------------------------------
+:SET &VARA_OBJ_DEFECT_FIELDS# = "PCK.AUTOMIC_HPQC.PRV.VARA.DEFECTS_FIELDS"
+
+:SET &UC4RB_HPQC_DESCRIPTION# = "Test Set : &UC4RB_HPQC_TESTSET_NAME# failed under folder path &UC4RB_HPQC_TESTSET_FOLDER_PATH#. Please check the attachment for more details."
+:SET &UC4RB_HPQC_SUMMARY# = "Test Set &UC4RB_HPQC_TESTSET_NAME# failed under folder path &UC4RB_HPQC_TESTSET_FOLDER_PATH# "
+:SET &DATE# = SYS_DATE("YYYY-MM-DD")
+:SET &UC4RB_HPQC_SEVERITY# = GET_VAR(&VARA_OBJ_DEFECT_FIELDS#, "severity")
+
+:DEFINE &UC4RB_HPQC_FIELD_NAMES#, string, 100
+:DEFINE &UC4RB_HPQC_FIELD_VALUES#, string, 100
+:DEFINE &IDX#, unsigned
+:SET &IDX# =1
+
+
+:SET &HND#=PREP_PROCESS_VAR(&VARA_OBJ_DEFECT_FIELDS#)
+:PROCESS &HND#
+:   SET &VK# = GET_PROCESS_LINE(&HND#,1)
+:   SET &VALUE#=GET_PROCESS_LINE(&HND#,2)
+:   IF &VK# = "detected-by"
+:    SET &VALUE# = &UC4RB_HPQC_USERNAME#
+:   ENDIF
+:   IF &VK# = "creation-time"
+:    SET &VALUE# = &DATE#
+:   ENDIF
+:   IF &VK# = "severity"
+:    SET &VALUE# = &UC4RB_HPQC_SEVERITY#
+:   ENDIF
+:   IF &VK# = "name"
+:    SET &VALUE# = &UC4RB_HPQC_SUMMARY#
+:   ENDIF
+:   IF &VK# = "description"
+:    SET &VALUE# = &UC4RB_HPQC_DESCRIPTION#
+:   ENDIF
+
+:   IF &VALUE# <> ""
+:     SET &UC4RB_HPQC_FIELD_NAMES#[&IDX#]=&VK#
+:     SET &UC4RB_HPQC_FIELD_VALUES#[&IDX#]=&VALUE#
+:     SET &IDX# = &IDX# + 1
+:   ENDIF
+
+:ENDPROCESS
+
+:CLOSE_PROCESS &HND#
+
+:INC PCK.AUTOMIC_HPQC.PUB.INCLUDE.HPQC_ARRAYS_TO_DEFECT_XML
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

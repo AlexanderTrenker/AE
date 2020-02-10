@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>DISDA</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>8</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.DISDA_INITIAL</name>
+         <type>SCRI</type>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; SETZEN DES BATCHPARAMETERS MODUS=INITIAL + START ...</description>
+         <versioning_id>477659452</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC JOBI.INC.BASISPARAM
+:SET &VARA# = "VARA.BATCH.DISDA_BATCH"
+:SET &RUN_OBJECT# = "JOBP.BBS.DISDA"
+:SET &MODUS# = &PROG_UC#
+! ------------------------------------------------
+! 1.) Parameter MODUS fuer den DISDA-Batch setzen:
+! ------------------------------------------------
+:PRINT ""
+:PRINT ">>> AKTUALISIERE PARAMETER [&VARA#]:"
+:PRINT " -> MODUS=&MODUS#"
+:PUT_VAR &VARA#, "MODUS", "&MODUS#"
+! ------------------------
+! 2.) DISDA-Batch starten:
+! ------------------------
+:PRINT " -> STARTE VERARBEITUNG ..."
+:INC JOBI.RUN_OBJECT
+! --------------------------
+! 3.) Versand der Info-Mail:
+! --------------------------
+:SET &MESSAGE#     = ">>> Start DISDA_&MODUS# erfolgreich!"
+:SET &BATCHNAME#   = "DISDA"
+:SET &SEVERITY#    = "1"
+:INC JOBI.SENDMAIL]]></process>
+      </row>
+   </scripts>
+   <sync_list>
+      <row>
+         <abend_action>FREIGEBEN</abend_action>
+         <else_action>W</else_action>
+         <end_action>FREIGEBEN</end_action>
+         <line_number>1</line_number>
+         <start_action>BELEGEN</start_action>
+         <sync_object>SYNC.BBS.DISDA</sync_object>
+      </row>
+   </sync_list>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

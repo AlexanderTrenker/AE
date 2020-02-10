@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_HPQC.PRV.PROMPTSET.TESTSET_EXECUTION_EXEC_MODE</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Execcution mode for test set execution</description>
+         <versioning_id>162322481</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="0" top="0" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Enter Test Set Execution Mode"><properties><entry name="text">Enter Test Set Execution Mode</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>UC4RB_HPQC_SYNC_MODE#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</reference>
+         <reference_type>VARA</reference_type>
+         <value>No</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="UC4RB_HPQC_SYNC_MODEs.00" nl="1" text="Sync Mode" tooltip="Synchronization Mode" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Sync Mode</entry>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_HPQC_SYNC_MODEs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip">Synchronization Mode</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+   </elements>
+</prpt>

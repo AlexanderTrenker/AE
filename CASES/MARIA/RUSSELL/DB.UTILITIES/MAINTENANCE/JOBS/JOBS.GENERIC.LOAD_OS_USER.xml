@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>4</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.GENERIC.LOAD_OS_USER</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1987248193</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UTILITY# = "ucybdbld"
+! Common Setup
+:INC JOBI.UTILITY.SETUP
+
+! Utility Specific
+:SET &OS_USER# = GET_ATT(LOGIN_INFO)
+:SET &OS_USER# = STR_UC(&OS_USER#)
+
+! Check for windows domain and strip off
+:SET &POS# = STR_FIND(&OS_USER#, '\')
+:IF &POS# > 0
+:  SET &POS# = &POS# + 1
+:  SET &OS_USER# = STR_CUT(&OS_USER#,&POS#)
+:ENDIF
+
+:P OS_USER: &OS_USER#
+:SET &OS_USER_LIKE# = "&OS_USER#/%"
+
+:SET &UHND# = PREP_PROCESS_VAR(VARA.SEC_SQLI.GET_UTILITY_USER)
+:SET &USER_CNT# = GET_PROCESS_INFO(&UHND#,ROWS)
+:IF &USER_CNT# > 0
+:  P &LF#&LF#*** Found The following matching users in Client &CLIENT# ***:
+:  PROCESS &UHND#
+:    SET &USR# = GET_PROCESS_LINE(&UHND#,1)
+:    P &USR#
+:  ENDPROCESS
+:  CLOSE_PROCESS &UHND#
+:  P &LF#***Skipping user load.. ***
+:  STOP NOMSG
+:ENDIF
+:CLOSE_PROCESS &UHND#
+
+:PUT_ATT ARCHIVE_KEY1 = &CLIENT#
+:PUT_ATT ARCHIVE_KEY2 = &OS_USER#
+
+:ATTACH_RES STORE.UTILITY.USER, "*", T, Y
+
+:SET &V_REPLACE# = "IGNORE"
+
+:SET &UTILPARMS# = "-I&INIFILE# -B -E&V_REPLACE# -C&CLIENT# -X&$AGENT_RESOURCES_TASK#UTIL.USER.txt"
+
+! Execute Utility
+:INC JOBI.UTILITY.EXECUTE]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+         <login>{VARA.MAINTENANCE,LOGIN}</login>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>{VARA.MAINTENANCE,RETENTION_DAYS}</value>
+         <name>&amp;RETENTION_DAYS#</name>
+      </row>
+      <row>
+         <value>0</value>
+         <name>&amp;TRC_DB#</name>
+      </row>
+      <row>
+         <value>0</value>
+         <name>&amp;TRC_LEVEL#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.LOAD_OS_USER</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.LOAD_OS_USER</prompt_set>
+         <value>{VARA.MAINTENANCE, AGENT}</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.LOAD_OS_USER</prompt_set>
+         <value>&amp;$CLIENT#</value>
+         <variable_name>CLIENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.LOAD_OS_USER</prompt_set>
+         <value>&amp;$SYSTEM#</value>
+         <variable_name>SYSTEM#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

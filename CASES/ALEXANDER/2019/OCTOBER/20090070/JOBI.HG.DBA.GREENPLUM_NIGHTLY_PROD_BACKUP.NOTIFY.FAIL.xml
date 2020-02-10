@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.HG.DBA.GREENPLUM_NIGHTLY_PROD_BACKUP.NOTIFY.FAIL</name>
+         <type>JOBI</type>
+         <versioning_id>449245216</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!  Activate the NOTIFICATION if Job complets OK       !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+:set &RETCODE = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:print 'return code is &RETCODE'
+:IF &RETCODE <> '0'
+:  INC JOBI.HG.GET_CLIENT_INFORMATION
+:  SET &JOB_NAME# = sys_act_me_name()
+:  IF &DATABASE_NAME# <> ""
+:    SET &EMAIL_SUBJECT# = "&GREENPLUM_SERVER# &DATABASE_NAME# Backup Failed"
+:  ELSE
+:    SET &EMAIL_SUBJECT# = "&GREENPLUM_SERVER# Backup Failed"
+:  ENDIF
+:  SET &EMAIL_BODY# = ""
+:  SET &ADDITIONAL_RECIPIENT# = "USRG.HG.AUTOMIC_ADMIN,hg_dba@healthgrades.com,burkhalter@healthgrades.com,DatabaseOperationsSpecialists@healthgrades.com"
+:  SET &INCLUDE_JOB_REPORTS# = "Y"
+:  SET &EMAIL_FILE_ATTACHMENTS# = "N"
+:  INC JOBI.HG.NOTIFY.SEND_EMAIL
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_HPQC.PRV.INCLUDE.FILE_WRITE</name>
+         <type>JOBI</type>
+         <description>Writes string content into Agent's temp directory.</description>
+         <versioning_id>-1776967726</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &HND# = CREATE_PROCESS(NEW)
+:SET &RET# = PUT_PROCESS_LINE(&HND#, &UC4RB_HPQC_STRCONTENT#)
+:SET &RETCODE# = WRITE_PROCESS(&HND#,"&AGENT_CURR_DIR#&UC4RB_HPQC_FILENAME#", "&AGENT#", "&LOGIN#", OVERWRITE)
+:CLOSE_PROCESS &HND#
+
+! validating if temp has created only then proceed otherwise abort the script
+:IF &RETCODE# <> 0
+:   STOP MSG, 50, "HEADER: Aborting this job because temp file has not been created! RETCODE &RETCODE#"
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

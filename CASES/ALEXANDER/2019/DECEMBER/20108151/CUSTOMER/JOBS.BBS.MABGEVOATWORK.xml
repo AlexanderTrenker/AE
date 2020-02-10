@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>BBS</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>13</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_allowed_retcode>2</max_allowed_retcode>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.MABGEVOATWORK</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Hält gesperrte Vertäge fest</description>
+         <versioning_id>709789253</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &ORADB#     = "DLLW1&IDT#"
+:SET &ORAUSER#   = "bbsbat"
+:SET &ORASCRIPT# = "chk_gevos_at_work.sql"
+:SET &MANDANT#   = ""
+cat << __EOF__  > &RUNDIR#/&ORASCRIPT#
+--  ++++++++++++++++++++++++++++++++++++++++++++++++
+--  BEREITGESTELLT VON BRODRECHT ALV-IT-SYM
+--  TEL.   : 2920
+--  SPUFI  : CHK_GEVOS_AT_WORK
+--  ZWECK  :Es wird eine CSV Liste erstellt und an
+--      den FB verschickt:
+--          Ueber gesperrte Veträge
+--          (GeVo, User, Vertragsnummer. Sperrdatum)
+--          Ausgeschlossen werden:
+--          GEVO_SKZ = 01 -> Antrag
+--          GEVO_SKZ = 11 -> COR-Auskunft
+--          GEVO_SKZ = 56 -> Auskunft
+--  ++++++++++++++++++++++++++++++++++++++++++++++++
+SELECT T1.GEVO_NR ,
+  T2.GEVO_SKZ ,
+  SUBSTR((T3.LANG_BEZ),1,25) AS LANG_BEZ ,
+  T2.BENUTZER_ID ,
+  T1.MANDANT ,
+  T1.VTR_NR ,
+  CASE T2.GEVO_STATUS_SKZ
+    WHEN 1
+    THEN 'NEUANLAGE'
+    WHEN 2
+    THEN 'IN_BEARBEITUNG'
+    WHEN 3
+    THEN 'UNTERBROCHEN'
+    WHEN 4
+    THEN 'BEENDET'
+  END                                  AS STATUS ,
+  TO_CHAR(T2.CREATE_DAT, 'YYYY-MM-DD') AS SPERRDATUM
+FROM TBBGEVO_DURCH_VTR T1
+INNER JOIN TBBGEVO_DURCH T2
+ON T1.MANDANT  = T2.MANDANT
+AND T1.GEVO_NR = T2.GEVO_NR
+INNER JOIN TBBSCHL_SMALLINT T3
+ON T1.MANDANT               = T3.MANDANT
+AND T2.GEVO_SKZ             = T3.SCHL
+AND T3.STT                  = 'STT_GEVO'
+WHERE T1.VTR_FREI_SKZ       = 0
+AND T2.GEVO_STATUS_SKZ NOT IN (4,3)
+AND GEVO_SKZ NOT           IN (1,11,56)
+ORDER BY T2.CREATE_DAT DESC ;
+__EOF__
+
+:INC JOBI.SQL_CSV
+
+exit $rc]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[! ---------------------------------------------
+! Auswerten Severity/Returncode und
+!    ggf. Versenden eMail
+:INC JOBI.SHELL_POST
+! ---------------------------------------------]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH6_BATCH</agent>
+         <login>LOGIN.BBSBATCH</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

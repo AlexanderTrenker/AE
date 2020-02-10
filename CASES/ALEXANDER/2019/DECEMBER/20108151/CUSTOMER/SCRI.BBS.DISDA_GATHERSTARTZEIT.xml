@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>DISDA</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.DISDA_GATHERSTARTZEIT</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Verzögert das Anlaufen von GATHER (Darf nicht zur Laufzeit generieren haben)</description>
+         <versioning_id>785255619</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &STARTZEITEN# = "N"
+:  PRINT " >>> FRUEHESTE STARTZEIT WIRD UMGANGEN!"
+:  SET_CONDITION "EARLIEST_START_TIME"="00/00:00"
+:ENDIF]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

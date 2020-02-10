@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>36</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.GENERIC.REPORTING.STATISTICS</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DB.Reporting Utility</description>
+         <versioning_id>68774505</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UTILITY# = "ucybdbrt"
+! Common Setup
+:INC JOBI.UTILITY.SETUP
+
+! Utility Specific
+:ATTACH_RES STORE.CSS, "*", C
+:PUT_ATT ARCHIVE_KEY1 = &CLIENT#
+:SET &EXT# = STR_LC(&FORMAT#)
+:SET &OUTFILE# = "&OUTDIR#STATISTICS.&$RESTART_RUNID#.&EXT#"
+
+:SET &V_SDATE# = &SDATE#
+:SET &V_EDATE# = &EDATE#
+:SET &V_DELIMITER# = &DELIMITER#
+:IF &V_DELIMITER# = "<TAB>"
+:  SET &V_DELIMITER# = "&&#009;"
+:ENDIF
+
+:SET &SECONDS# = 0
+:WHILE &V_SDATE# < &V_EDATE#
+:  SET &START_TEMP# = ADD_TIMESTAMP(&V_SDATE#, "24:00:00")
+:  IF &START_TEMP# <= &V_EDATE#
+:    SET &V_SDATE# = ADD_TIMESTAMP(&V_SDATE#, "24:00:00")
+:    SET &SECONDS# = &SECONDS# + 86400
+:  ENDIF
+:  SET &START_TEMP# = ADD_TIMESTAMP(&V_SDATE#, "01:00:00")
+:  IF &START_TEMP# <= &V_EDATE#
+:    SET &V_SDATE# = ADD_TIMESTAMP(&V_SDATE#, "01:00:00")
+:    SET &SECONDS# = &SECONDS# + 3600
+:  ENDIF
+:  SET &START_TEMP# = ADD_TIMESTAMP(&V_SDATE#, "00:00:01")
+:  IF &START_TEMP# <= &V_EDATE#
+:    SET &V_SDATE# = ADD_TIMESTAMP(&V_SDATE#, "00:00:01")
+:    SET &SECONDS# = &SECONDS# + 1
+:  ENDIF
+:ENDWHILE
+:SET &MINUTES# = DIV(&SECONDS#,60)
+:SET &HOURS# = DIV(&MINUTES#,60)
+:SET &HOURS# = FORMAT(&HOURS#)
+
+:DEFINE &FIELDS#, string, 50
+:FILL &FIELDS#[] = STR_SPLIT(&COLUMNS#,";")
+:SET &F# = 1
+:SET &LEN# = LENGTH(&FIELDS#[],SIZE)
+
+:SET &XMLDOCU# = XML_OPEN(STRING, &QUERY_XML#)
+:IF &XMLDOCU# <> ""
+:  SET &OUTFILE_NODE# = XML_SELECT_NODE(&XMLDOCU#,'/QUERY/file')
+:  SET &RET# = XML_SET_NODE_TEXT(&OUTFILE_NODE#,&OUTFILE#)
+:  SET &RET# = XML_SET_ATTRIBUTE(&OUTFILE_NODE#,"@type",&FORMAT#)
+:  IF &FORMAT# = "HTML"
+:    SET &RET# = XML_SET_ATTRIBUTE(&OUTFILE_NODE#,"@css","&$AGENT_RESOURCES_CLIENT#&CSS#.css")
+:  ELSE
+:    SET &RET# = XML_SET_ATTRIBUTE(&OUTFILE_NODE#,"@separator",&V_DELIMITER#)
+:  ENDIF
+:  SET &client_node# = XML_SELECT_NODE(&XMLDOCU#,'/QUERY/client')
+:  SET &RET# = XML_SET_NODE_TEXT(&client_node#,&CLIENT#)
+:  SET &max_rows_node# = XML_SELECT_NODE(&XMLDOCU#,'/QUERY/max_rows')
+:  SET &RET# = XML_SET_NODE_TEXT(&max_rows_node#,&max_rows#)
+:  SET &reference_date# = XML_SELECT_NODE(&XMLDOCU#,'/QUERY/reference/date')
+:  SET &RET# = XML_SET_NODE_TEXT(&reference_date#,&SDATE#)
+:  SET &reference_offset# = XML_SELECT_NODE(&XMLDOCU#,'/QUERY/reference/offset')
+:  SET &RET# = XML_SET_NODE_TEXT(&reference_offset#,"+&HOURS#")
+:  SET &selection_node# = XML_SELECT_NODE(&XMLDOCU#,'/QUERY/selection')
+:  IF &OTYPES# <> ""
+:    SET &incl_excl# = XML_APPEND_CHILD(&selection_node#,&OTYPES_IE#,"")
+:    SET &RET# = XML_SET_ATTRIBUTE(&incl_excl#,"@name","OBJECT_TYPE")
+:    SET &RET# = XML_SET_ATTRIBUTE(&incl_excl#,"@value",&OTYPES#)
+:  ENDIF
+:  IF &STATUS# <> ""
+:    SET &incl_excl# = XML_APPEND_CHILD(&selection_node#,&STATUS_IE#,"")
+:    SET &RET# = XML_SET_ATTRIBUTE(&incl_excl#,"@name","STATUS")
+:    SET &RET# = XML_SET_ATTRIBUTE(&incl_excl#,"@value",&STATUS#)
+:  ENDIF
+:  IF &OBJECT_NAME# <> ""
+:    SET &incl_excl# = XML_APPEND_CHILD(&selection_node#,&OBJECT_NAME_IE#,"")
+:    SET &RET# = XML_SET_ATTRIBUTE(&incl_excl#,"@name","OBJECT_NAME")
+:    SET &RET# = XML_SET_ATTRIBUTE(&incl_excl#,"@value",&OBJECT_NAME#)
+:  ENDIF
+:  IF &AGENTS# <> ""
+:    SET &incl_excl# = XML_APPEND_CHILD(&selection_node#,&AGENTS_IE#,"")
+:    SET &RET# = XML_SET_ATTRIBUTE(&incl_excl#,"@name","HOST")
+:    SET &RET# = XML_SET_ATTRIBUTE(&incl_excl#,"@value",&AGENTS#)
+:  ENDIF
+:  SET &OUTPUT# = XML_SELECT_NODE(&XMLDOCU#,'/QUERY/output')
+:  SET &RET# = XML_SET_ATTRIBUTE(&OUTPUT#,"@order",&ORDER#)
+:  SET &RET# = XML_SET_ATTRIBUTE(&OUTPUT#,"@sort",&SORT#)
+:  WHILE &F# LE &LEN#
+:    SET &FIELD# = XML_APPEND_CHILD(&OUTPUT#,"field","")
+:    SET &RET# = XML_SET_ATTRIBUTE(&FIELD#,"@name",&FIELDS#[&F#])
+:    SET &F# = &F# + 1
+:  ENDWHILE
+:ELSE
+:  P "Could not open XML Query"
+:  EXIT 1
+:ENDIF
+:SET &XMLSTRING# = XML_TO_STRING(&XMLDOCU#)
+:SET &XMLSTRING# = STR_SUB(&XMLSTRING#,"&&amp;#009;","&&#009;")
+
+:SET &XMLF# = CREATE_PROCESS(NEW)
+:SET &RET# = PUT_PROCESS_LINE(&XMLF#,'<?xml version="1.0" encoding="UTF-8" standalone="no"?>')
+:SET &RET# = PUT_PROCESS_LINE(&XMLF#,&XMLSTRING#)
+:SET &RET# = WRITE_PROCESS(&XMLF#,&XMLFILE#,&$AGENT#,&$LOGIN#,OVERWRITE)
+:XML_CLOSE &XMLF#
+
+:SET &UTILPARMS# = "-I&INIFILE# -C&CLIENT# -X&XMLFILE#"
+
+! Execute Utility
+:INC JOBI.UTILITY.EXECUTE]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+         <login>{VARA.MAINTENANCE,LOGIN}</login>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>5000</value>
+         <name>&amp;MAX_ROWS#</name>
+      </row>
+      <row>
+         <value>{VARA.XML.REPORTING_QUERIES,statistics}</value>
+         <name>&amp;QUERY_XML#</name>
+      </row>
+      <row>
+         <value>{VARA.MAINTENANCE,RETENTION_DAYS}</value>
+         <name>&amp;RETENTION_DAYS#</name>
+      </row>
+      <row>
+         <value>0</value>
+         <name>&amp;TRC_DB#</name>
+      </row>
+      <row>
+         <value>0</value>
+         <name>&amp;TRC_LEVEL#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>{VARA.MAINTENANCE,AGENT,1}</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <variable_name>AGENTS#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>include</value>
+         <variable_name>AGENTS_IE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>&amp;$CLIENT#</value>
+         <variable_name>CLIENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>OBJECT_NAME;OBJECT_TITLE;RUN_NUMBER;STATUS;RETCODE;RUNTIME;ACTIVATION_TIME;START_TIME;END_TIME;ESTIMATED_RUNTIME;HOST;ARCHIVE_KEY1;ARCHIVE_KEY2;PARENT_JOBPLAN_NAME;LOGIN;LOGIN_INFO;PARENT_SCHEDULE_NAME;PARENT_TIME_EVENT_NAME</value>
+         <variable_name>COLUMNS#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>automic</value>
+         <variable_name>CSS#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>,</value>
+         <variable_name>DELIMITER#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>{VARA.EXEC.PLUS_MINUS_DATES,0,6} 23:59:59</value>
+         <variable_name>EDATE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>HTML</value>
+         <variable_name>FORMAT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <variable_name>OBJECT_NAME#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>include</value>
+         <variable_name>OBJECT_NAME_IE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>ascending</value>
+         <variable_name>ORDER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>JOBS</value>
+         <variable_name>OTYPES#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>include</value>
+         <variable_name>OTYPES_IE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>{VARA.EXEC.PLUS_MINUS_DATES,-1,6} 00:00:00</value>
+         <variable_name>SDATE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>ACTIVATION_TIME</value>
+         <variable_name>SORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <variable_name>STATUS#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>include</value>
+         <variable_name>STATUS_IE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.STATISTCIS_QUERY</prompt_set>
+         <value>&amp;$SYSTEM#</value>
+         <variable_name>SYSTEM#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

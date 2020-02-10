@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ABLAUFMANAGEMENT</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.DBTOOLS_RUNIMPORT</name>
+         <type>JOBI</type>
+         <description>START DB Import</description>
+         <versioning_id>-1371309575</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.DBTOOLS_RUNIMPORT]==========================="
+  echo "[START JOBI.DBTOOLS_RUNIMPORT]==========================="
+:SWITCH &IDT#
+:  CASE "E"
+:  SET &LOGIMP# = "&IMP_PATH#/log/dllw2&IDT_LC#/&IMPSCRIPT#_&TIMESTAMP_AM#.log"
+:  CASE "I"
+:  SET &LOGIMP# = "&IMP_PATH#/log/dllw2&IDT_LC#/&IMPSCRIPT#_&TIMESTAMP_AM#.log"
+:  OTHER
+:  SET &LOGIMP# = "&IMP_PATH#/log/&IMPSCRIPT#_&TIMESTAMP_AM#.log"
+:ENDSWITCH
+! ----------------------------------
+:PRINT ">>> PARAMETER ..."
+:PRINT " -> ORACLE-DB  :&ORADB#"
+:PRINT " -> ORACLE-User:&ORAUSER#"
+:PRINT " -> PARAFILE   :&PARAFILE#"
+:PRINT " -> DUMPFILE   :&DUMPFILE#"
+:PRINT " -> IMPSCRIPT  :&IMPSCRIPT#"
+:PRINT " -> LOGIMP     :&LOGIMP#"
+:PRINT " -> LOGFILE    :&LOGFILE#"
+! ----------------------------------
+:SWITCH &IDT#
+:  CASE "P"
+  export TNS_ADMIN="/opt/uc4/prod"
+:  OTHER
+  export TNS_ADMIN="/opt/uc4/test"
+:ENDSWITCH
+! -------------------
+! Datenpumpe starten:
+! -------------------
+:IF &UC4_DEPLOYMENT_TEST# = "J"
+:  PRINT "[DEPLOYMENT_TEST]"
+:  PRINT "-> Ersetze &LOGIMP#"
+:  PRINT "   durch &LOGFILE#"
+:  SET &LOGIMP# = "&LOGFILE#"
+:  SET &MSG# = "impdp &ORAUSER#/XXXXXXXX@&ORADB# parfile=&PARAFILE#"
+  echo "&MSG#" | tee &LOGIMP#
+  export rc=0
+:ELSE
+  impdp &ORAUSER#/${ORA_PASSWD}@&ORADB# parfile=&PARAFILE#
+  export rc=$?
+! -------------------------
+! Protokoll(e) uebertragen:
+! -------------------------
+:ENDIF
+:RSET &FT_SRC_FILE# = "&LOGIMP#"
+:RSET &FT_DST_FILE# = "&LOGFILE#"
+  echo "============================[ENDE JOBI.DBTOOLS_RUNIMPORT]"
+:PRINT "============================[ENDE JOBI.DBTOOLS_RUNIMPORT]"
+! ------------------
+! Returncode setzen:
+! ------------------
+  exit $rc]]></process>
+      </row>
+   </scripts>
+</jobi>

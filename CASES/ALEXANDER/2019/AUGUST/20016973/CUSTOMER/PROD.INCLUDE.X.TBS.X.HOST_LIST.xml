@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>CRQ000000531939</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PROD.INCLUDE.X.TBS.X.HOST_LIST</name>
+         <type>JOBI</type>
+         <versioning_id>991648418</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! RDS hosts
+:SET &RDSHOST01                    = "epsprpe0001d"
+:SET &RDSHOST02                    = "epsprpe0002d"
+
+! CAMLFT hosts
+:SET &CAMLFTHOST01                 = "epsprpe0001d"
+:SET &CAMLFTHOST02                 = "epsprpe0002d"
+
+:SET &APPIAN_HOST                  = 'BPMPRAP0001D'
+:SET &APPIAN_LOGIN                 = 'PROD.LOGIN.U.TBS.X.BPMPROD'
+:SET &FIN_HOST                     = 'SMD1PRCLIIS0001'
+:SET &FIN_LOGIN                    = 'PROD.LOGIN.W.CLEARING_HOUSE.X.PBUC4USR'
+
+:SET &GB2ADM                       = 'PROD.LOGIN.U.X.X.GFPROD'
+:SET &MARS                         = 'TOCCADMLS0001D'
+:SET &APPIAN_PCR_PATH#             = "/cme/bpmprod/ftp/pcr_outbound"
+:SET &PCR_SCRIPT_PATH#             = "/cme/gfix/jmx/prod/scripts"
+:SET &MSG_HOST#                    = 'DCPRAPP0001D'
+:SET &MSG_LOGIN#                   = 'PROD.LOGIN.U.X.X.GFPROD'
+
+:SET &CLOUD_APPIAN_HOST#           = 'CLPRXFR0001D'
+:SET &CLOUD_APPIAN_LOGIN#          = 'PROD.LOGIN.U.UC4.X.UC4'
+
+:SET &UC4_APP_HOST#                = 'UCPRAP0001D'
+:SET &UC4_APP_LOGIN#               = 'PROD.LOGIN.U.UC4.X.UC4'
+:SET &MSGW_TOGGLE_PATH#            = "/cme/uc4/shared/users/toggleMSGW"
+
+:SET &WORKDAY_BATCH_HOST#          = 'WDPRMW0001D'
+:SET &WORKDAY_BATCH_LOGIN#         = 'PROD.LOGIN.U.X.X.DABR'
+
+:SET &SFTP_HOST#  = 'UC4-PROD-FT'
+:SET &SFTP_LOGIN# = 'PROD.LOGIN.U.UC4.X.UC4'
+
+:SET &SLP_PATH_1# = '/cme/appianftp/appian_internal/Workday/OB EOD Files'
+:SET &SLP_PATH_2# = '/cme/dabr/erpm/ftp/sailpoint'
+:SET &SLP_PATH_3# = '/export/prod_sftpng/users/BUQWD001FTP/cme/ftp/QWD001/Incoming/Appian'
+
+:SET &ERPM_PATH1# = '/cme/dabr/erpm/ftp'
+:SET &ERPM_WIN_HOST# = 'SMD1OATBERP0001'
+:SET &ERPM_WIN_UC4LOGIN# = 'PROD.LOGIN.W.UC4.X.UC4ADMIN'
+:SET &RC_BATCH_HOST#   = 'BPMPRAP0201D'
+:SET &RC_BATCH_LOGIN#  = 'PROD.LOGIN.U.X.X.DABR'
+
+:SET &CASHSTARTCMD = '/usr/local/bin/cash start -f'
+:SET &DCMSG_HOST#  = 'DCPRAPP0001D'
+:SET &DCMSG_LOGIN# = 'PROD.LOGIN.U.X.X.GFPROD'
+
+:SET &FAS_HOST1# = 'faprfas0101d'
+
+! UC4 Host
+:SET &UC4PROD = 'UCPRAP0001D'
+
+! EDH Reuters Hosts
+:SET &EDH_REUTERS_HOST1 = 'edhprap0001d'
+:SET &EDH_REUTERS_HOST2 = 'edhprap0002d'
+:SET &EDH_REUTERS_HOST3 = 'edhprap0003d'
+
+! Datamine On Prem Server
+:SET &EDH_ONPREM_HOST4# ='dmprhe0004d'
+
+! Product Server
+:SET &IRHOST3 = 'CLPRIR0003D'
+
+! Env specific Argument for TogglePlus
+:SET &TP_ENV_YGW#  = 'YGWTogglePlus_PROD']]></process>
+      </row>
+   </scripts>
+</jobi>

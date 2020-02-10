@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SW_DEPL.PS.DEPL_GUI_UPGRADE_GRP</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>GUI für Deployment als Upgrade</description>
+         <versioning_id>-748830502</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="279" top="4" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="PRPT"><properties><entry name="text">PRPT</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>2</line_number>
+         <name>DEPLPKG#</name>
+         <reference>SW_DEPL.VA.PACKAGE_SELECT_ALL</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="1" enabled="1" fill="b" filter="0" focus="0" id="DEPLPKGs.00" nl="1" quotes="" strict="1" text="Package" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="SQLI">SW_DEPL.VA.PACKAGE_SELECT_ALL</entry><entry name="text">Package</entry><entry name="quotes"/><entry name="id">DEPLPKGs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">1</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>PARAMETERS#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="PARAMETERSs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Parameter" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Parameter</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">PARAMETERSs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>PKGFILTER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <to_uppercase>1</to_uppercase>
+         <value>%</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="PKGFILTERs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" separator=";" showaspassword="0" text="Package Filter" tooltip="" upper="1" required="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Package Filter</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">PKGFILTERs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">1</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">1</entry><entry name="resetable">1</entry><entry name="initvalue"/><entry name="onchangereset"/></properties><onchange><command request="_internal" target="DEPLPKGs.00" targetaction="onChangeReset" targetparam=""/></onchange></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>TARGET_GROUP#</name>
+         <reference>SW_DEPL.VA.DEPL_GROUPS</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="1" enabled="1" fill="b" filter="0" focus="0" id="TARGET_GROUPs.00" nl="1" quotes="" strict="1" text="Target Group" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="SQLI">SW_DEPL.VA.DEPL_GROUPS</entry><entry name="text">Target Group</entry><entry name="quotes"/><entry name="id">TARGET_GROUPs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">1</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+   </elements>
+</prpt>

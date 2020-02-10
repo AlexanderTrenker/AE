@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>59</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.HG.DBA.GREENPLUM_NIGHTLY_PROD_BACKUP.UNIX.GENERATE_LIST_OF_DATABASES_TO_BACKUP</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.DBA</queue>
+         <versioning_id>-191346897</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!echo 'ssh gpadmin@&GREENPLUM_SERVER# echo "select t1.datname AS db_name, pg_database_size(t1.datname) as db_size from pg_database t1 order by pg_database_size(t1.datname) asc;" | psql template1 -A -t;'
+!ssh gpadmin@&GREENPLUM_SERVER# 'echo "select t1.datname AS db_name, pg_database_size(t1.datname) as db_size from pg_database t1 order by pg_database_size(t1.datname) asc;" | psql template1 -A -t;'
+!
+psql -d template1 -h &GREENPLUM_SERVER# -p 5432 -U gpadmin -c "select t1.datname AS db_name, pg_database_size(t1.datname) as db_size from pg_database t1 order by pg_database_size(t1.datname) asc;"]]></process>
+      </row>
+      <row>
+         <pre_process>:INC JOBI.HG.PRODUCTION_CLIENT_AGENT_LOGIN_SET</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &RET# = REMOVE_OBJECT(&BACKUP_VARIABLE_NAME#)
+:SET &RET# = CREATE_OBJECT("VARA",&BACKUP_VARIABLE_NAME# ,"DBA/ADMIN/WORKFLOWS/GREENPLUM_NIGHTLY_BACKUPS/HELPER_VARIABLES","&GREENPLUM_SERVER# Client List","I","C","FREE")
+
+:SET &INDEX# = 1
+:SET &HND# = PREP_PROCESS_REPORT(,,, "*prod_*|*","COL=DELIMITER,DELIMITER=*|*")
+:PROCESS &HND#
+:   SET &LINE# = GET_PROCESS_LINE(&HND#,1)
+:   SET &LINE# = STR_TRIM(&LINE#)
+:   PRINT &LINE#
+:   PUT_VAR &BACKUP_VARIABLE_NAME# , &INDEX#, "&LINE#"
+:   SET &INDEX# = ADD(&INDEX#,1)
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:IF &GREENPLUM_SERVER# = "aqua"
+:  SET &HND# = PREP_PROCESS_REPORT(,,,"*analytics*","COL=DELIMITER,DELIMITER=*|*")
+:  PROCESS &HND#
+:    SET &LINE# = GET_PROCESS_LINE(&HND#,1)
+:    SET &LINE# = STR_TRIM(&LINE#)
+:    PRINT &LINE#
+:    PUT_VAR &BACKUP_VARIABLE_NAME#, &INDEX#, "&LINE#"
+:    SET &INDEX# = ADD(&INDEX#,1)
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND#
+:ENDIF
+
+:PUT_READ_BUFFER BACKUP_VARIABLE_NAME# = &BACKUP_VARIABLE_NAME#
+
+:INC JOBI.HG.DBA.GREENPLUM_NIGHTLY_PROD_BACKUP.NOTIFY.FAIL]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>4</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;CLIENT#</name>
+      </row>
+      <row>
+         <name>&amp;DATABASE_NAME#</name>
+      </row>
+      <row>
+         <ert_usage>1</ert_usage>
+         <name>&amp;GREENPLUM_SERVER#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

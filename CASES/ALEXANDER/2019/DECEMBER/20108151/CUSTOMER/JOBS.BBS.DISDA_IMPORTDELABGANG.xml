@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>DISDA</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>175</ert>
+         <platform>SQL</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.DISDA_IMPORTDELABGANG</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; DELETE ABGANG TBBVTR_T_STAND [ZIEL_DB] &lt;PROD&gt;</description>
+         <versioning_id>11130664</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[delete
+  from tbbvtr_t_stand t1
+ where wirksam_zum >=  to_char (add_months( trunc (sysdate, 'MM'), -1), 'YYYYMMDD')
+  and not exists (
+                  select *
+                    from spiegelwork.tbbvtr_t_stand t2
+                   where t1.mandant     = t2.mandant
+                     and t1.vtr_t_id    = t2.vtr_t_id
+                     and t1.wirksam_zum = t2.wirksam_zum
+                  )
+;]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:IF &EBENE# NE "P"
+:  STOP NOMSG, 4711, ">>> Aktivierung aufgrund der Ebene [&EBENE#] abgebrochen ..."
+:ENDIF
+:INC JOBI.SQL_BBS2_PARAM]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>SQL</platform>
+         <agent>HG.SQLORA</agent>
+         <login>LOGIN.SQL.SPIEGELAPP</login>
+         <optional_reports>PLOG</optional_reports>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <T>MSSQL</T>
+         <database_name>[autofill...]</database_name>
+         <server_name>[autofill...]</server_name>
+         <sql_column_seperator>;</sql_column_seperator>
+         <sql_captions>1</sql_captions>
+         <sql_show_null>1</sql_show_null>
+         <sql_max_rows>0</sql_max_rows>
+         <sql_max_characters>50</sql_max_characters>
+         <data_source></data_source>
+         <A></A>
+         <sql_subst_character></sql_subst_character>
+         <sql_remove_crlf>1</sql_remove_crlf>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>TAEGLICHEFONDSKURSE</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>20</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_method>258</mrt_method>
+         <mrt_time>002300</mrt_time>
+         <name>EVNT.FILE.BBS.TAEGLICHEFONDSKURSE</name>
+         <type>EVNT</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>FT</sub_type>
+         <description>Filetransfer [Kurse]: Warten auf Kurse FTP-Server</description>
+         <versioning_id>-699673514</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu>CR21466 Quelle auf XENTIS-Verzeichnis gesetzt</Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! Automatischer Include
+:INC JOBI.INC.BASISPARAM
+!---------------------------------------------------------------------------------------------
+! Jobplan zum Filetransfer [Devisenkurse] FTP-Server -> Freigaberechner anstossen:
+!---------------------------------------------------------------------------------------------
+! Zu startendes Objekt:
+:SET &OBJ_ZU_STARTEN# = "JOBP.BBS.TAEGLICHEFONDSKURSE_HAUPTPLAN"
+!---------------------------------------------------------------------------------------------
+:ON_ERROR RESUME
+:SET &AKTJOB# = ACTIVATE_UC_OBJECT (&OBJ_ZU_STARTEN#)
+!---------------------------------------------------------------------------------------------
+!  Activate erfolgreich ?
+:IF &AKTJOB# <> 0
+:  PRINT ">>> Die Aufgabe &OBJ_ZU_STARTEN# konnte erfolgreich gestartet werden!"
+:ELSE
+:  PRINT ">>> Die Aufgabe &OBJ_ZU_STARTEN# konnte nicht gestartet werden!"
+:  EXIT 8
+:ENDIF
+!---------------------------------------------------------------------------------------------]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[! ---------------------------------------------
+!Automatischer Include
+:INC JOBI.INC.BASISPARAM
+!
+! Quellverzeichnis
+: SET &W_QUELLVERZ#   = "/opt/xentis/xentis/var/SNData/flatfile/export/"
+
+! Dateimatrix
+! neu BBS_*.ok - OK Datei wird von XENTIS bereitgestellt.
+!: SET &W_DATEIMATRIX# = "*.csv"
+: SET &W_DATEIMATRIX# = "BBS_*.ok"
+
+! &W_QUELLE#    - Quelldatei
+: PSET &W_QUELLE#   = STR_CAT(&W_QUELLVERZ#,&W_DATEIMATRIX#)
+: PUT_ATT EVENT_FILE_PATH = "&W_QUELLE#"
+: PRINT "Suche Datei  &W_QUELLE#"
+! ---------------------------------------------
+]]></pre_process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <sub_type>PC</sub_type>
+         <type>FT</type>
+         <platform>UNIX</platform>
+         <destination_agent>HG.XENTIS</destination_agent>
+         <include_sub_directories>1</include_sub_directories>
+         <destination_login>LOGIN.UC4</destination_login>
+         <operator>F</operator>
+         <path>[autofill]</path>
+         <repeat_type>F</repeat_type>
+         <execution_type>S</execution_type>
+         <time_period>0010</time_period>
+         <unit>3</unit>
+         <check_value>1</check_value>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

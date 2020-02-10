@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.PDB.BEGINWORKFLOW</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Wird als erstes in Standardjobplänen ausgeführt</description>
+         <versioning_id>-1165564405</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &PARENT_NAME# = SYS_ACT_PARENT_NAME()
+:PUT_ATT ARCHIVE_KEY1="&PARENT_NAME#"
+
+:IF &PSUBSYS# = ""
+: STOP MSG, 50, "&PSUBSYS# variable empty!"
+:ENDIF
+
+:IF &PAPPL# = ""
+: STOP MSG, 50, "&PAPPL# variable empty!"
+:ENDIF
+
+RC=0
+
+! Runtime Verzeichnis(se) löschen
+if [ -d &RUNDIR# ]; then
+  rm -vrf &RUNDIR#
+fi
+
+! Ausgabeordner anlegen
+array_dir=("&WORKDIR#" \
+           "&WORKHISTDIR#" \
+           "&INDIR#" \
+           "&DATDIR#" \
+           "&LOGDIR#" \
+           "&RUNDIR#")
+
+for (( cnt=0; cnt<${#array_dir[*]}; cnt++)); do
+  dir=${array_dir[$cnt]}
+  echo "### $dir Verzeichnis anlegen, wenn noch nicht vorhanden"
+  if [ ! -d $dir ]; then
+    mkdir -pv $dir
+    RCNEW=$?; if [[ $RCNEW -gt $RC ]]; then RC=$RCNEW; echo "Error create $dir: RC=$RC"; fi
+  fi
+done
+
+exit $RC]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH6_BATCH</agent>
+         <login>LOGIN.BBSBATCH</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

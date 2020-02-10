@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.DBTOOLS_FILEREC</name>
+         <type>JOBI</type>
+         <description>File Transfer vom Batchserver zum ORACLE-SERVER</description>
+         <versioning_id>-1115666987</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! -------------------------------------------------------------------------
+! [&SRC_HOST#/&FT_SRC_FILE#] ---> [&DST_HOST#/&FT_DST_FILE#]
+! -------------------------------------------------------------------------
+! Transfer von einem entfernten Server [&SRC_HOST#] auf den HOST des aufru-
+! fenden Jobs [&DST_HOST#]. Bei &SRC_HOST# kann es sich um einen HOST oder
+! um eine HostGruppe handeln!
+! -------------------------------------------------------------------------
+! Folgende Variablen muessen gesetzt werden:
+! &SRC_HOST#
+! &FT_SRC_FILE# (mit Pfad - voll qualifiziert!)
+! &FT_DST_FILE# (mit Pfad - voll qualifiziert!)
+! -------------------------------------------------------------------------
+:PRINT ""
+:PRINT "[START JOBI.DBTOOLS_FILEREC]==============================="
+:PSET &SPIELART# = "MODUS"
+! -------------------
+! Quelle Defaultwert:
+! -------------------
+:SET &SRC_HOST# = &SRC_HOST#
+:IF &SRC_HOST# = ""
+:  SET &SRC_HOST# = "HG.RH6_BATCH"
+:ENDIF
+! --------------
+! Quelle prüfen:
+! --------------
+:SET &HND# = PREP_PROCESS_AGENTGROUP("&SRC_HOST#", , BY_RULE,)
+:PROCESS &HND#
+:  SET &BRO_HOST# = GET_PROCESS_LINE(&HND#, 1)
+:  SET &STATUS# = GET_PROCESS_LINE(&HND#, 2)
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+! ------------------
+! Keine HOST-Gruppe:
+! ------------------
+:IF &BRO_HOST# = ""
+:  PRINT "&SRC_HOST# ist keine Hostgruppe ..."
+:  SET &BRO_HOST# = &SRC_HOST#
+:ENDIF
+! -------
+! Quelle:
+! -------
+:PSET &SRC_HOST# = &BRO_HOST#
+:PSET &FT_SRC_FILE# = &FT_SRC_FILE#
+! -----
+! Ziel:
+! -----
+:PSET &DST_HOST# = GET_ATT(HOST)
+:PSET &FT_DST_FILE# = &FT_DST_FILE#
+! -------------
+! Login-Objekt:
+! -------------
+:PSET &FT_LOGIN# = GET_ATT(LOGIN)
+:PRINT ""
+:PRINT ">>> LOGIN:  &FT_LOGIN#"
+:PRINT "    QUELLE: &SRC_HOST#[&FT_SRC_FILE#]"
+:PRINT "    ZIEL:   &DST_HOST#[&FT_DST_FILE#]"
+:PRINT "    VARIANTE:  &SPIELART#"
+:PRINT ""
+! ---------
+! Transfer:
+! ---------
+:SET &RUN_OBJECT# = "JOBF.ALL.DBTOOLS_FILETRANS"
+:INC JOBI.RUN_OBJECT_PASS_VALUES_WAIT
+:PRINT "================================[ENDE JOBI.DBTOOLS_FILEREC]"
+:PRINT ""]]></process>
+      </row>
+   </scripts>
+</jobi>

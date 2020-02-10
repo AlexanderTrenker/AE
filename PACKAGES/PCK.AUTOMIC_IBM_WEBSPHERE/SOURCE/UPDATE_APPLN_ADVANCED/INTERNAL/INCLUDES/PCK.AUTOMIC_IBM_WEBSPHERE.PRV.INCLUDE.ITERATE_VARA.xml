@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ITERATE_VARA</name>
+         <type>JOBI</type>
+         <description>Iterate over a VARA</description>
+         <versioning_id>1092146481</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Get attribute value key
+: SET &HANDLE# = PREP_PROCESS_VAR(&ATTRIBUTE_VARA#,,&UC4RB_WAS_ATTRIBUTE#)
+: DEFINE &ATTRIBUTE#, string
+: PROCESS &HANDLE#
+:   SET &ATTRIBUTE# = GET_PROCESS_LINE(&HANDLE#,1)
+: ENDPROCESS
+: CLOSE_PROCESS &HANDLE#]]></process>
+      </row>
+   </scripts>
+</jobi>

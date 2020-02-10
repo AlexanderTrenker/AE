@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.DB.UNLOAD.MODES</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>1503485050</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>DEFAULT</value1>
+         <value2>Default data of the system is unloaded, eg. client 0, initial User and User group</value2>
+         <validity_range>FREI</validity_range>
+         <key>DEFAULT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>INITIAL</value1>
+         <value2>Data is taken from client 0. However, not all of client 0 is unloaded, only the initial data, eg. XREQs</value2>
+         <validity_range>FREI</validity_range>
+         <key>INITIAL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>NORMAL</value1>
+         <value2>All data from all database tables is unloaded</value2>
+         <validity_range>FREI</validity_range>
+         <key>NORMAL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>REORG</value1>
+         <value2>The database is reorganized</value2>
+         <validity_range>FREI</validity_range>
+         <key>REORG</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>REPAIR</value1>
+         <value2>The Explorer's folder structure is checked and repaired</value2>
+         <validity_range>FREI</validity_range>
+         <key>REPAIR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RESETARCHIVE</value1>
+         <value2>Archive flags are reset</value2>
+         <validity_range>FREI</validity_range>
+         <key>RESETARCHIVE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RESETREORG</value1>
+         <value2>Deletion flags are reset</value2>
+         <validity_range>FREI</validity_range>
+         <key>RESETREORG</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TRANSPORT</value1>
+         <value2>The Transport Case is unloaded</value2>
+         <validity_range>FREI</validity_range>
+         <key>TRANSPORT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TRANSPORTALL</value1>
+         <value2>All objects are transported</value2>
+         <validity_range>FREI</validity_range>
+         <key>TRANSPORTALL</key>
+      </row>
+   </static_values>
+</vara>

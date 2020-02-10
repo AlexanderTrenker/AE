@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>LISTE28</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>30</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_allowed_retcode>2</max_allowed_retcode>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.SCHADENSRESERVE_NB42P280</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>SCHADENSRESERVE LISTE28 -&gt; NB42P280 (SELEKTIERER)</description>
+         <versioning_id>607722378</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &SEL_BESCHREIBUNG# = 'Liste28_Selekt'
+:SET &VALUTA_BIS# = '99991231'
+:SET &PROGRAMMTYP# = '280'
+:SET &PROGRAM# = '&PROG_LC#'
+:SET &INIFILE# = '&PROGRAM#.ini'
+:SET &OPTIONS# = '&INIFILE#'
+:SET &LOGFILE# = '&LOGDIR#/&SEL_BESCHREIBUNG#.log'
+:SET &OUTFILE# = '&WORKDIR#/&PROGRAM#_&TS#.out'
+
+! INI-FILE erstellen
+cat << __EOF__ |tee &RUNDIR#/&INIFILE#
+MANDANT = &MANDANTEN#
+ABVTRNR = &AB_VTR_NR#
+BISVTRNR = &BIS_VTR_NR#
+BIS = &VALUTA_BIS#
+OHNEVTRNR = &OHNE_VTR_NR#
+OHNEINBEARB = &OHNEINBEARB#
+PARALLEL = &PARALLEL#
+TRACE = &TRACE#
+PROT_VTR_FILTER = &PROT_VTR_FILTER_SEL#
+PROT_MSG_TYPE = &PROT_MSG_TYPE_SEL#
+BESCHREIBUNG = &SEL_BESCHREIBUNG#
+PROGRAMMTYP = &PROGRAMMTYP#
+LOGFILE = &LOGFILE#
+OUTFILE = &OUTFILE#
+__EOF__
+
+:IF &UC4_DEPLOYMENT_TEST# = "J"
+  for ((i=1; i<=&PARALLEL#; i++)) do
+    echo "Test $i" > &WORKDIR#/&PROGRAM#_&TS#_${i}.out
+  done
+:ENDIF
+
+:INC JOBI.STANDARDJOB]]></process>
+      </row>
+      <row>
+         <post_process>:INC JOBI.SHELL_POST</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH6_BATCH</agent>
+         <login>LOGIN.BBSBATCH</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

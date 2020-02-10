@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.20031752</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-361292193</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &STRING#="Something)here"
+:SET &FIND#=STR_FIND(&STRING#,"S")
+:PRINT &FIND#
+
+
+:SET &STRING2#="Something(here"
+:SET &FIND2#=STR_FIND(&STRING2#, "(")
+:SET &NEWSTRING#="Alternativetext"
+:SET &ADD#=STR_CAT(&STRING#,&STRING2#)
+:PRINT &ADD#
+:PRINT &FIND2#
+
+:INC JOBI-PROCESS.20031752
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

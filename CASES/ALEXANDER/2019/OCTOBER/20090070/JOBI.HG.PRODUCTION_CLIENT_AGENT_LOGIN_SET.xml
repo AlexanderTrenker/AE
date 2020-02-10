@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.HG.PRODUCTION_CLIENT_AGENT_LOGIN_SET</name>
+         <type>JOBI</type>
+         <versioning_id>-1575361202</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Standard Host and Login set for connecting a JOBS to the client production linux server.
+
+Requirement:
+	1. In the pre process tab of a job.
+
+Results:
+	1. Sets the LOGIN for the job.
+	2. Sets the HOST for the job.]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &HOST# = "NEON"
+:PUT_ATT HOST = &HOST#
+
+:INC JOBI.HG.STANDARD_SCRIPT.GET_NEON_LOGIN_OBJECT
+:SET &PROD_LOGIN# = &NEON_LOGIN_OBJECT_NAME#
+:PUT_ATT LOGIN = &PROD_LOGIN#]]></process>
+      </row>
+   </scripts>
+</jobi>

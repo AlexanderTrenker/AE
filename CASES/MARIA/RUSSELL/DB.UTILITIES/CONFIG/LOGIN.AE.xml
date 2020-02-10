@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<login>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>12.1</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>LOGIN.AE</name>
+         <type>LOGIN</type>
+         <versioning_id>2060741681</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[NOTE: Replace <automic_schema> with the actual name of the automic schema.  This user
+      must have the database privileges as outlined in the documentation for ILM.]]></Docu>
+      </row>
+   </documentation>
+   <logins>
+      <row>
+         <agent>ORASQL01</agent>
+         <login>uc4</login>
+         <platform>SQL</platform>
+         <olc_vault>AutomationEngine</olc_vault>
+      </row>
+      <row>
+         <agent>*</agent>
+         <login>svcautomic001</login>
+         <platform>UNIX</platform>
+         <olc_vault>AutomationEngine</olc_vault>
+      </row>
+   </logins>
+</login>

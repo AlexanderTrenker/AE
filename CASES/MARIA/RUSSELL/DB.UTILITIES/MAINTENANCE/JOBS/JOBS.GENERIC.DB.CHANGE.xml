@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.GENERIC.DB.CHANGE</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>446406954</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UTILITY# = "ucybchng"
+:SET &SYSTEM# = &$SYSTEM#
+! Common Setup
+:INC JOBI.UTILITY.SETUP
+
+:IF &DB_CHANGE# <> ""
+:  SET &SCRFILE# = "&OUTDIR#&UTILITY#_&$RESTART_RUNID#.txt"
+:  SET &CHG_DATA# = GET_VAR(VARA.UTIL.DB.CHANGE,&DB_CHANGE#,2)
+:  SET &SCR# = CREATE_PROCESS(NEW)
+:  SET &RET# = PUT_PROCESS_LINE(&SCR#,&CHG_DATA#)
+:  SET &RET# = WRITE_PROCESS(&SCR#,"&SCRFILE#",&$AGENT#,&$LOGIN#,OVERWRITE)
+
+:  SET &UTILPARMS# = "-I&INIFILE#  -B&MODE# -1&SCRFILE# -2&S_TRANSPORT# -3&T_TRANSPORT#"
+
+!  Execute Utility
+:  INC JOBI.UTILITY.EXECUTE
+
+:ENDIF]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+         <login>{VARA.MAINTENANCE,LOGIN}</login>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>N</value>
+         <name>&amp;LOG_DB_ACTION#</name>
+      </row>
+      <row>
+         <value>{VARA.MAINTENANCE,RETENTION_DAYS}</value>
+         <name>&amp;RETENTION_DAYS#</name>
+      </row>
+      <row>
+         <value>0</value>
+         <name>&amp;TRC_DB#</name>
+      </row>
+      <row>
+         <value>0</value>
+         <name>&amp;TRC_LEVEL#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.GENERIC.DB.CHANGE</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

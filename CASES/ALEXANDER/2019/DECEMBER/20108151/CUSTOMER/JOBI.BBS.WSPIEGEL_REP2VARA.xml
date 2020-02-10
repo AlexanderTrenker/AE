@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.BBS.WSPIEGEL_REP2VARA</name>
+         <type>JOBI</type>
+         <description>Übertragung des SQL-Reports nach VARA.BATCH.&amp;APPL# ...</description>
+         <versioning_id>1012306066</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT ""
+:PRINT "[START JOBI.BBS.WSPIEGEL_REP2VARA]=================================="
+! ------------------------------------------------------------------------
+! Dieses Include befoerdert den Report eines SQL-Jobs in ein VARA-Objekt.
+! Es wird vorausgesetzt, dass die einzelnen Werte mit semikolon getrennt
+! dargestellt sind.
+! Der Schluessel des VARA-Objektes setzt sich aus dem beim Aufruf ueber-
+! gebenen Parameter (&KEY# - Ersetzung einer Zeichenfolge innerhalb des
+! Includes) und einer Laufvariablen zusammen.
+! Es werden zu einem Schluessel maximal 5 Werte uebertragen. Sollte die
+! Auswertung in Summe aus mehr als 6 Spalten bestehen, wird der Rest ein-
+! fach, ohne Meldung, abgeschnitten
+! ------------------------------------------------------------------------
+! Aufruf:
+! :INC JOBI.BBS.WSPIEGEL_REP2VARA "WACKELDACKEL" = "VERDST1"
+!       _____/\_____               _____/\____     ____/\____
+!      /            \             /           \   /          \
+!      Include-Objekt               String-Alt     String-Neu
+! ------------------------------------------------------------------------
+:SET &KEY# = "WACKELDACKEL"
+:PRINT ">>> Uebergebener Schluessel: &KEY#"
+:RSET &APPL#
+! ---------------------------
+! Prüfung auf RC des Parents:
+! ---------------------------
+:SET &RC# = GET_UC_OBJECT_STATUS(, , "RETCODE")
+:IF &RC# <> 0
+:  PRINT ">>> VARA.BATCH.&APPL# wird aufgrund des Objektstatus nicht modifiziert!"
+:ELSE
+! ------------------------------------------------
+! VARA.BATCH.&APPL# -> relevante Einträge löschen:
+! ------------------------------------------------
+:  PRINT ""
+:  PRINT " ___  ___ _    ___ _____ ___ "
+:  PRINT "|   \| __| |  | __|_   _| __|"
+:  PRINT "| |) | _|| |__| _|  | | | _|   _   _   _ "
+:  PRINT "|___/|___|____|___| |_| |___| |_| |_| |_|"
+:  PRINT ""
+:  PRINT ">>> VARA.BATCH.&APPL# -> löschen relevanter Einträge:"
+:  SET &HND# = PREP_PROCESS_VAR("VARA.BATCH.&APPL#")
+:  PROCESS &HND#
+:    SET &ATTR# = GET_PROCESS_LINE(&HND#, 1)
+:    SET &VAL1# = GET_PROCESS_LINE(&HND#, 2)
+:    SET &VAL2# = GET_PROCESS_LINE(&HND#, 3)
+:    SET &VAL3# = GET_PROCESS_LINE(&HND#, 4)
+:    SET &VAL4# = GET_PROCESS_LINE(&HND#, 5)
+:    SET &VAL5# = GET_PROCESS_LINE(&HND#, 6)
+! ----------------------------------
+! nach Attributen mit &KEY# filtern:
+! ----------------------------------
+:    SET &KEY_LNG# = STR_LNG(&KEY#)
+:    SET &KEY_LNG# = FORMAT(&KEY_LNG#)
+:    SET &COMP# = STR_CUT(&ATTR#, 1, &KEY_LNG#)
+! ----------------
+! Treffer löschen:
+! ----------------
+:    IF &COMP# = "&KEY#"
+:      PRINT " -> |&ATTR#|&VAL1#|&VAL2#|&VAL3#|&VAL4#|&VAL5#"
+:      DELETE_VAR "VARA.BATCH.&APPL#", "&ATTR#"
+:    ENDIF
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND#
+! ----------------------------------
+! Job-Report nach &KEY# durchsuchen:
+! ----------------------------------
+:  PRINT ""
+:  PRINT " ___ _  _ ___ ___ ___ _____ "
+:  PRINT "|_ _| \| / __| __| _ \_   _|"
+:  PRINT " | || .` \__ \ _||   / | |   _   _   _ "
+:  PRINT "|___|_|\_|___/___|_|_\ |_|  |_| |_| |_|"
+:  PRINT ""
+:  PRINT ">>> VARA.BATCH.&APPL# -> setzen relevanter Einträge:"
+:  SET &FLAG# = 0
+:  SET &HND1# = PREP_PROCESS_REPORT(, , , "*&KEY#*", "COL=DELIMITER", "DELIMITER=*;*")
+:  PROCESS &HND1#
+:    SET &FLAG# = ADD(&FLAG#, 1)
+:    SET &FLAG# = FORMAT(&FLAG#,"0000")
+:    SET &ATTR# = GET_PROCESS_LINE(&HND1#, 1)
+:    SET &ATTR# = "&ATTR#_&FLAG#"
+:    SET &VAL1# = GET_PROCESS_LINE(&HND1#, 2)
+:    SET &VAL2# = GET_PROCESS_LINE(&HND1#, 3)
+:    SET &VAL3# = GET_PROCESS_LINE(&HND1#, 4)
+:    SET &VAL4# = GET_PROCESS_LINE(&HND1#, 5)
+:    SET &VAL5# = GET_PROCESS_LINE(&HND1#, 6)
+! -----------------------------------------------
+! VARA.BATCH.&APPL# -> relevante Einträge setzen:
+! -----------------------------------------------
+:    PRINT " <- |&ATTR#|&VAL1#|&VAL2#|&VAL3#|&VAL4#|&VAL5#"
+:    PUT_VAR "VARA.BATCH.&APPL#", "&ATTR#", "&VAL1#", "&VAL2#", "&VAL3#", "&VAL4#", "&VAL5#"
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND1#
+! ------------------------------------------------------------------------------------------
+:ENDIF
+:PRINT "===================================[ENDE JOBI.BBS.WSPIEGEL_REP2VARA]"
+:PRINT ""]]></process>
+      </row>
+   </scripts>
+</jobi>

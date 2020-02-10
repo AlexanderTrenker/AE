@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.INC.BASISPARAM</name>
+         <type>JOBI</type>
+         <description>Zentrales Include für alle Basis-Parameter</description>
+         <versioning_id>1515362532</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.INC.BASISPARAM]===================================="
+! --------------------------------------------------------------------
+! Folgende Werte werden geladen bzw. ermittelt:
+! --------------------------------------------------------------------
+! &START_USER#, &EBENE#, &LOGSRV#, &RT#, &SAP#, &SAPCLIENT#, &IDT#,
+! &ZEIT_AM#, &DATUM_AM#, &TIMESTAMP_AM#,
+! &ME_NAME#, &ME_TYPE#, &ME_RUNNR#, &HOST#
+! --------------------------------------------------------------------
+! "TYP.&SUBSYS#<OPTIONAL>.&APPL#_&PROG_UC#"
+!                                     &PROG_LC#
+!                              \______   _____/
+!                                     \ /
+!                                      |
+!                                  &BATCH#
+!                                  &BATCH_LC#
+! *** Weitere Details im Doku Tab!!!
+! --------------------------------------------------------------------
+! &START_USER Variable initialisieren, wenn nicht über BSL gestartet:
+! --------------------------------------------------------------------
+:SET &JobUser# = SYS_USER_NAME
+:IF &JobUser# <> 'WSDL'
+:   RSET &START_USER# = "UC4_GUI"
+:ENDIF
+! --------------------------------------------------------------------
+! Auslesen Ebenen spezifischer Variablen aus VARA.CONFIG_EBENE:
+! --------------------------------------------------------------------
+:RSET &EBENE#      = GET_VAR("VARA.CONFIG_EBENE", "EBENE")
+:RSET &LOGSRV#     = GET_VAR("VARA.CONFIG_EBENE", "LOGSRV")
+:RSET &RT#         = GET_VAR("VARA.CONFIG_EBENE", "RUNTIME")
+:RSET &SAP#        = GET_VAR("VARA.CONFIG_EBENE", "SAP")
+:RSET &SAPCLIENT#  = GET_VAR("VARA.CONFIG_EBENE", "SAP_CLIENT")
+:RSET &IDT# = STR_CUT(&EBENE#, 1, 1)
+! --------------------------------------------------------------------
+! Amerikanisches Format:
+! --------------------------------------------------------------------
+:RSET &DATUM_AM# = SYS_DATE("JJJJMMTT")
+:RSET &ZEIT_AM# = SYS_TIME("HHMMSS")
+:RSET &TIMESTAMP_AM# = "&DATUM_AM#&ZEIT_AM#"
+! --------------------------------------------------------------------
+! Parsing Jobname:
+! --------------------------------------------------------------------
+:RSET &ME_NAME# = SYS_ACT_ME_NAME()
+:RSET &ME_TYPE# = SYS_ACT_ME_TYPE()
+:RSET &ME_RUNNR# = SYS_ACT_ME_NR()
+:SET &POS# = STR_FIND_REV("&ME_NAME#", ".")
+:SET &POS1# = ADD(&POS#, 1)
+:RSET &BATCH# = STR_CUT(&ME_NAME#, &POS1#)
+:SET &BATCH_LC# = STR_LC(&BATCH#)
+:SET &POS2# = STR_FIND_REV("&BATCH#", "_")
+:IF &POS2# <> "0"
+:  SET &POS3# = ADD(&POS2#, 1)
+:  RSET &PROG_UC# = STR_CUT(&BATCH#, &POS3#)
+:  SET &POS4# = SUB(&POS2#, 1)
+:  RSET &APPL# = STR_CUT(&BATCH#, 1, &POS4#)
+:ELSE
+:  RSET &APPL# = &BATCH#
+:  RSET &PROG_UC# = &APPL#
+:ENDIF
+:SET &PROG_LC# = STR_LC(&PROG_UC#)
+! --------------------------------------------------------------------
+! Parsing Subsys
+! --------------------------------------------------------------------
+:IF &ME_TYPE# = "EVNT"
+:  SET &SPOS1# = "10"
+:ELSE
+:  SET &SPOS1# = STR_FIND("&ME_NAME#", ".")
+:ENDIF
+:SET &SPOS2# = ADD(&SPOS1#, 1)
+:RSET &SUBSYS# = STR_CUT(&ME_NAME#, &SPOS2#, 3)
+! --------------------------------------------------------------------
+! Host info:
+! --------------------------------------------------------------------
+:RSET &HOST# = ""
+:IF &ME_TYPE# = "EVNT"
+:  SET &SUBTYPE# = STR_CUT(&ME_NAME#, 6, 4)
+:  IF &SUBTYPE# <> "TIME"
+:    RSET &HOST# = GET_ATT(HOST)
+:  ENDIF
+:ENDIF
+:IF &ME_TYPE# = "JOBS"
+:  RSET &HOST# = GET_ATT(HOST)
+:ENDIF
+! --------------------------------------------------------------------
+!Sicherstellen, dass Deployment Test Variable definiert ist
+!! --------------------------------------------------------------------
+:RSET &UC4_DEPLOYMENT_TEST# = &UC4_DEPLOYMENT_TEST#
+
+! --------------------------------------------------------------------
+! Liste aller mit REST gesetzten Variablen
+! --------------------------------------------------------------------
+:PRINT
+:PRINT  "START_USER#:   &START_USER#"
+:PRINT  "UC4_DEP_TEST#: &UC4_DEPLOYMENT_TEST#"
+:PRINT  "EBENE#:        &EBENE#"
+:PRINT  "LOGSRV#:       &LOGSRV#"
+:PRINT  "RT#:           &RT#"
+:PRINT  "SAP#:          &SAP#"
+:PRINT  "SAPCLIENT#     &SAPCLIENT#"
+:PRINT  "IDT#:          &IDT#"
+:PRINT  "ZEIT_AM#:      &ZEIT_AM#"
+:PRINT  "DATUM_AM#:     &DATUM_AM#"
+:PRINT  "TIMESTAMP_AM#: &TIMESTAMP_AM#"
+:PRINT  "ME_NAME#:      &ME_NAME#"
+:PRINT  "ME_TYPE#:      &ME_TYPE#"
+:PRINT  "ME_RUNNR#:     &ME_RUNNR#"
+:PRINT  "HOST#:         &HOST#"
+:PRINT  "SUBSYS#:       &SUBSYS#"
+:PRINT  "APPL#:         &APPL#"
+:PRINT  "PROG_UC#:      &PROG_UC#"
+:PRINT  "PROG_LC#:      &PROG_LC#"
+:PRINT  "BATCH#:        &BATCH#"
+:PRINT  "BATCH_LC#:     &BATCH_LC#"
+:PRINT
+:PRINT "[END JOBI.INC.BASISPARAM]======================================"
+]]></process>
+      </row>
+   </scripts>
+</jobi>

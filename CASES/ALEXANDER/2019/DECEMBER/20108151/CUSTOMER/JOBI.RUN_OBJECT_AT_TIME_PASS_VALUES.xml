@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.RUN_OBJECT_AT_TIME_PASS_VALUES</name>
+         <type>JOBI</type>
+         <description>Start von &amp;RUN_OBJECT# mit den Parametern WAIT + PASS_VALUES ...</description>
+         <versioning_id>1570735365</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT ""
+:PRINT "[START JOBI.RUN_OBJECT_AT_TIME]========================="
+! ------------------------------------------------------------------------
+! Start von &RUN_OBJECT# zu einem bestimmten Zeitpunkt:
+! ------------------------------------------------------------------------
+! Folgende Parameter finden hier Verwendung und muessen im Vorfeld defi-
+! niert worden sein:
+! ------------------------------------------------------------------------
+! &RUN_OBJECT# -> zu startendes Objekt
+! &START_TIME# -> Startzeitpunkt [JJJJ-MM-TT HH:MM:SS]
+! ------------------------------------------------------------------------
+! Bei Fehler nicht gleich abbrechen:
+! ----------------------------------
+:ON_ERROR RESUME
+! -----------
+! Los geht's:
+! -----------
+:IF &UC4_DEPLOYMENT_TEST# = "J"
+:  PRINT ">>> UC4_DEPLOYMENT_TEST ..."
+:ELSE
+:  SET &AKTJOB# = ACTIVATE_UC_OBJECT("&RUN_OBJECT#", , , , "&START_TIME#",PASS_VALUES)
+! ---------------------
+! Activate erfolgreich?
+! ---------------------
+:  IF &AKTJOB# <> 0
+:    PRINT " -> Die Aufgabe &RUN_OBJECT# konnte"
+:    PRINT "    erfolgreich fuer &START_TIME#"
+:    PRINT "    gestartet werden!"
+:    PRINT ""
+:  ELSE
+! ------------------
+! Details ermitteln:
+! ------------------
+:    SET &ERRNR# = SYS_LAST_ERR_NR()
+:    SET &ERRINS# = SYS_LAST_ERR_INS()
+:    SET &MESSAGE# = GET_MSG_TXT(&ERRNR#, &ERRINS#)
+:    PRINT " -> Die Aufgabe &RUN_OBJECT# konnte"
+:    PRINT "    nicht gestartet werden!"
+:    PRINT " -> Details:"
+:    PRINT "    &MESSAGE#"
+:    STOP MSG, 50, "-> &RUN_OBJECT# konnte nicht gestartet werden!"
+:  ENDIF
+:ENDIF
+:PRINT "==========================[ENDE JOBI.RUN_OBJECT_AT_TIME]"
+:PRINT ""]]></process>
+      </row>
+   </scripts>
+</jobi>

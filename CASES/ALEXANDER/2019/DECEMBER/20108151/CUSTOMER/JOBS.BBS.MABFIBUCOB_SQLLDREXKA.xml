@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>SAP_FI</archive_key1>
+         <archive_key2>FIBU_ABGLEICH</archive_key2>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>11</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.MABFIBUCOB_SQLLDREXKA</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>SQL-Loader</description>
+         <versioning_id>605486188</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Details><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE Change-Log [
+<!ELEMENT Change-Log ( #PCDATA ) >
+
+<!ELEMENT Content ( #PCDATA | Change-Log | Externe_Links | Restart-Info )* >
+<!ATTLIST Content Ersteller CDATA "null" >
+<!ATTLIST Content Erstellungsdatum CDATA "null" >
+
+<!ELEMENT Externe_Links ( #PCDATA ) >
+
+<!ELEMENT Restart-Info ( #PCDATA ) >
+<!ATTLIST Restart-Info Priorität ( 0 | 1 | 2 | 3 ) "0" >
+<!ATTLIST Restart-Info Restart-erlaubt ( ja | nein ) "ja" >
+
+]>
+<Content Ersteller="BLxxxxx/EXxxxxx" Erstellungsdatum="xx.xx.xxxx">Freier Dokumentationstext
+
+<Change-Log>Datum		Wer		Warum
+
+xx.xx.xxxx	BLxxxxx	Änderungsgrund
+			EXxxxxx
+</Change-Log>
+<Externe_Links>ACHTUNG: die Links dürfen keine Leerzeichen enthalten!!!!
+z.B.	file:c:\temp\bla.txt
+		http://www.aaa.com
+---------------------------------------------------------
+
+</Externe_Links>
+<Restart-Info Priorität="2" Restart-erlaubt="ja">Priorität=0:	unternehmenskritisch, muss sofort behoben werden 
+				(z.B. monetäre Schäden)
+Priorität=1:	kritisch, es muss sofort zu Beginn der 
+				Arbeitszeit von System Management mit der 
+				Fehlerbehebung oder Workaround begonnen werden 
+				(z.B. Fehlinformationen an Kunden) 
+Priorität=2:	mittlere Auswirkungen, mit der Fehlerbehebung 
+				oder Workaround muss am gleichen Tag begonnen 
+				werden
+Priorität=3:	geringe Auswirkungen (muss innerhalb einer Woche
+				behoben werden)
+</Restart-Info>
+
+</Content>
+]]></_Details>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &DB_TABLE#   = "TNBLISTE_FE_SAP"
+:SET &ORAUSER#    = "bbsbat"
+:SET &ORADB#      = "DLLW1&IDT#"
+:SET &CRTLFILE#   = "SAP_FI_BBS_EXKA.ctl"
+:SET &PARFILE#    = "SAP_FI_BBS_EXKA.par"
+:SET &LOADERFILE# = "SAP_FI_BBS_EXKA.dat"
+:RSET &LOGFILE#   = "SAP_FI_BBS_EXKA.log"
+:RSET &BADFILE#   = "SAP_FI_BBS_EXKA.bad"
+:SET &PROGRAM#    = "sqlldr"
+:SET &OPTIONS#    = "parfile=&PARFILE# control=&CRTLFILE# data=&LOADERFILE# bad=&LOGDIR#/&BADFILE# log=&LOGDIR#/&LOGFILE#"
+! ------------------------------------------------------------
+:INC JOBI.GETPW_DBTOOLS
+! ------------------------------------------------------------
+:INC JOBI.DBTOOLS_CREATEFOLDER
+! ----------------------
+! Transfer &LOADERFILE#:
+! ----------------------
+:SET &SRC_HOST# = "HG.RH6_BATCH"
+:SET &FT_SRC_FILE# = "&WORKDIR#/&LOADERFILE#"
+:SET &FT_DST_FILE# = "&RUNDIR#/&LOADERFILE#"
+! ----------------------------------------
+:INC JOBI.DBTOOLS_FILEREC "MODUS" = "MOVE"
+! ----------------------------------------
+  dos2unix &FT_DST_FILE#
+! -------------------------------------
+! Erstellung &RUNDIR#/&CRTLFILE#:
+! -------------------------------------
+cat << __EOF__  | tee &RUNDIR#/&CRTLFILE#
+Load DATA
+INTO TABLE &DB_TABLE#
+REPLACE
+FIELDS TERMINATED BY ';'
+TRAILING NULLCOLS
+ (
+BUCH_PER
+,MANDANT
+,VTR_NR
+,WERT_SAP
+,HB_KONTO
+,KNZ_MANUELL
+)
+__EOF__
+! -------------------------------------
+! Erstellung &RUNDIR#/&PARFILE#
+! -------------------------------------
+cat << __EOF__ > &RUNDIR#/&PARFILE#
+userid=&ORAUSER#/$ORA_PASSWD@&ORADB#
+rows=100000
+errors=0
+direct=false
+__EOF__
+! -----------------------
+! Start der Verarbeitung:
+! -----------------------
+:INC JOBI.DBTOOLS_RUNSQLLDR]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[:INC JOBI.SHELL_POST
+! -----------------
+! Transfer Logfile:
+! -----------------
+:SET &DST_HOST# = "HG.RH6_BATCH"
+:SET &FT_SRC_FILE# = "&LOGDIR#/&LOGFILE#"
+:SET &FT_DST_FILE# = "&LOGDIR#/&LOGFILE#"
+! ---------------------------------------
+:INC JOBI.DBTOOLS_FILESEND "MODUS" = "MOVE"
+! -----------------
+! Transfer Badfile:
+! -----------------
+:SET &DST_HOST# = "HG.RH6_BATCH"
+:SET &FT_SRC_FILE# = "&LOGDIR#/&BADFILE#"
+:SET &FT_DST_FILE# = "&LOGDIR#/&BADFILE#"
+! ---------------------------------------
+:INC JOBI.DBTOOLS_FILESEND "MODUS" = "MOVE"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.ORACLE</agent>
+         <login>LOGIN.UC4</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

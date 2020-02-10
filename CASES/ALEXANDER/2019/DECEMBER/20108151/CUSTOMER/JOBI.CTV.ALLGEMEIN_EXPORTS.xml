@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>CTV</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.CTV.ALLGEMEIN_EXPORTS</name>
+         <type>JOBI</type>
+         <description>Zentrale CTV-Exports</description>
+         <versioning_id>-138379628</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.CTV.ALLGEMEIN_EXPORTS]=================================="
+!Aktuellen Jobplannamen ermitteln
+:SET &SPARENT_NAME#= GET_PARENT_NAME(, &ME_RUNNR#, "ACT")
+
+export UC4_CTV_ERRORSIMULATION=&UC4_CTV_ERRORSIMULATION#
+export EBENE=&CTVEBENE#
+export UC4_PARENT=&SPARENT_NAME#
+export UC4_CTV_SONDERLAUF=&UC4_CTV_SONDERLAUF#
+
+echo '$UC4_CTV_ERRORSIMULATION:   '$UC4_CTV_ERRORSIMULATION
+echo '$EBENE:                     '$EBENE
+echo '$UC4_PARENT:                '$UC4_PARENT
+echo '$UC4_CTV_SONDERLAUF:        '$UC4_CTV_SONDERLAUF
+
+:SET &HND# = PREP_PROCESS_VAR(VARA.CTV.PARAMETER,"ALLGEMEIN*")
+:PROCESS &HND#
+:  SET &PARAM_SWITCH# = GET_PROCESS_LINE(&HND# , 2)
+:  SET &PARAM_NAME#   = GET_PROCESS_LINE(&HND# , 3)
+:  SET &PARAM_VALUE#  = GET_PROCESS_LINE(&HND# , 4)
+:  IF &PARAM_SWITCH# = "J"
+      export &PARAM_NAME#=&PARAM_VALUE#
+      echo '$&PARAM_NAME#:      '&PARAM_VALUE#
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+:PRINT "===================================[ENDE JOBI.CTV.ALLGEMEIN_EXPORTS]"
+]]></process>
+      </row>
+   </scripts>
+</jobi>

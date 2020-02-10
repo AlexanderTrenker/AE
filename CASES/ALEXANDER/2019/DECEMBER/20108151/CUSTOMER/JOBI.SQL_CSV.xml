@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.SQL_CSV</name>
+         <type>JOBI</type>
+         <description>Allgemeines SQL Include -&gt; liefert csv-File</description>
+         <versioning_id>1865225490</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT ""
+:PRINT "[START JOBI.SQL_CSV]===================================="
+  echo "[START JOBI.SQL_CSV]===================================="
+!------------------------------------------------------------------------------------------
+:SET &UC4_DEPLOYMENT_TEST# = &UC4_DEPLOYMENT_TEST#
+!------------------------------------------------------------------------------------------
+:SET &HOST#     = GET_ATT(HOST)
+:SET &BATCH_LC# = STR_LC(&BATCH#)
+!------------------------------------------------------------------------------------------
+:INC JOBI.GETPW_SQLPLUS
+!------------------------------------------------------------------------------------------
+! Scriptname in Einzelteile zerlegen:
+!------------------------------------------------------------------------------------------
+:SET &CHK# = STR_FIND (&ORASCRIPT#, ".sql")
+:IF &CHK# <> 0
+:  SET &CHK#  = SUB(&CHK#,1)
+:  SET &PREF# = STR_CUT (&ORASCRIPT#,1,&CHK#)
+:  SET &CHK#  = ADD(&CHK#,2)
+:  SET &EXT#  = STR_CUT (&ORASCRIPT#,&CHK#)
+:  SET &ORASCRIPT# = &PREF#
+:ELSE
+:  SET &PREF# = &ORASCRIPT#
+:  SET &EXT# = "sql"
+:ENDIF
+!------------------------------------------------------------------------------------------
+:SWITCH &ORADB#
+:  CASE "DLLW2E"
+:  SET &FILENAME# = "&PREF#"
+:  CASE "DLLW3E"
+:  SET &FILENAME# = "&PREF#"
+:  OTHER
+:  SET &FILENAME# = "&PREF#_&TIMESTAMP_AM#"
+:ENDSWITCH
+!------------------------------------------------------------------------------------------
+! Mandant übergeben?
+!------------------------------------------------------------------------------------------
+:SET &MANDANT# = &MANDANT#
+:IF &MANDANT# = "" OR "ALL" OR "DUMMY"
+:  SET &FILENAME# = "&PREF#_&TIMESTAMP_AM#"
+:  SET &MANDANT#  = "NICHT UEBERGEBEN!"
+:ELSE
+:  SET &FILENAME# = "&PREF#_md&MANDANT#_&TIMESTAMP_AM#"
+:ENDIF
+!------------------------------------------------------------------------------------------
+:PRINT ">>> Parameter:"
+:PRINT " -> Oracle-DB    :&ORADB#"
+:PRINT " -> Oracle-User  :&ORAUSER#"
+:PRINT " -> Oracle-Script:&PREF#.&EXT#"
+:PRINT " -> FileName     :&FILENAME#.csv"
+:PRINT " -> TIMESTAMP_AM :&TIMESTAMP_AM#"
+:PRINT " -> MANDANT      :&MANDANT#"
+!------------------------------------------------------------------------------------------
+! Umgebung Oracle:
+!------------------------------------------------------------------------------------------
+  export oh=$ORACLE_HOME
+  export NLS_LANG=GERMAN_GERMANY.WE8ISO8859P1
+  export NLS_TIMESTAMP_FORMAT=YYYY-MM-DD-HH24.mi.ss.ff
+  export NLS_DATE_FORMAT=YYYY-MM-DD-HH24.MI.SS
+  export NLS_LANGUAGE=GERMAN
+  export NLS_SORT=GERMAN
+  export NLS_TERRITORY=GERMANY
+!------------------------------------------------------------------------------------------
+! Parameter ausgeben:
+! (Connect String bei Bedarf ausgeben - debug!)
+!  echo &ORAUSER# &ORADB# $ORA_PASSWD
+!------------------------------------------------------------------------------------------
+  echo ">>> Parameter:"
+  echo " -> ORA-SID       = &ORADB#"
+  echo " -> ORA-User      = &ORAUSER#"
+  echo " -> ORA-Script    = &PREF#.&EXT#"
+  echo " -> SQL-Path      = &rundir#"
+  echo " -> Spool-Path    = &logdir#"
+  echo " -> FileName      = &FILENAME#.csv"
+  echo " -> ORA-Timestamp = &TIMESTAMP_AM#"
+  echo " -> Mandant       = &MANDANT#"
+!------------------------------------------------------------------------------------------
+! SQL-Script aufrufen
+!------------------------------------------------------------------------------------------
+! SQLPLUS
+! [Start SQL*Plus and connect to a database]
+!
+! Options:
+!     "-L"      Attempt log on just once
+!     "-M <o>"  Use HTML markup options <o>
+!     "-R <n>"  Use restricted mode <n>
+!     "-S"      Use silent mode
+!     /         Login without using TNS (i.e on the server) ORACLE_SID
+!     /NOLOG    Don't login to a database
+!------------------------------------------------------------------------------------------
+:IF &UC4_DEPLOYMENT_TEST# = "J"
+:  PRINT ">>> UC4_DEPLOYMENT_TEST ..."
+:  SET &MSG# = "sqlplus &ORAUSER#/XXXXXXXX@&ORADB#"
+  echo "&MSG#" > &logdir#/&FILENAME#.log
+  echo "&MSG#"
+  export rc=0
+:ELSE
+  &UC_JOBMD CMD='
+    sqlplus "&ORAUSER#/&ORA_PASSWD#@&ORADB#" << _EOF_
+!------------------------------------------------------------------------------------------
+!   SQLP[ROMPT] {SQL>|text}
+!   [Set the command prompt]
+!------------------------------------------------------------------------------------------
+    SET SQLPROMPT "_user'@'"
+    SET SQLPROMPT "_connect_identifier > "
+    SET SQLPROMPT ""
+!------------------------------------------------------------------------------------------
+    WHENEVER OSERROR EXIT 12 ROLLBACK
+    WHENEVER SQLERROR EXIT SQL.SQLCODE ROLLBACK
+!------------------------------------------------------------------------------------------
+!   ECHO {OFF|ON}
+!   [Display commands as they are executed]
+!------------------------------------------------------------------------------------------
+    SET ECHO OFF
+!------------------------------------------------------------------------------------------
+!   LIN[ESIZE] {150|n}
+!   [Width of a line (before wrapping to the next line)
+!------------------------------------------------------------------------------------------
+    SET LINESIZE 1000
+!------------------------------------------------------------------------------------------
+!   TRIMS[POOL] {ON|OFF}
+!   [Allows trailing blanks at the end of each spooled line]
+!   -> This does not affect terminal output]
+!------------------------------------------------------------------------------------------
+    SET TRIMSPOOL ON
+!------------------------------------------------------------------------------------------
+!   PAGES[IZE] {14|n}
+!   [The height of the page - number of lines]
+!   -> 0 will suppress all headings, page breaks, titles
+!------------------------------------------------------------------------------------------
+    SET PAGESIZE 50000
+!------------------------------------------------------------------------------------------
+!   HEA[DING] {OFF|ON}
+!   [print column headings]
+!------------------------------------------------------------------------------------------
+    SET HEADING ON
+!------------------------------------------------------------------------------------------
+!   FEED[BACK] {6|n|OFF|ON}
+!   [Display the number of records returned (when rows >= n]
+!   -> OFF (or n=0) will turn the display off
+!   -> ON will set n=1
+!------------------------------------------------------------------------------------------
+    SET FEEDBACK OFF
+!------------------------------------------------------------------------------------------
+!   SQLBL[ANKLINES] {ON|OFF}
+!   [Allow blank lines within an SQL command. reverts to OFF after the curent command/block]
+!------------------------------------------------------------------------------------------
+    SET SQLBL ON
+!------------------------------------------------------------------------------------------
+!   VER[IFY] {OFF|ON}
+!   -> ON = list the text of a command before and after replacing
+!           substitution variables with values.
+!   -> OFF = dont display the command.
+!------------------------------------------------------------------------------------------
+    SET VERIFY OFF
+!------------------------------------------------------------------------------------------
+!   TERM[OUT] {OFF|ON}
+!   -> OFF suppresses the display of output from a command file
+!   -> ON displays the output.
+!      TERMOUT OFF does not affect the output from commands entered interactively.
+!------------------------------------------------------------------------------------------
+    SET TERMOUT OFF
+!------------------------------------------------------------------------------------------
+!   UND[ERLINE] {-|c|ON|OFF}
+!   -> Set the char used to underline column headings to c.
+!------------------------------------------------------------------------------------------
+    SET UNDERLINE OFF
+!------------------------------------------------------------------------------------------
+!   COLSEP { |text}
+!   -> The text to be printed between SELECTed columns normally a space.
+!------------------------------------------------------------------------------------------
+    SET COLSEP ";"
+!------------------------------------------------------------------------------------------
+!   AUTO[COMMIT] {OFF|ON|IMM[EDIATE]|n}
+!   [Autocommit commits after each SQL command or PL/SQL block]
+!------------------------------------------------------------------------------------------
+    SET AUTOCOMMIT OFF
+!------------------------------------------------------------------------------------------
+    PROMPT Ausgeben Datum und Timestamp
+    SELECT SYSDATE, SYSTIMESTAMP, USER from DUAL;
+!------------------------------------------------------------------------------------------
+!   SPOOL {file}
+!   [Store query results in file]
+!------------------------------------------------------------------------------------------
+    SPOOL &logdir#/&FILENAME#.csv
+!------------------------------------------------------------------------------------------
+:PRINT ">>> ----------------------------------------------------"
+:PRINT " -> start &rundir#/&PREF#.&EXT#"
+:PRINT ">>> ----------------------------------------------------"
+!------------------------------------------------------------------------------------------
+!   STA[RT]
+!   [Run an SQL Script]
+!------------------------------------------------------------------------------------------
+    START &rundir#/&PREF#.&EXT#
+!------------------------------------------------------------------------------------------
+!   SPOOL OFF
+!   [Turn off spooling]
+!------------------------------------------------------------------------------------------
+    spool OFF
+! --------------------------------------
+! ROLLBACK muss an dieser Stelle stehen,
+! da bei Ende der SQL-Plus Sitzung auto-
+! matisch ein COMMIT erfolgt!
+! Wird ein COMMIT gewünscht, so muss
+! dieser im SQL-Script explizit angege-
+! ben werden.
+! --------------------------------------
+    ROLLBACK;
+    EXIT
+_EOF_
+'
+:ENDIF
+  export rc=$?
+!------------------------------------------------------------------------------------------
+  echo "CR, sonst wird die naechste Zeile von Reportscanner nicht erkannt"
+  echo rc_batch_&PROG_LC#=$rc
+!------------------------------------------------------------------------------------------
+! Umbauen ...
+!------------------------------------------------------------------------------------------
+! Oracle Prosa entfernen ... (XXX.csv -> XXX.tmp)
+! -----------------------------------------------
+  cat &logdir#/&FILENAME#.csv|grep ";" > &logdir#/&FILENAME#.tmp
+  echo rc_cat=$?
+! --------------------------------------------
+! Ergebnis umbenennen ... (XXX.tmp -> XXX.csv)
+! --------------------------------------------
+  mv &logdir#/&FILENAME#.tmp &logdir#/&FILENAME#.csv
+  echo rc_mv=$?
+! ------------------------------------------------------
+! Zur besseren Lesbarkeit unter Windows konvertieren ...
+! ------------------------------------------------------
+!  unix2dos &logdir#/&FILENAME#.csv
+!  echo rc_konv=$?
+! -----------------------------------------
+! Im Report erwähnen, für JOBI.SENDMAIL ...
+! -----------------------------------------
+  echo "Logfile: &logdir#/&FILENAME#.csv"
+  echo "##OUTFILE## &logdir#/&FILENAME#.csv"
+!------------------------------------------------------------------------------------------
+  echo "=====================================[ENDE JOBI.SQL_CSV]"
+:PRINT "=====================================[ENDE JOBI.SQL_CSV]"
+:PRINT ""]]></process>
+      </row>
+   </scripts>
+</jobi>

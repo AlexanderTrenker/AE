@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ABLAUFMANAGEMENT</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>289</ert>
+         <workflow_children>6</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBP.BBS.AMFONDSSWITCH</name>
+         <type>JOBP</type>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.CTV</queue>
+         <description>0 ABLAUFMANAGEMENT -&gt; FONDSSWITCH -&gt; HAUPTPLAN</description>
+         <versioning_id>-1998235400</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_WebConfig><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><!DOCTYPE AUSLPFLEGE_ABORB [
+<!ELEMENT AUSLPFLEGE_ABORB EMPTY >
+<!ATTLIST AUSLPFLEGE_ABORB BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ABORB PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ABORB SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ABORB WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_ABVTRNR EMPTY >
+<!ATTLIST AUSLPFLEGE_ABVTRNR BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ABVTRNR PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ABVTRNR SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ABVTRNR WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_AUSLOESERTYP EMPTY >
+<!ATTLIST AUSLPFLEGE_AUSLOESERTYP BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_AUSLOESERTYP PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_AUSLOESERTYP SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_AUSLOESERTYP WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_BESCHREIBUNG EMPTY >
+<!ATTLIST AUSLPFLEGE_BESCHREIBUNG BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BESCHREIBUNG PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BESCHREIBUNG SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BESCHREIBUNG WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_BIS EMPTY >
+<!ATTLIST AUSLPFLEGE_BIS BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BIS PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BIS SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BIS WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_BISORB EMPTY >
+<!ATTLIST AUSLPFLEGE_BISORB BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BISORB PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BISORB SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BISORB WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_BISVTRNR EMPTY >
+<!ATTLIST AUSLPFLEGE_BISVTRNR BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BISVTRNR PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BISVTRNR SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_BISVTRNR WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_COMMIT EMPTY >
+<!ATTLIST AUSLPFLEGE_COMMIT BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_COMMIT PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_COMMIT SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_COMMIT WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_OHNEORB EMPTY >
+<!ATTLIST AUSLPFLEGE_OHNEORB BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_OHNEORB PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_OHNEORB SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_OHNEORB WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_OHNEVTRNR EMPTY >
+<!ATTLIST AUSLPFLEGE_OHNEVTRNR BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_OHNEVTRNR PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_OHNEVTRNR SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_OHNEVTRNR WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_ORBART EMPTY >
+<!ATTLIST AUSLPFLEGE_ORBART BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ORBART PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ORBART SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_ORBART WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_PROGRAMMTYP EMPTY >
+<!ATTLIST AUSLPFLEGE_PROGRAMMTYP BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROGRAMMTYP PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROGRAMMTYP SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROGRAMMTYP WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_PROT_MSG_TYPE EMPTY >
+<!ATTLIST AUSLPFLEGE_PROT_MSG_TYPE BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROT_MSG_TYPE PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROT_MSG_TYPE SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROT_MSG_TYPE WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_PROT_VTR_FILTER EMPTY >
+<!ATTLIST AUSLPFLEGE_PROT_VTR_FILTER BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROT_VTR_FILTER PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROT_VTR_FILTER SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_PROT_VTR_FILTER WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_TRACE EMPTY >
+<!ATTLIST AUSLPFLEGE_TRACE BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_TRACE PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_TRACE SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_TRACE WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_VERARBEITUNG EMPTY >
+<!ATTLIST AUSLPFLEGE_VERARBEITUNG BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_VERARBEITUNG PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_VERARBEITUNG SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_VERARBEITUNG WERT CDATA "null" >
+
+<!ELEMENT AUSLPFLEGE_VON EMPTY >
+<!ATTLIST AUSLPFLEGE_VON BESCHREIBUNG CDATA "null" >
+<!ATTLIST AUSLPFLEGE_VON PLAUSI CDATA "null" >
+<!ATTLIST AUSLPFLEGE_VON SEPPL CDATA "null" >
+<!ATTLIST AUSLPFLEGE_VON WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_ABLAUFMGT EMPTY >
+<!ATTLIST BEARBEITER_ABLAUFMGT BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_ABLAUFMGT PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_ABLAUFMGT SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_ABLAUFMGT WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_ANZAHL EMPTY >
+<!ATTLIST BEARBEITER_ANZAHL BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_ANZAHL PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_ANZAHL SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_ANZAHL WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_BEARBEITER EMPTY >
+<!ATTLIST BEARBEITER_BEARBEITER BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_BEARBEITER PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_BEARBEITER SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_BEARBEITER WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_BESCHREIBUNG EMPTY >
+<!ATTLIST BEARBEITER_BESCHREIBUNG BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_BESCHREIBUNG PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_BESCHREIBUNG SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_BESCHREIBUNG WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_BRIEFE EMPTY >
+<!ATTLIST BEARBEITER_BRIEFE BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_BRIEFE PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_BRIEFE SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_BRIEFE WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_BRIEFNUMMER EMPTY >
+<!ATTLIST BEARBEITER_BRIEFNUMMER BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_BRIEFNUMMER PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_BRIEFNUMMER SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_BRIEFNUMMER WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_COMMIT EMPTY >
+<!ATTLIST BEARBEITER_COMMIT BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_COMMIT PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_COMMIT SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_COMMIT WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_DEADLINE EMPTY >
+<!ATTLIST BEARBEITER_DEADLINE BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_DEADLINE PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_DEADLINE SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_DEADLINE WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_MAP_ZEF_EF EMPTY >
+<!ATTLIST BEARBEITER_MAP_ZEF_EF BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_MAP_ZEF_EF PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_MAP_ZEF_EF SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_MAP_ZEF_EF WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_PROT_MSG_TYPE EMPTY >
+<!ATTLIST BEARBEITER_PROT_MSG_TYPE BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_PROT_MSG_TYPE PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_PROT_MSG_TYPE SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_PROT_MSG_TYPE WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_PROT_VTR_FILTER EMPTY >
+<!ATTLIST BEARBEITER_PROT_VTR_FILTER BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_PROT_VTR_FILTER PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_PROT_VTR_FILTER SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_PROT_VTR_FILTER WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_TERMINE EMPTY >
+<!ATTLIST BEARBEITER_TERMINE BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_TERMINE PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_TERMINE SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_TERMINE WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_TRACE EMPTY >
+<!ATTLIST BEARBEITER_TRACE BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_TRACE PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_TRACE SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_TRACE WERT CDATA "null" >
+
+<!ELEMENT BEARBEITER_TRACE_SWSH EMPTY >
+<!ATTLIST BEARBEITER_TRACE_SWSH BESCHREIBUNG CDATA "null" >
+<!ATTLIST BEARBEITER_TRACE_SWSH PLAUSI CDATA "null" >
+<!ATTLIST BEARBEITER_TRACE_SWSH SEPPL CDATA "null" >
+<!ATTLIST BEARBEITER_TRACE_SWSH WERT CDATA "null" >
+
+<!ELEMENT Content ( PARAMETER ) >
+
+<!ELEMENT GENERATOR_BESCHREIBUNG EMPTY >
+<!ATTLIST GENERATOR_BESCHREIBUNG BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_BESCHREIBUNG PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_BESCHREIBUNG SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_BESCHREIBUNG WERT CDATA "null" >
+
+<!ELEMENT GENERATOR_PROT_MSG_TYPE EMPTY >
+<!ATTLIST GENERATOR_PROT_MSG_TYPE BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_PROT_MSG_TYPE PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_PROT_MSG_TYPE SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_PROT_MSG_TYPE WERT CDATA "null" >
+
+<!ELEMENT GENERATOR_PROT_VTR_FILTER EMPTY >
+<!ATTLIST GENERATOR_PROT_VTR_FILTER BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_PROT_VTR_FILTER PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_PROT_VTR_FILTER SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_PROT_VTR_FILTER WERT CDATA "null" >
+
+<!ELEMENT GENERATOR_SCHREIBE_AUSL EMPTY >
+<!ATTLIST GENERATOR_SCHREIBE_AUSL BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_SCHREIBE_AUSL PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_SCHREIBE_AUSL SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_SCHREIBE_AUSL WERT CDATA "null" >
+
+<!ELEMENT GENERATOR_TRACE EMPTY >
+<!ATTLIST GENERATOR_TRACE BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_TRACE PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_TRACE SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_TRACE WERT CDATA "null" >
+
+<!ELEMENT GENERATOR_VALUTA EMPTY >
+<!ATTLIST GENERATOR_VALUTA BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_VALUTA PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_VALUTA SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_VALUTA WERT CDATA "null" >
+
+<!ELEMENT GENERATOR_VERARB_ART EMPTY >
+<!ATTLIST GENERATOR_VERARB_ART BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_VERARB_ART PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_VERARB_ART SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_VERARB_ART WERT CDATA "null" >
+
+<!ELEMENT GENERATOR_VTRNR_BIS EMPTY >
+<!ATTLIST GENERATOR_VTRNR_BIS BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_VTRNR_BIS PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_VTRNR_BIS SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_VTRNR_BIS WERT CDATA "null" >
+
+<!ELEMENT GENERATOR_VTRNR_VON EMPTY >
+<!ATTLIST GENERATOR_VTRNR_VON BESCHREIBUNG CDATA "null" >
+<!ATTLIST GENERATOR_VTRNR_VON PLAUSI CDATA "null" >
+<!ATTLIST GENERATOR_VTRNR_VON SEPPL CDATA "null" >
+<!ATTLIST GENERATOR_VTRNR_VON WERT CDATA "null" >
+
+<!ELEMENT MANDANTEN EMPTY >
+<!ATTLIST MANDANTEN BESCHREIBUNG CDATA "null" >
+<!ATTLIST MANDANTEN PLAUSI CDATA "null" >
+<!ATTLIST MANDANTEN SEPPL CDATA "null" >
+<!ATTLIST MANDANTEN WERT CDATA "null" >
+
+<!ELEMENT PARALLEL EMPTY >
+<!ATTLIST PARALLEL BESCHREIBUNG CDATA "null" >
+<!ATTLIST PARALLEL PLAUSI CDATA "null" >
+<!ATTLIST PARALLEL SEPPL CDATA "null" >
+<!ATTLIST PARALLEL WERT CDATA "null" >
+
+<!ELEMENT PARAMETER ( UC4_DEPLOYMENT_TEST, MANDANTEN, PARALLEL, AUSLPFLEGE_BESCHREIBUNG, AUSLPFLEGE_VERARBEITUNG, AUSLPFLEGE_PROGRAMMTYP, AUSLPFLEGE_AUSLOESERTYP, AUSLPFLEGE_VON, AUSLPFLEGE_BIS, AUSLPFLEGE_TRACE, AUSLPFLEGE_ORBART, AUSLPFLEGE_ABVTRNR, AUSLPFLEGE_BISVTRNR, AUSLPFLEGE_OHNEVTRNR, AUSLPFLEGE_ABORB, AUSLPFLEGE_BISORB, AUSLPFLEGE_OHNEORB, AUSLPFLEGE_COMMIT, AUSLPFLEGE_PROT_VTR_FILTER, AUSLPFLEGE_PROT_MSG_TYPE, GENERATOR_BESCHREIBUNG, GENERATOR_VALUTA, GENERATOR_VTRNR_VON, GENERATOR_VTRNR_BIS, GENERATOR_TRACE, GENERATOR_SCHREIBE_AUSL, GENERATOR_VERARB_ART, GENERATOR_PROT_VTR_FILTER, GENERATOR_PROT_MSG_TYPE, SELEKTIERER_PROGRAMMTYP, SELEKTIERER_PROGRAMMTYPAUSL, SELEKTIERER_BESCHREIBUNG, SELEKTIERER_TRACE, SELEKTIERER_VON, SELEKTIERER_BIS, SELEKTIERER_ABVTRNR, SELEKTIERER_BISVTRNR, SELEKTIERER_OHNEVTRNR, SELEKTIERER_SORTMODE, SELEKTIERER_PROT_VTR_FILTER, SELEKTIERER_PROT_MSG_TYPE, BEARBEITER_BESCHREIBUNG, BEARBEITER_BEARBEITER, BEARBEITER_TERMINE, BEARBEITER_TRACE, BEARBEITER_DEADLINE, BEARBEITER_ANZAHL, BEARBEITER_PROT_VTR_FILTER, BEARBEITER_PROT_MSG_TYPE, BEARBEITER_COMMIT, BEARBEITER_TRACE_SWSH, BEARBEITER_ABLAUFMGT, BEARBEITER_MAP_ZEF_EF, BEARBEITER_BRIEFE, BEARBEITER_BRIEFNUMMER ) >
+
+<!ELEMENT SELEKTIERER_ABVTRNR EMPTY >
+<!ATTLIST SELEKTIERER_ABVTRNR BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_ABVTRNR PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_ABVTRNR SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_ABVTRNR WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_BESCHREIBUNG EMPTY >
+<!ATTLIST SELEKTIERER_BESCHREIBUNG BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_BESCHREIBUNG PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_BESCHREIBUNG SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_BESCHREIBUNG WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_BIS EMPTY >
+<!ATTLIST SELEKTIERER_BIS BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_BIS PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_BIS SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_BIS WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_BISVTRNR EMPTY >
+<!ATTLIST SELEKTIERER_BISVTRNR BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_BISVTRNR PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_BISVTRNR SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_BISVTRNR WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_OHNEVTRNR EMPTY >
+<!ATTLIST SELEKTIERER_OHNEVTRNR BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_OHNEVTRNR PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_OHNEVTRNR SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_OHNEVTRNR WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_PROGRAMMTYP EMPTY >
+<!ATTLIST SELEKTIERER_PROGRAMMTYP BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_PROGRAMMTYP PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_PROGRAMMTYP SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_PROGRAMMTYP WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_PROGRAMMTYPAUSL EMPTY >
+<!ATTLIST SELEKTIERER_PROGRAMMTYPAUSL BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_PROGRAMMTYPAUSL PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_PROGRAMMTYPAUSL SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_PROGRAMMTYPAUSL WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_PROT_MSG_TYPE EMPTY >
+<!ATTLIST SELEKTIERER_PROT_MSG_TYPE BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_PROT_MSG_TYPE PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_PROT_MSG_TYPE SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_PROT_MSG_TYPE WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_PROT_VTR_FILTER EMPTY >
+<!ATTLIST SELEKTIERER_PROT_VTR_FILTER BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_PROT_VTR_FILTER PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_PROT_VTR_FILTER SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_PROT_VTR_FILTER WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_SORTMODE EMPTY >
+<!ATTLIST SELEKTIERER_SORTMODE BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_SORTMODE PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_SORTMODE SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_SORTMODE WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_TRACE EMPTY >
+<!ATTLIST SELEKTIERER_TRACE BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_TRACE PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_TRACE SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_TRACE WERT CDATA "null" >
+
+<!ELEMENT SELEKTIERER_VON EMPTY >
+<!ATTLIST SELEKTIERER_VON BESCHREIBUNG CDATA "null" >
+<!ATTLIST SELEKTIERER_VON PLAUSI CDATA "null" >
+<!ATTLIST SELEKTIERER_VON SEPPL CDATA "null" >
+<!ATTLIST SELEKTIERER_VON WERT CDATA "null" >
+
+<!ELEMENT UC4_DEPLOYMENT_TEST EMPTY >
+<!ATTLIST UC4_DEPLOYMENT_TEST BESCHREIBUNG CDATA "null" >
+<!ATTLIST UC4_DEPLOYMENT_TEST PLAUSI CDATA "null" >
+<!ATTLIST UC4_DEPLOYMENT_TEST SEPPL CDATA "null" >
+<!ATTLIST UC4_DEPLOYMENT_TEST WERT CDATA "null" >
+
+]>
+<Content>
+<PARAMETER>
+<UC4_DEPLOYMENT_TEST  BESCHREIBUNG="ALLGEMEIN: UC4 Deployment Test" PLAUSI="JN" SEPPL="WIE" WERT="N"/>
+<RESTLAUFZEIT BESCHREIBUNG='Restlaufzeit Vertrag in Jahren' PLAUSI='1,2,3,5' SEPPL='EI' WERT='1,2,3,5'/>
+<TERMINE_IMS BESCHREIBUNG='' PLAUSI='J/N' SEPPL='EIWP' WERT='J'/>
+<BRIEFE_CTV BESCHREIBUNG='' PLAUSI='J/N' SEPPL='EIWP' WERT='J'/>
+<VALUTA BESCHREIBUNG='Leer: Erster aktueller Monat' PLAUSI='JJJJMMTT' SEPPL='EIWP' WERT=''/>
+<MANDANTEN BESCHREIBUNG='' PLAUSI='01,02,20,21,54' SEPPL='EIWP' WERT='01,02'/>
+<AB_VTR_NR BESCHREIBUNG='' PLAUSI='NNNN' SEPPL='EIWP' WERT=''/>
+<BIS_VTR_NR BESCHREIBUNG='' PLAUSI='NNNN' SEPPL='EIWP' WERT=''/>
+<ANZAHL BESCHREIBUNG='Max. Anzahl an erfolgreich zu verarbeitetenden Verträgen ' PLAUSI='NNNN' SEPPL='EIW' WERT=''/>
+<COMMIT BESCHREIBUNG='Commit durchführen' PLAUSI='J/N' SEPPL='EIW' WERT='J'/>
+<TRACE BESCHREIBUNG='Ausführliches Logfile' PLAUSI='J/N' SEPPL='EIWP' WERT='N'/>
+<PROT_VTR_FILTER_AUS BESCHREIBUNG='Stufe der Protokollierung in der Datenbank' PLAUSI='OK/AUSSCHL/ERROR/NONE' SEPPL='EIWP' WERT='AUSSCHL'/>
+<PROT_MSG_TYPE_AUS BESCHREIBUNG='Stufe der Protokollierung in der Datenbank' PLAUSI='INFO/WARN/ERROR/NONE' SEPPL='EIWP' WERT='WARN'/>
+<PROT_VTR_FILTER_GEN BESCHREIBUNG='Stufe der Protokollierung in der Datenbank' PLAUSI='OK/AUSSCHL/ERROR/NONE' SEPPL='EIWP' WERT='AUSSCHL'/>
+<PROT_MSG_TYPE_GEN BESCHREIBUNG='Stufe der Protokollierung in der Datenbank' PLAUSI='INFO/WARN/ERROR/NONE' SEPPL='EIWP' WERT='WARN'/>
+<PROT_VTR_FILTER_SEL BESCHREIBUNG='Stufe der Protokollierung in der Datenbank' PLAUSI='OK/AUSSCHL/ERROR/NONE' SEPPL='EIWP' WERT='AUSSCHL'/>
+<PROT_MSG_TYPE_SEL BESCHREIBUNG='Stufe der Protokollierung in der Datenbank' PLAUSI='INFO/WARN/ERROR/NONE' SEPPL='EIWP' WERT='WARN'/>
+<PROT_VTR_FILTER_BEA BESCHREIBUNG='Stufe der Protokollierung in der Datenbank' PLAUSI='OK/AUSSCHL/ERROR/NONE' SEPPL='EIWP' WERT='OK'/>
+<PROT_MSG_TYPE_BEA BESCHREIBUNG='Stufe der Protokollierung in der Datenbank' PLAUSI='INFO/WARN/ERROR/NONE' SEPPL='EIWP' WERT='INFO'/>
+<RUN_AUSLOESER BESCHREIBUNG='' PLAUSI='J/N' SEPPL='E' WERT='J'/>
+<RUN_GENERATOR BESCHREIBUNG='' PLAUSI='J/N' SEPPL='E' WERT='J'/>
+<RUN_SELEKTIERER BESCHREIBUNG='' PLAUSI='J/N' SEPPL='E' WERT='J'/>
+<RUN_BEARBEITER BESCHREIBUNG='' PLAUSI='J/N' SEPPL='E' WERT='J'/>
+</PARAMETER>
+</Content>
+]]></_WebConfig>
+      </row>
+      <row>
+         <Docu><![CDATA[Auslöserpflege	AMFONDSSWITCH_NB41PH2   1781
+Auslöserpflege	AMFONDSSWITCH_NB41PH2   1782
+Auslöserpflege	AMFONDSSWITCH_NB41PH2   1783
+Auslöserpflege	AMFONDSSWITCH_NB41PH2   1784
+Generator  	AMFONDSSWITCH_NB41PG482 läuft immer für alle
+Selektierer 	AMFONDSSWITCH_NB42P800	486 
+Bearbeiter 	AMFONDSSWITCH_NB43P068	1
+Selektierer 	AMFONDSSWITCH_NB42P800	485 
+Bearbeiter 	AMFONDSSWITCH_NB43P068	2
+Selektierer 	AMFONDSSWITCH_NB42P800	484 
+Bearbeiter 	AMFONDSSWITCH_NB43P068	3
+Selektierer 	AMFONDSSWITCH_NB42P800	483
+Bearbeiter 	AMFONDSSWITCH_NB43P068	5
+
+
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! BBS Standart-Include zum setzen von Variablen für aufgerufene Jobs
+:INC JOBI.BBS.JOBPDEFAULTS
+!**********GeneratedText, Do Not Change**********
+:SET &pttyp# = SYS_ACT_PTTYP()
+!Eintragen der READ Befehle
+:BEGINREAD
+:IF &pttyp# = "D"
+:  PRINT "", "Bei Start via GUI wird die Eingabe der Startzeit unterdrückt"
+:ELSE
+:  READ &START#,,"START [JJJJ-MM-TT HH:MM:SS]",'',K
+:ENDIF
+:READ &UC4_DEPLOYMENT_TEST#,,"UC4_DEPLOYMENT_TEST [JN]",'N',K
+:READ &RESTLAUFZEIT#,,"RESTLAUFZEIT [1,2,3,5]",'1,2,3,5',K
+:READ &TERMINE_IMS#,,"TERMINE_IMS [J/N]",'J',K
+:READ &BRIEFE_CTV#,,"BRIEFE_CTV [J/N]",'J',K
+:READ &VALUTA#,,"VALUTA [JJJJMMTT]",'',K
+:READ &MANDANTEN#,,"MANDANTEN [01,02,20,21,54]",'01,02',K
+:READ &AB_VTR_NR#,,"AB_VTR_NR [NNNN]",'',K
+:READ &BIS_VTR_NR#,,"BIS_VTR_NR [NNNN]",'',K
+:READ &ANZAHL#,,"ANZAHL [NNNN]",'',K
+:READ &COMMIT#,,"COMMIT [J/N]",'J',K
+:READ &TRACE#,,"TRACE [J/N]",'N',K
+:READ &PROT_VTR_FILTER_AUS#,,"PROT_VTR_FILTER_AUS [OK/AUSSCHL/ERROR/NONE]",'AUSSCHL',K
+:READ &PROT_MSG_TYPE_AUS#,,"PROT_MSG_TYPE_AUS [INFO/WARN/ERROR/NONE]",'WARN',K
+:READ &PROT_VTR_FILTER_GEN#,,"PROT_VTR_FILTER_GEN [OK/AUSSCHL/ERROR/NONE]",'AUSSCHL',K
+:READ &PROT_MSG_TYPE_GEN#,,"PROT_MSG_TYPE_GEN [INFO/WARN/ERROR/NONE]",'WARN',K
+:READ &PROT_VTR_FILTER_SEL#,,"PROT_VTR_FILTER_SEL [OK/AUSSCHL/ERROR/NONE]",'AUSSCHL',K
+:READ &PROT_MSG_TYPE_SEL#,,"PROT_MSG_TYPE_SEL [INFO/WARN/ERROR/NONE]",'WARN',K
+:READ &PROT_VTR_FILTER_BEA#,,"PROT_VTR_FILTER_BEA [OK/AUSSCHL/ERROR/NONE]",'OK',K
+:READ &PROT_MSG_TYPE_BEA#,,"PROT_MSG_TYPE_BEA [INFO/WARN/ERROR/NONE]",'INFO',K
+:READ &RUN_AUSLOESER#,,"RUN_AUSLOESER [J/N]",'J',K
+:READ &RUN_GENERATOR#,,"RUN_GENERATOR [J/N]",'J',K
+:READ &RUN_SELEKTIERER#,,"RUN_SELEKTIERER [J/N]",'J',K
+:READ &RUN_BEARBEITER#,,"RUN_BEARBEITER [J/N]",'J',K
+:ENDREAD
+
+!Eintragen der PSET Befehle
+:PSET &START# = &START#
+:PSET &UC4_DEPLOYMENT_TEST# = &UC4_DEPLOYMENT_TEST#
+:PSET &RESTLAUFZEIT# = &RESTLAUFZEIT#
+:PSET &TERMINE_IMS# = &TERMINE_IMS#
+:PSET &BRIEFE_CTV# = &BRIEFE_CTV#
+:PSET &VALUTA# = &VALUTA#
+:PSET &MANDANTEN# = &MANDANTEN#
+:PSET &AB_VTR_NR# = &AB_VTR_NR#
+:PSET &BIS_VTR_NR# = &BIS_VTR_NR#
+:PSET &ANZAHL# = &ANZAHL#
+:PSET &COMMIT# = &COMMIT#
+:PSET &TRACE# = &TRACE#
+:PSET &PROT_VTR_FILTER_AUS# = &PROT_VTR_FILTER_AUS#
+:PSET &PROT_MSG_TYPE_AUS# = &PROT_MSG_TYPE_AUS#
+:PSET &PROT_VTR_FILTER_GEN# = &PROT_VTR_FILTER_GEN#
+:PSET &PROT_MSG_TYPE_GEN# = &PROT_MSG_TYPE_GEN#
+:PSET &PROT_VTR_FILTER_SEL# = &PROT_VTR_FILTER_SEL#
+:PSET &PROT_MSG_TYPE_SEL# = &PROT_MSG_TYPE_SEL#
+:PSET &PROT_VTR_FILTER_BEA# = &PROT_VTR_FILTER_BEA#
+:PSET &PROT_MSG_TYPE_BEA# = &PROT_MSG_TYPE_BEA#
+:PSET &RUN_AUSLOESER# = &RUN_AUSLOESER#
+:PSET &RUN_GENERATOR# = &RUN_GENERATOR#
+:PSET &RUN_SELEKTIERER# = &RUN_SELEKTIERER#
+:PSET &RUN_BEARBEITER# = &RUN_BEARBEITER#
+!**************End of GeneratedText**************
+! &VALUTA# = 1. des aktuellen Monats
+:IF &VALUTA# = ""
+:   SET &WS_LDATE# = SYS_LDATE("JJJJMMTT")
+:   PSET &VALUTA# = FIRST_OF_PERIOD(&WS_LDATE#,"MM","JJJJMMTT")
+:ENDIF
+! Bestimmen welche Jahre laufen sollen
+:PSET &WS_1J#=STR_FIND(&RESTLAUFZEIT#,"1")
+:PSET &WS_2J#=STR_FIND(&RESTLAUFZEIT#,"2")
+:PSET &WS_3J#=STR_FIND(&RESTLAUFZEIT#,"3")
+:PSET &WS_5J#=STR_FIND(&RESTLAUFZEIT#,"5")
+! ---------------------------------------------
+]]></process>
+      </row>
+   </scripts>
+   <workflow_attributes>
+      <row>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBP.BBS.1J.AMFONDSSWITCH</object_name>
+         <object_type>JOBP</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>2</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBP.BBS.2J.AMFONDSSWITCH</object_name>
+         <object_type>JOBP</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>2</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBP.BBS.3J.AMFONDSSWITCH</object_name>
+         <object_type>JOBP</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>2</column>
+         <line_number>5</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBP.BBS.5J.AMFONDSSWITCH</object_name>
+         <object_type>JOBP</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>4</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>6</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>4</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>5</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>4</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>6</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>5</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <conditions>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>2</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>2</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>2</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>2</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>2</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>5</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>5</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>5</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>5</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>5</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+   </conditions>
+   <condition_values>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>2</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;WS_1J#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>2</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&gt;</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>2</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>0</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>2</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Fondsswitch für 1 Jahr nicht angefordert.</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>3</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;WS_2J#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>3</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&gt;</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>3</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>0</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>3</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Fondsswitch für 2 Jahre nicht angefordert.</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>4</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;WS_3J#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>4</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&gt;</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>4</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>0</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>4</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Fondsswitch für 3 Jahre nicht angefordert.</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>5</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;WS_5J#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>5</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&gt;</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>5</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>0</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>5</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Fondsswitch für 5 Jahre nicht angefordert.</value>
+         <variable>XC_P01</variable>
+      </row>
+   </condition_values>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>REIM.TAR_AND_ARCHIVE</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>RETAIL</queue>
+         <description>Tar And Archive REIM</description>
+         <versioning_id>-1817991886</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[. &REIM_PROFILE
+cd &SDIR
+echo "&SDIR"
+echo "Listado de archivos en &SDIR"
+ls -lrt
+echo "Empaquetando archivos"
+!tar -czvf - ./* | gzip > &TDIR#/&TFILE# && rm -f &SDIR/*
+cd &SDIR
+tar -cvf - ./* | gzip > &TDIR#/&TFILE#
+cd &SDIR
+mv ./* /awabatch/oracle/REIM/BCK_ARCH/
+err=$?
+exit $err]]></process>
+      </row>
+      <row>
+         <pre_process>:INC RTL.PRE.PROC.INC</pre_process>
+      </row>
+      <row>
+         <post_process>:INC RTL.POST.PROC.INC</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>UNIX</platform>
+         <agent>REIM_AGENTS</agent>
+         <login>LOGIN.REIM</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-sh</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>asdf</value>
+         <name>&amp;AW_HOME</name>
+      </row>
+      <row>
+         <value>exec_retail_tar_and_archive</value>
+         <name>&amp;UCAM_CMD#</name>
+      </row>
+      <row>
+         <value>RETAIL_KEXECS</value>
+         <name>&amp;UCAM_HOSTCMD#</name>
+      </row>
+      <row>
+         <value>AM</value>
+         <name>&amp;UCAM_JOBTYPE#</name>
+      </row>
+      <row>
+         <value>$AW_HOME</value>
+         <name>&amp;UCAM_LIB#</name>
+      </row>
+      <row>
+         <value>$AW_HOME/out</value>
+         <name>&amp;UCAM_OUTPUT#</name>
+      </row>
+      <row>
+         <value>RMS_SHELL</value>
+         <name>&amp;UCAM_PROGTYPE#</name>
+      </row>
+      <row>
+         <name>&amp;UCAM_PTPATH#</name>
+      </row>
+      <row>
+         <name>&amp;UCAM_RFPOPTIONS#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.REIM.ARCHIVE_JOB</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.REIM.ARCHIVE_JOB</prompt_set>
+         <value>{VARA.REIM.ENV,REIM_PROFILE,1}</value>
+         <variable_name>REIM_PROFILE</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.REIM.ARCHIVE_JOB</prompt_set>
+         <value>{VARA.REIM.ENV,MMIN,1}</value>
+         <variable_name>SDIR</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.REIM.ARCHIVE_JOB</prompt_set>
+         <value>all files</value>
+         <variable_name>SFILE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.REIM.ARCHIVE_JOB</prompt_set>
+         <value>{VARA.REIM.ENV,ARCH,1}</value>
+         <variable_name>TDIR#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.REIM.ARCHIVE_JOB</prompt_set>
+         <value>edidlinv.out_1{VARA.TODAY_YYYYMMDD_HHMMSS}.tar.gz</value>
+         <variable_name>TFILE#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>SQL</archive_key2>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>8</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.SQL_VB22935</name>
+         <type>JOBS</type>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>SQL-Script (Auswertung BBS-Tabelle TBBVTR_DARL)</description>
+         <versioning_id>-1027817712</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Details><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE Change-Log [
+<!ELEMENT Change-Log ( #PCDATA ) >
+
+<!ELEMENT Content ( #PCDATA | Change-Log | Externe_Links | Restart-Info )* >
+<!ATTLIST Content Ersteller CDATA "null" >
+<!ATTLIST Content Erstellungsdatum CDATA "null" >
+
+<!ELEMENT Externe_Links ( #PCDATA ) >
+
+<!ELEMENT Restart-Info ( #PCDATA ) >
+<!ATTLIST Restart-Info Priorität ( 0 | 1 | 2 | 3 ) "0" >
+<!ATTLIST Restart-Info Restart-erlaubt ( ja | nein ) "ja" >
+
+]>
+<Content Ersteller="BLxxxxx/EXxxxxx" Erstellungsdatum="xx.xx.xxxx">Freier Dokumentationstext
+
+<Change-Log>Datum		Wer		Warum
+
+xx.xx.xxxx	BLxxxxx	Änderungsgrund
+			EXxxxxx
+</Change-Log>
+<Externe_Links>ACHTUNG: die Links dürfen keine Leerzeichen enthalten!!!!
+z.B.	file:c:\temp\bla.txt
+		http://www.aaa.com
+---------------------------------------------------------
+
+</Externe_Links>
+<Restart-Info Priorität="2" Restart-erlaubt="ja">Priorität=0:	unternehmenskritisch, muss sofort behoben werden 
+				(z.B. monetäre Schäden)
+Priorität=1:	kritisch, es muss sofort zu Beginn der 
+				Arbeitszeit von System Management mit der 
+				Fehlerbehebung oder Workaround begonnen werden 
+				(z.B. Fehlinformationen an Kunden) 
+Priorität=2:	mittlere Auswirkungen, mit der Fehlerbehebung 
+				oder Workaround muss am gleichen Tag begonnen 
+				werden
+Priorität=3:	geringe Auswirkungen (muss innerhalb einer Woche
+				behoben werden)
+</Restart-Info>
+
+</Content>
+]]></_Details>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &RUNDIR# = '&RT#/&SUBSYS#/SQL'
+:SET &LOGDIR# = '&LOGSRV#/&SUBSYS#/log/SQL'
+
+:SET &ORADB# = "DLLW1&IDT#"
+:SET &ORAUSER# = "bbsbat"
+:SET &ORASCRIPT# = "cr11277_vb22935monatl.sql"
+
+cat << __EOF__  > &RUNDIR#/&ORASCRIPT#
+whenever sqlerror exit 8 rollback
+set pagesize 100
+set linesize 350
+
+SELECT *
+FROM TBBVTR_DARL DARL
+WHERE DARL.WIRKBIS =99991231
+AND NOT EXISTS (SELECT WIRKBIS FROM TBBVTR_LV LV
+WHERE DARL.VTR_NR = LV.VTR_NR
+AND LV.WIRKAB < LV.WIRKBIS
+AND LV.WIRKBIS > to_number(to_char(trunc(sysdate,'MM'),'YYYYMMDD')))
+ORDER BY MANDANT,VTR_NR,DARL_NR;
+
+select distinct vt.mandant, vt.vtr_nr, tgen.v_end, tgen.ren_beg, tgen.prod_t_skz, lv.prod_skz
+from tbbvtr_t vt inner join tbbvtr_t_gen tgen on vt.mandant = tgen.mandant and vt.vtr_t_id = tgen.vtr_t_id inner join tbbvtr_lv lv on lv.mandant = vt.mandant
+     and lv.vtr_nr = vt.vtr_nr
+where tgen.wirkab < tgen.wirkbis
+  and tgen.wirkbis = (select max(wirkbis) from tbbvtr_t_gen tgen1 where tgen.mandant = tgen1.mandant and tgen.vtr_t_id = tgen1.vtr_t_id)
+  and lv.wirkab < lv.wirkbis
+  and lv.wirkbis = (select max(wirkbis) from tbbvtr_lv lv1 where lv.mandant = lv1.mandant and lv.vtr_nr = lv1.vtr_nr)
+  and vt.vtr_nr in (SELECT vtr_nr
+                    FROM TBBVTR_DARL DARL
+                    WHERE DARL.WIRKBIS =99991231
+                    AND NOT EXISTS (SELECT WIRKBIS FROM TBBVTR_LV LV
+                    WHERE DARL.VTR_NR = LV.VTR_NR
+                    AND LV.WIRKAB < LV.WIRKBIS
+                    AND LV.WIRKBIS > to_number(to_char(trunc(sysdate,'MM'),'YYYYMMDD')))
+                    )
+order by vt.mandant,vt.vtr_nr;
+__EOF__
+
+! SQL-Script aufrufen
+:INC JOBI.SQL
+
+!Returncode setzen
+exit $rc
+]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH6_BATCH</agent>
+         <login>LOGIN.BBSBATCH</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

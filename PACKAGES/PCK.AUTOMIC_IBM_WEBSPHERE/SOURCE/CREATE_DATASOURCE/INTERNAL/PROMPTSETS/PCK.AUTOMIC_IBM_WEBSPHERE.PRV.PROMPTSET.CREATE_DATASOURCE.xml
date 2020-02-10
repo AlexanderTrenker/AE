@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.PROMPTSET.CREATE_DATASOURCE</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1800052290</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="934" icon="PRPT" id="PRPTS" left="0" top="0" width="1005"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Parameters"><properties><entry name="text">Parameters</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>11</line_number>
+         <name>UC4RB_WAS_AUTH_ALIAS#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_AUTH_ALIASs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Authentication Alias" tooltip="The JAAS Authentication Alias which holds the login information for the datasource." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Authentication Alias</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_AUTH_ALIASs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The JAAS Authentication Alias which holds the login information for the datasource.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>14</line_number>
+         <name>UC4RB_WAS_CACHE_SIZE#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_CACHE_SIZEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Statement Cache Size" tooltip="Number of Statements the Datasource will cache before sending it to the database. If no value is provided, it will be set to 10." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Statement Cache Size</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_CACHE_SIZEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Number of Statements the Datasource will cache before sending it to the database. If no value is provided, it will be set to 10.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>UC4RB_WAS_CLUSTER_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_CLUSTER_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Cluster" tooltip="Name of the cluster for the datasource.  Required if scope = &apos;cluster&apos;." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Cluster</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_CLUSTER_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Name of the cluster for the datasource.  Required if scope = &apos;cluster&apos;.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>13</line_number>
+         <name>UC4RB_WAS_CMP#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</reference>
+         <reference_type>VARA</reference_type>
+         <value>Yes</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_CMPs.00" nl="1" quotes="" text="Container Managed Persistence (CMP)" tooltip="Defines if Container Managed Persistence should be used." required="0">
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</entry>
+            <entry name="text">Container Managed Persistence (CMP)</entry>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_CMPs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">Defines if Container Managed Persistence should be used.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+         </properties>
+      </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>19</line_number>
+         <name>UC4RB_WAS_DB_DRIVER_TYPE#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_DB_DRIVER_TYPEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Datasource Driver Type" tooltip="Driver Type required for DB2 and Sybase databases" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Datasource Driver Type</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_DB_DRIVER_TYPEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Driver Type required for DB2 and Sybase databases</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>17</line_number>
+         <name>UC4RB_WAS_DB_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_DB_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Datasource Databasename" tooltip="Name of the database." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Datasource Databasename</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_DB_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Name of the database.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>16</line_number>
+         <name>UC4RB_WAS_DB_PORT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_DB_PORTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Datasource Port" tooltip="Database server port" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Datasource Port</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_DB_PORTs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Database server port</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>10</line_number>
+         <name>UC4RB_WAS_DB_TYPE#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.DB_TYPE</reference>
+         <reference_type>VARA</reference_type>
+         <value>Oracle</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_WAS_DB_TYPEs.00" nl="1" quotes="" strict="1" text="DB Type" tooltip="Type of the database." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.DB_TYPE</entry>
+            <entry name="text">DB Type</entry>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_DB_TYPEs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">Type of the database.</entry>
+            <entry name="customfield"/>
+            <entry name="dynamic">0</entry>
+            <entry name="modifiable">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>18</line_number>
+         <name>UC4RB_WAS_DB_URL#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_DB_URLs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Datasource URL" tooltip="Connection URL for the datasource" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Datasource URL</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_DB_URLs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Connection URL for the datasource</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>7</line_number>
+         <name>UC4RB_WAS_DESCRIPTION#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_DESCRIPTIONs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Datasource Description" tooltip="Description of the Datasource. If no value is provided, the description will be set to: &quot;JDBC Datasource&quot;" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Datasource Description</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_DESCRIPTIONs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Description of the Datasource. If no value is provided, the description will be set to: &quot;JDBC Datasource&quot;</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>22</line_number>
+         <name>UC4RB_WAS_FAIL#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO</reference>
+         <reference_type>VARA</reference_type>
+         <value>YES</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_FAILs.00" nl="1" quotes="" text="Fail if Existing" tooltip="Yes = If a datasource with the same name exists, job will fail. Options: Yes/No" required="0">
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry>
+            <entry name="text">Fail if Existing</entry>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_FAILs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">Yes = If a datasource with the same name exists, job will fail. Options: Yes/No</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+         </properties>
+      </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>9</line_number>
+         <name>UC4RB_WAS_HELPER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_HELPERs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" separator=";" showaspassword="0" text="Helper Class" tooltip="The custom data source helper class which extends the default data source helper provided by IBM." upper="0" required="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Helper Class</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_HELPERs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The custom data source helper class which extends the default data source helper provided by IBM.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>21</line_number>
+         <name>UC4RB_WAS_IFX_HOST#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_IFX_HOSTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Informix ifxIFXHOST" tooltip="IFXHOST property for Informix databases" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Informix ifxIFXHOST</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_IFX_HOSTs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">IFXHOST property for Informix databases</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>20</line_number>
+         <name>UC4RB_WAS_IFX_LOCK_MODE#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_IFX_LOCK_MODEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Informix Lock Mode Wait" tooltip="Integer value required for Informix databases" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Informix Lock Mode Wait</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_IFX_LOCK_MODEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Integer value required for Informix databases</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>8</line_number>
+         <name>UC4RB_WAS_JDBC_PROVIDER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_JDBC_PROVIDERs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="JDBC Provider" tooltip="The name of the JDBC Provider for the datasource." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">JDBC Provider</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_JDBC_PROVIDERs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The name of the JDBC Provider for the datasource.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>UC4RB_WAS_JNDI_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_JNDI_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Datasource JNDI Name" tooltip="The JNDI name of the datasource" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Datasource JNDI Name</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_JNDI_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The JNDI name of the datasource</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>UC4RB_WAS_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Data Source Name" tooltip="The name of the datasource" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Data Source Name</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The name of the datasource</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>UC4RB_WAS_NODE_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_NODE_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Node" tooltip="The name of the node for the datasource.  Required if scope = &apos;node&apos; or &apos;server&apos;." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Node</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_NODE_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The name of the node for the datasource.  Required if scope = &apos;node&apos; or &apos;server&apos;.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>UC4RB_WAS_SCOPE#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.SCOPE</reference>
+         <reference_type>VARA</reference_type>
+         <value>cell</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_WAS_SCOPEs.00" nl="1" quotes="" strict="1" text="Scope" tooltip="The scope of the datasource." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.SCOPE</entry>
+            <entry name="text">Scope</entry>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_SCOPEs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">The scope of the datasource.</entry>
+            <entry name="customfield"/>
+            <entry name="dynamic">0</entry>
+            <entry name="modifiable">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>UC4RB_WAS_SERVER_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_SERVER_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Server" tooltip="The name of the server for the datasource.  Required if scope = &apos;server&apos;." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Server</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_SERVER_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The name of the server for the datasource.  Required if scope = &apos;server&apos;.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>15</line_number>
+         <name>UC4RB_WAS_SERVERNAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_SERVERNAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Datasource Servername" tooltip="Database server name" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Datasource Servername</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_SERVERNAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Database server name</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>12</line_number>
+         <name>UC4RB_WAS_XA_AUTH_ALIAS#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_XA_AUTH_ALIASs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="XA Recovery Authentication Alias" tooltip="The JAAS Authentication Alias which holds the login information for XA Recovery." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">XA Recovery Authentication Alias</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_XA_AUTH_ALIASs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The JAAS Authentication Alias which holds the login information for XA Recovery.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+   </elements>
+</prpt>

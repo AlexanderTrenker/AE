@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>FLV-Vorausschaetzung</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>8494</ert>
+         <workflow_children>12</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBP.BBS.FLVVORAUSSCHAETZUNG</name>
+         <type>JOBP</type>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>FLV-Vorausschaetzung</description>
+         <versioning_id>-93143886</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_WebConfig><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+<!DOCTYPE Content [
+<!ELEMENT Content ( #PCDATA | PARAMETER )* >
+<!ELEMENT PARAMETER ( #PCDATA | UC4_DEPLOYMENT_TEST | VALUTA | MANDANTEN | AB_VTR_NR | BIS_VTR_NR | LIST_VTR_FONDS_ANTEILE | TRACE | RUN_P5D | RUN_PG1 | RUN_PG2 | RUN_PG3 )* >
+<!ATTLIST LIST_VTR_FONDS_ANTEILE BESCHREIBUNG CDATA "null" >
+<!ATTLIST LIST_VTR_FONDS_ANTEILE PLAUSI CDATA "null" >
+<!ATTLIST LIST_VTR_FONDS_ANTEILE WERT CDATA "null" >
+<!ATTLIST LIST_VTR_FONDS_ANTEILE SEPPL CDATA "null" >
+<!ATTLIST TRACE BESCHREIBUNG CDATA "null" >
+<!ATTLIST TRACE PLAUSI CDATA "null" >
+<!ATTLIST TRACE WERT CDATA "null" >
+<!ATTLIST TRACE SEPPL CDATA "null" >
+<!ATTLIST UC4_DEPLOYMENT_TEST BESCHREIBUNG CDATA "null" >
+<!ATTLIST UC4_DEPLOYMENT_TEST PLAUSI CDATA "null" >
+<!ATTLIST UC4_DEPLOYMENT_TEST WERT CDATA "null" >
+<!ATTLIST UC4_DEPLOYMENT_TEST SEPPL CDATA "null" >
+<!ATTLIST RUN_PG1 BESCHREIBUNG CDATA "null" >
+<!ATTLIST RUN_PG1 PLAUSI CDATA "null" >
+<!ATTLIST RUN_PG1 WERT CDATA "null" >
+<!ATTLIST RUN_PG1 SEPPL CDATA "null" >
+<!ATTLIST RUN_PG2 BESCHREIBUNG CDATA "null" >
+<!ATTLIST RUN_PG2 PLAUSI CDATA "null" >
+<!ATTLIST RUN_PG2 WERT CDATA "null" >
+<!ATTLIST RUN_PG2 SEPPL CDATA "null" >
+<!ATTLIST AB_VTR_NR BESCHREIBUNG CDATA "null" >
+<!ATTLIST AB_VTR_NR PLAUSI CDATA "null" >
+<!ATTLIST AB_VTR_NR WERT CDATA "null" >
+<!ATTLIST AB_VTR_NR SEPPL CDATA "null" >
+<!ATTLIST BIS_VTR_NR BESCHREIBUNG CDATA "null" >
+<!ATTLIST BIS_VTR_NR PLAUSI CDATA "null" >
+<!ATTLIST BIS_VTR_NR WERT CDATA "null" >
+<!ATTLIST BIS_VTR_NR SEPPL CDATA "null" >
+<!ATTLIST RUN_P5D BESCHREIBUNG CDATA "null" >
+<!ATTLIST RUN_P5D PLAUSI CDATA "null" >
+<!ATTLIST RUN_P5D WERT CDATA "null" >
+<!ATTLIST RUN_P5D SEPPL CDATA "null" >
+<!ATTLIST VALUTA BESCHREIBUNG CDATA "null" >
+<!ATTLIST VALUTA PLAUSI CDATA "null" >
+<!ATTLIST VALUTA WERT CDATA "null" >
+<!ATTLIST VALUTA SEPPL CDATA "null" >
+<!ATTLIST RUN_PG3 BESCHREIBUNG CDATA "null" >
+<!ATTLIST RUN_PG3 PLAUSI CDATA "null" >
+<!ATTLIST RUN_PG3 WERT CDATA "null" >
+<!ATTLIST RUN_PG3 SEPPL CDATA "null" >
+<!ATTLIST MANDANTEN BESCHREIBUNG CDATA "null" >
+<!ATTLIST MANDANTEN PLAUSI CDATA "null" >
+<!ATTLIST MANDANTEN WERT CDATA "null" >
+<!ATTLIST MANDANTEN SEPPL CDATA "null" >
+]>
+<Content>
+<PARAMETER>
+<UC4_DEPLOYMENT_TEST BESCHREIBUNG="ALLGEMEIN: UC4 Deployment Test" PLAUSI="JN" SEPPL="WIE" WERT="N"/>
+<VALUTA BESCHREIBUNG="Erster des Folgemonats (Schaetzdatum)" PLAUSI="JJJJMMTT" SEPPL="EIWP" WERT=""/>
+<MANDANTEN BESCHREIBUNG="" PLAUSI="01,02,20,21,54" SEPPL="EIWP" WERT="01,02,54"/>
+<AB_VTR_NR BESCHREIBUNG="" PLAUSI="NNNN" SEPPL="EIWP" WERT=""/>
+<BIS_VTR_NR BESCHREIBUNG="" PLAUSI="NNNN" SEPPL="EIWP" WERT=""/>
+<LIST_VTR_FONDS_ANTEILE BESCHREIBUNG="Vertragsbezogene Ausgabe für Test" PLAUSI="J/N" SEPPL="EIWP" WERT="N"/>
+<TRACE BESCHREIBUNG="Ausführliches Logfile" PLAUSI="J/N" SEPPL="EIWP" WERT="N"/>
+<RUN_P5D BESCHREIBUNG="" PLAUSI="J/N" SEPPL="E" WERT="J"/>
+<RUN_PG1 BESCHREIBUNG="" PLAUSI="J/N" SEPPL="E" WERT="J"/>
+<RUN_PG2 BESCHREIBUNG="" PLAUSI="J/N" SEPPL="E" WERT="J"/>
+<RUN_PG3 BESCHREIBUNG="" PLAUSI="J/N" SEPPL="E" WERT="J"/>
+</PARAMETER>
+</Content>
+]]></_WebConfig>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! BBS Standart-Include zum setzen von Variablen für aufgerufene Jobs
+:INC JOBI.BBS.JOBPDEFAULTS
+!
+!**********GeneratedText, Do Not Change**********
+:SET &pttyp# = SYS_ACT_PTTYP()
+!Eintragen der READ Befehle
+:BEGINREAD
+:IF &pttyp# = "D"
+:  PRINT "", "Bei Start via GUI wird die Eingabe der Startzeit unterdrückt"
+:ELSE
+:  READ &START#,,"START [JJJJ-MM-TT HH:MM:SS]",'',K
+:ENDIF
+:READ &UC4_DEPLOYMENT_TEST#,,"UC4_DEPLOYMENT_TEST [JN]",'N',K
+:READ &VALUTA#,,"VALUTA [JJJJMMTT]",'',K
+:READ &MANDANTEN#,,"MANDANTEN [01,02,20,21,54]",'01,02,54',K
+:READ &AB_VTR_NR#,,"AB_VTR_NR [NNNN]",'',K
+:READ &BIS_VTR_NR#,,"BIS_VTR_NR [NNNN]",'',K
+:READ &LIST_VTR_FONDS_ANTEILE#,,"LIST_VTR_FONDS_ANTEILE [J/N]",'N',K
+:READ &TRACE#,,"TRACE [J/N]",'N',K
+:READ &RUN_P5D#,,"RUN_P5D [J/N]",'J',K
+:READ &RUN_PG1#,,"RUN_PG1 [J/N]",'J',K
+:READ &RUN_PG2#,,"RUN_PG2 [J/N]",'J',K
+:READ &RUN_PG3#,,"RUN_PG3 [J/N]",'J',K
+:ENDREAD
+
+!Eintragen der PSET Befehle
+:PSET &START# = &START#
+:PSET &UC4_DEPLOYMENT_TEST# = &UC4_DEPLOYMENT_TEST#
+:PSET &VALUTA# = &VALUTA#
+:PSET &MANDANTEN# = &MANDANTEN#
+:PSET &AB_VTR_NR# = &AB_VTR_NR#
+:PSET &BIS_VTR_NR# = &BIS_VTR_NR#
+:PSET &LIST_VTR_FONDS_ANTEILE# = &LIST_VTR_FONDS_ANTEILE#
+:PSET &TRACE# = &TRACE#
+:PSET &RUN_P5D# = &RUN_P5D#
+:PSET &RUN_PG1# = &RUN_PG1#
+:PSET &RUN_PG2# = &RUN_PG2#
+:PSET &RUN_PG3# = &RUN_PG3#
+!**************End of GeneratedText**************
+:PSET &WIRKAB# = FIRST_OF_PERIOD(&DATUM_AM#, "MM", "JJJJMMTT")
+
+:IF &VALUTA# = ""
+:  SET &VALUTA# = ADD_PERIOD(&WIRKAB#, "MM:1", "JJJJMMTT")
+:ENDIF
+
+:PSET &OUTFILE# = "&WORKDIR#/outf01.out"
+
+]]></process>
+      </row>
+   </scripts>
+   <workflow_attributes>
+      <row>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.BEGINWORKFLOW</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>1</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVVORAUSSCHAETZUNG_FLVNPG1</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVVORAUSSCHAETZUNG_COGNOSGEWVTR</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>5</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVVORAUSSCHAETZUNG_COGNOSGEWSUM</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>1</column>
+         <line_number>6</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVVORAUSSCHAETZUNG_FLVNPG2</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>2</column>
+         <line_number>7</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVVORAUSSCHAETZUNG_FLVNPG3</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>8</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVVORAUSSCHAETZUNG_COGNOSANL</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>4</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>9</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVVORAUSSCHAETZUNG_BBSCHARGER</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>3</column>
+         <line_number>10</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVVORAUSSCHAETZUNG_NB41PP5D</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>2</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <rollback_enabled>1</rollback_enabled>
+         <row>5</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>11</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FINISHWORKFLOW</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>5</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>12</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>6</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>5</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>4</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>6</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>5</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>7</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>6</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>8</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>7</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>9</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>7</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>10</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>8</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>10</workflow_line_number>
+         <line_number>2</line_number>
+         <predecessor_line_number>9</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>11</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>10</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>12</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>11</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <conditions>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>3</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>6</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>6</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>6</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>6</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>6</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>7</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>7</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>7</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>7</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>7</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>10</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>10</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>10</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>10</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>10</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+   </conditions>
+   <condition_values>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>3</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;RUN_PG1#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>3</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>=</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>3</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>J</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>3</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Task deactivated!</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>6</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;RUN_PG2#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>6</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>=</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>6</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>J</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>6</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Task deactivated!</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>7</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;RUN_PG3#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>7</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>=</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>7</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>J</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>7</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Task deactivated!</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>10</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;RUN_P5D#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>10</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>=</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>10</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>J</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>10</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Task deactivated!</value>
+         <variable>XC_P01</variable>
+      </row>
+   </condition_values>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

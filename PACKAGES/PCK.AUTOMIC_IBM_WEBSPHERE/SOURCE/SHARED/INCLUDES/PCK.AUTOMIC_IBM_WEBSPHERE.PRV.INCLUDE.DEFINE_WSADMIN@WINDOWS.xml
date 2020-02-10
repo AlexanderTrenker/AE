@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.DEFINE_WSADMIN@WINDOWS</name>
+         <type>JOBI</type>
+         <versioning_id>1521188798</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:DEFINE &WSADMIN#, string
+:SET &UC4RB_CONVERTED_STRING# = "&UC4_WSADMIN_DIR_PATH#\wsadmin.bat"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &WSADMIN# = &UC4RB_CONVERTED_STRING#
+:SET &UC4RB_CONVERTED_STRING# = &UC4_WSADMIN_DIR_PATH#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &UC4_WSADMIN_DIR_PATH# = &UC4RB_CONVERTED_STRING#
+:PRINT &WSADMIN#]]></process>
+      </row>
+   </scripts>
+</jobi>

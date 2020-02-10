@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ENDED_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <max_retcode_alarm>ORDS_NOTIFY</max_retcode_alarm>
+         <mrt>300</mrt>
+         <mrt_alarm>ORDS_ALERT_NOTIFY</mrt_alarm>
+         <mrt_method>513</mrt_method>
+         <mrt_time>000000</mrt_time>
+         <name>NDSORD.01</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>750190992</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[cd /home/tdbatchgomf/prod/scripts
+ksh mf_1AM_dly_replace_original_params.ksh
+ksh mf_dly_batch_gen.ksh
+]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>TRUEVALUECHI01-1-17</agent>
+         <login>LOGIN_PRD</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-ksh</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

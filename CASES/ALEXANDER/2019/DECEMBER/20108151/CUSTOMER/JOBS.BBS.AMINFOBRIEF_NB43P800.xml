@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ABLAUFMANAGEMENT</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>122</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_allowed_retcode>2</max_allowed_retcode>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.AMINFOBRIEF_NB43P800</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>4 ABLAUFMANAGEMENT -&gt; INFOBRIEF -&gt; NB43P800 (BEARBEITER)</description>
+         <versioning_id>-1503952402</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! ---------------------------------------------
+! Variable &ABLAUFMGT# wurde im Startscrript des Selektierers belegt!
+:SET &BEA_BESCHREIBUNG# = 'Ablaufmgt_Infobrief_Bearb'
+:SET &DEFAULT# = 'J'
+:SET &PROGRAMMTYPAUSL# = '482'
+:SET &BRIEFNUMMER# = '64'
+:SET &PROGRAM# = '&PROG_LC#'
+:SET &INIFILE# = '&PROGRAM#.ini'
+:SET &OPTIONS# = '&INIFILE#'
+:SET &LOGFILE# = '&LOGDIR#/&BEA_BESCHREIBUNG#.log'
+:SET &OUTFILE# = '&WORKDIR#/&PROGRAM#_&TS#.out'
+:SET &INPUTFILE# = '&WORKDIR#/nb42p800_&TS#.out'
+:INC JOBI.BS20_EXPORT_LOGDIR
+! ---------------------------------------------
+cat << __EOF__ |tee &RUNDIR#/&INIFILE#
+ANZAHL = &ANZAHL#
+TRACE = &TRACE#
+PROT_VTR_FILTER = &PROT_VTR_FILTER_BEA#
+PROT_MSG_TYPE = &PROT_MSG_TYPE_BEA#
+BESCHREIBUNG = &BEA_BESCHREIBUNG#
+BEARBEITER = &PROGRAMMTYPAUSL#
+LOGFILE = &LOGFILE#
+OUTFILE = &OUTFILE#
+INPUTFILE = &INPUTFILE#
+[BEARBEITER]
+BRIEFE = &BRIEFE_CTV#
+BRIEFNUMMER = &BRIEFNUMMER#
+DEFAULT = &DEFAULT#
+__EOF__
+! ---------------------------------------------
+!starten Anwendung
+:INC JOBI.STANDARDJOB
+! ---------------------------------------------
+]]></process>
+      </row>
+      <row>
+         <post_process>:INC JOBI.SHELL_POST</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH6_BATCH</agent>
+         <login>LOGIN.BBSBATCH</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

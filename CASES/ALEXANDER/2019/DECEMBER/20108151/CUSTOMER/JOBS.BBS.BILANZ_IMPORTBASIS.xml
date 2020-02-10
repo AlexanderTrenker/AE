@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>BILANZ</archive_key2>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>11296</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.BILANZ_IMPORTBASIS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>BILANZ -&gt; IMPORT BASIS [ZIEL_DB]</description>
+         <versioning_id>-1654481722</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Details><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE Change-Log [
+<!ELEMENT Change-Log ( #PCDATA ) >
+
+<!ELEMENT Content ( #PCDATA | Change-Log | Externe_Links | Restart-Info )* >
+<!ATTLIST Content Ersteller CDATA "null" >
+<!ATTLIST Content Erstellungsdatum CDATA "null" >
+
+<!ELEMENT Externe_Links ( #PCDATA ) >
+
+<!ELEMENT Restart-Info ( #PCDATA ) >
+<!ATTLIST Restart-Info Priorität ( 0 | 1 | 2 | 3 ) "0" >
+<!ATTLIST Restart-Info Restart-erlaubt ( ja | nein ) "ja" >
+
+]>
+<Content Ersteller="BLxxxxx/EXxxxxx" Erstellungsdatum="xx.xx.xxxx">Freier Dokumentationstext
+
+<Change-Log>Datum		Wer		Warum
+
+xx.xx.xxxx	BLxxxxx	Änderungsgrund
+			EXxxxxx
+</Change-Log>
+<Externe_Links>ACHTUNG: die Links dürfen keine Leerzeichen enthalten!!!!
+z.B.	file:c:\temp\bla.txt
+		http://www.aaa.com
+---------------------------------------------------------
+
+</Externe_Links>
+<Restart-Info Priorität="2" Restart-erlaubt="ja">Priorität=0:	unternehmenskritisch, muss sofort behoben werden
+				(z.B. monetäre Schäden)
+Priorität=1:	kritisch, es muss sofort zu Beginn der
+				Arbeitszeit von System Management mit der
+				Fehlerbehebung oder Workaround begonnen werden
+				(z.B. Fehlinformationen an Kunden)
+Priorität=2:	mittlere Auswirkungen, mit der Fehlerbehebung
+				oder Workaround muss am gleichen Tag begonnen
+				werden
+Priorität=3:	geringe Auswirkungen (muss innerhalb einer Woche
+				behoben werden)
+</Restart-Info>
+
+</Content>
+]]></_Details>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! ---------------------
+! Parameter definieren:
+! ---------------------
+:SET &ORADB# = "DLLW3&IDT#"
+:SET &ORAUSER# = "SPIEGELAPP"
+:SET &PARAFILE# = "&BATCH#_&ORADB#.PAR"
+:SET &DUMPFILE# = "DISDA_EXPORTBASIS_DLLW1&IDT#.DMP"
+:SET &IMPSCRIPT# = "&BATCH#_DLLW3&IDT#"
+:SET &LOGFILE# = "&LOGDIR#/&IMPSCRIPT#.log"
+! --------------------
+:INC JOBI.DBTOOLS_CREATEFOLDER
+:INC JOBI.GETPW_DBTOOLS
+! -----------------------------
+! Parameterdatei zusammenbauen:
+! -----------------------------
+cat << __EOF__ | tee &PARAFILE#
+SCHEMAS=BBS
+DUMPFILE=&DUMPFILE#
+DIRECTORY=&DIRECTORY#
+LOGFILE=&DIRECTORY#_LOG:&IMPSCRIPT#_&TIMESTAMP_AM#.log
+CONTENT=DATA_ONLY
+PARALLEL=4
+TABLE_EXISTS_ACTION=TRUNCATE
+__EOF__
+! -------------------
+! Datenpumpe starten:
+! -------------------
+:INC JOBI.DBTOOLS_RUNIMPORT]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[:INC JOBI.DBTOOLS_FILESEND "MODUS"="COPY"
+:INC JOBI.SCANREPORT "RETURNWERT"="8"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.ORACLE</agent>
+         <login>LOGIN.UC4</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

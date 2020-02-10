@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.UTIL.TRANSPORT_FILES</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>-509187090</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>Move some MFT jobs</value1>
+         <value2>/opt/automic/transport//ucybdbun.0001149257.txt</value2>
+         <value3>2018-03-07 09:11:44</value3>
+         <value4>Training</value4>
+         <value5>2018-03-07 09:11:44 - Loaded by RCOUCH1 (0001153184) into System AUTODEV:100 </value5>
+         <validity_range>FREI</validity_range>
+         <key>0001153184_E:Training_S:AUTODEV_C:100</key>
+      </row>
+   </static_values>
+</vara>

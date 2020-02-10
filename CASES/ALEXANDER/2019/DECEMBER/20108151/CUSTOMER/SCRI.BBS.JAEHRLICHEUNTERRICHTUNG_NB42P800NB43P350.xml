@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>24342</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.JAEHRLICHEUNTERRICHTUNG_NB42P800NB43P350</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.CTV</queue>
+         <description>Startet Selektierer und Bearbeiter in Schleife (täglicher Abbruch)</description>
+         <versioning_id>1523462769</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &REPEAT_RC# = "4"
+:SET &RCMAX_NB43P350# = "&REPEAT_RC#"
+
+:WHILE &RCMAX_NB43P350# = "&REPEAT_RC#"
+!  Zeitstempel für aktuellen Lauf ermitteln
+:  SET  &CURRENTTIME# = SYS_TIME_PHYSICAL(HHMMSS)
+:  SET  &CURRENTDATE# = SYS_DATE_PHYSICAL(YYYYMMDD)
+:  RSET &TS# = "&CURRENTDATE#&CURRENTTIME#"
+
+!  Selektierer starten
+:  IF &RUN_SELEKTIERER# = "J"
+:    SET &RUN_OBJECT# = "JOBS.BBS.JAEHRLICHEUNTERRICHTUNG_NB42P800"
+:    INC JOBI.RUN_OBJECT_PASS_VALUES_WAIT
+:  ENDIF
+
+!  Bearbeiter parallel starten und Gruppe aktivieren
+:  IF &RUN_BEARBEITER# = "J"
+:    SET &RUN_OBJECT# = "JOBS.BBS.JAEHRLICHEUNTERRICHTUNG_NB43P350"
+:    INC JOBI.RUN_OBJECT_PARALLEL
+:  ENDIF
+:  SET &AKTJOB# = ACTIVATE_UC_OBJECT(JOBG.BBS.JAEHRLICHEUNTERRICHTUNG_NB43P350,WAIT,,,,PASS_VALUES,QUEUE.CTV,,)
+:  IF &AKTJOB# = 0
+:     STOP NOMSG, 50, "Error in starting NB43P350 group."
+:  ENDIF
+
+!  Bearbeiter Output zusammen fassen
+:  IF &RUN_BEARBEITER# = "J"
+:    SET &AKTJOB# = ACTIVATE_UC_OBJECT(JOBS.BBS.JAEHRLICHEUNTERRICHTUNG_NB43P350MERGE,WAIT,,,,PASS_VALUES,QUEUE.CTV,,)
+:    IF &AKTJOB# = 0
+:       STOP NOMSG, 50, "Error in starting NB43P350MERGE."
+:    ENDIF
+:  ENDIF
+
+!  Ausloeserstatus ermitteln
+:  SET &AKTJOB# = ACTIVATE_UC_OBJECT(JOBS.BBS.JAEHRLICHEUNTERRICHTUNG_AUSLOESERSTATUS,WAIT,,,,PASS_VALUES,QUEUE.CTV,,)
+:  IF &AKTJOB# = 0
+:     STOP NOMSG, 50, "Error in starting AUSLOESERSTATUS."
+:  ENDIF
+
+!  Wenn Bearbeiter mit RC=4 abgebrochen wurde, bis zur nächsten Startzeit warten
+:  RSET &RCMAX_NB43P350# = GET_VAR(VARA.BATCH.RCMAX_NB43P350,"NB43P350")
+:  PUT_VAR VARA.BATCH.RCMAX_NB43P350,"NB43P350","0"
+
+!  Versand Infomail
+:  SET &LOGFILES#    = "log/&APPL#/&FOLDER#"
+:  SET &BATCHNAME#   = "&BATCH#"
+:  SWITCH "Y"
+:    CASE &RCMAX_NB43P350# < 4
+:      SET &MESSAGE#     = "Bearbeitung JU Briefe beendet"
+:      SET &SEVERITY#    = "1"
+:    CASE &RCMAX_NB43P350# = 4
+:      SET &MESSAGE#     = "Bearbeitung JU Briefe planmäßig bis &PAUSE_ENDE# unterbrochen."
+:      SET &DESCRIPTION# = "Aktueller Auslöserstatus und Fehlerlisten liegen bereit."
+:      SET &SEVERITY#    = "2"
+:    OTHER
+:      SET &MESSAGE#     = "Bearbeitung JU Briefe abgebrochen"
+:      SET &SEVERITY#    = "3"
+:  ENDSWITCH
+:  INC JOBI.SENDMAIL
+
+:  IF &RCMAX_NB43P350# = "&REPEAT_RC#"
+:    SET  &CURRENTTIME# = SYS_TIME_PHYSICAL("HH:MM:SS")
+:    SET  &WAITTIME# = SUB_TIME("HH:MM:SS;&PAUSE_ENDE#", "HH:MM:SS;&CURRENTTIME#", "SS")
+:    RSET &WAITTIME# = FORMAT(&WAITTIME#)
+:    PRINT "RC=&RCMAX_NB43P350# > wait until restart time &PAUSE_ENDE# is reached"
+:    PRINT "Wait for &WAITTIME# seconds"
+:    SET &AKTJOB# = ACTIVATE_UC_OBJECT(SCRI.BBS.JAEHRLICHEUNTERRICHTUNG_WAIT,WAIT,,,,PASS_VALUES,QUEUE.CTV,,)
+:    IF &AKTJOB# = 0
+:       STOP NOMSG, 50, "Error in starting WAIT script."
+:    ENDIF
+:  ENDIF
+:  IF &RCMAX_NB43P350# > "&REPEAT_RC#"
+:    STOP MSG, 50, "RC für Bearbeiter > &REPEAT_RC#."
+:  ENDIF
+!  Für Test, damit man nicht nen ganzen Tag warten muß
+!:  SET &PAUSE_ENDE# = ADD_TIME("HH:MM:SS;&PAUSE_ENDE#", "MM;05", "HH:MM:SS")
+:ENDWHILE]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

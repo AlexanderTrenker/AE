@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.SQL.JETS.COSTAR.JETS.VALIDATION.ALL.NOTES</name>
+         <type>VARA</type>
+         <sub_type>SQL</sub_type>
+         <versioning_id>-1547189292</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <connection>CONN.SQL.COSTAR.DSA</connection>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>SQL</type>
+         <sql><![CDATA[SELECT REPLACE(NOTES,'@@@@',CHR(10)) from (
+SELECT LISTAGG(NOTES,'@@@@')
+WITHIN GROUP ( ORDER BY COL1) AS NOTES
+FROM (select TO_CLOB(company_code||' -'||currency_code||' - '||scenario_type)||' <br> ' NOTES,COL1 from 
+(select distinct company_code,currency_code,scenario_type,3 as COL1
+from COSTAR_ERP_VALIDATION_REPORT where company_code not in (select distinct company_code
+from COSTAR_ERP_VALIDATION_REPORT where scenario_type='WARNING')
+UNION ALL
+select distinct company_code,currency_code,scenario_type,3 as COL1
+from COSTAR_ERP_VALIDATION_REPORT where scenario_type='WARNING'
+union
+select 'Company_code','Currency_code','Status',2  as COL1 from dual
+union
+select 'List of data processed for CCL',null,null,1  as COL1 from dual) order by COL1 ))]]></sql>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+</vara>

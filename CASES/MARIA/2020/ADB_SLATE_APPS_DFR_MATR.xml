@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>57</ert>
+         <platform>PS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>ADB_SLATE_APPS_DFR_MATR</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <time_zone>TZ.MST</time_zone>
+         <versioning_id>-297530733</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Date: 01/11/2019
+
+PS Navigation :Set Up SACR > System Administration > Utilities > File Parser > Run File Parser 
+
+AD/PROCESS_FLOWS/SLATE_MATR/UCB/
+Description: 
+
+Developer: Phillip Curry, Theresa Jordan
+
+Script used: 
+ 
+Calendar: 
+
+Triggered by:				Triggering message:
+
+Rerun Instructions: Email Phillip Curry amd Theresa Jordan
+
+Call job:   __ YES    _X_ NO   All jobs are call jobs unless otherwise noted.
+
+Criticality:
+
+Fixer: PS.CC
+
+Abend History:
+
+
+Change History:
+
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process>PS_RUN_PROCESS PROCESSNAME='SCCFP_PARSE',PROCESSTYPE='Application Engine',RUNCONTROLID='ADB_SLATE_APPS_DFR_MATR',RUNLOCATION='PSUNX',OUTDESTTYPE='DEFAULT',OUTDESTFORMAT='DEFAULT'</process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>PS</platform>
+         <agent>ICSPRD_PS</agent>
+         <login>LOGINS</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <ps_job_delete></ps_job_delete>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

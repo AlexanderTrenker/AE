@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.CHECK_REQUIRED.CREATE_DATASOURCE</name>
+         <type>JOBI</type>
+         <versioning_id>-1661798752</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &UC4_WSADMIN_DIR_PATH# = ""
+:  PRINT "MISSING INPUT PARAMETER"
+:  EXIT 1
+:ENDIF
+:IF &UC4RB_WAS_NAME# = ""
+:  PRINT "MISSING INPUT PARAMETER"
+:  EXIT 1
+:ENDIF
+:IF &UC4RB_WAS_JNDI_NAME# = ""
+:  PRINT "MISSING INPUT PARAMETER"
+:  EXIT 1
+:ENDIF
+:IF &UC4RB_WAS_JDBC_PROVIDER# = ""
+:  PRINT "MISSING INPUT PARAMETER"
+:  EXIT 1
+:ENDIF
+:IF &UC4RB_WAS_AUTH_ALIAS# = ""
+:  PRINT "MISSING INPUT PARAMETER"
+:  EXIT 1
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

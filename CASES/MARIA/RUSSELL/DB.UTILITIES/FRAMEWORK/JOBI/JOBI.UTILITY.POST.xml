@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.UTILITY.POST</name>
+         <type>JOBI</type>
+         <versioning_id>1065174401</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:DEFINE &UTL_RC#, string
+:SET &UTL_RC# = GET_STATISTIC_DETAIL(,RETURN_CODE)
+! Run on success
+:IF &UTL_RC# = 0
+:  SET &TIME# = "&$PHYS_DATE_YYYY_MM_DD_d# &$PHYS_TIME_HH_MM_SS#"
+:  SET &XPORT_VARA# = GET_VAR(VARA.MAINTENANCE,TRANSPORT_VARA,1)
+
+!   Unload
+:  IF "&UTILITY#-&LOG_DB_ACTION#" = "ucybdbun-Y"
+:    PRINT &TRANSPORT#
+:    SET &ENVIRON_VARA# = GET_VAR(VARA.MAINTENANCE,ENVIRON_VARA,1)
+
+:    SET &ENVIRON# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,"S_ENVIRONMENT#")
+:    IF &ENVIRON# = ""
+:      SET &ENVIRON# = GET_VAR(VARA.SEC_SQLI.GET_ENVIRON_NAME)
+:    ENDIF
+
+:    IF &ENVIRON# <> ""
+:      SET &XPORT_KEY# = "&$RESTART_RUNID#_E:&ENVIRON#_S:&SYSTEM#_C:&CLIENT#"
+:      PRINT &XPORT_KEY#
+:      SET &DESC# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,"S_DESC#")
+:      IF &DESC# = ""
+:        SET &DESC# = "Unloaded standalone by &$USER# on &TIME#"
+:      ENDIF
+:      PUT_VAR &XPORT_VARA#,&XPORT_KEY#,&DESC#,&TRANSPORT#,"&TIME#",&ENVIRON#
+:      PUBLISH &XPORT_KEY#,S_XPORT_KEY#,"WORKFLOW"
+:    ENDIF
+:  ENDIF
+
+!   Load
+:  IF "&UTILITY#-&LOG_DB_ACTION#" = "ucybdbld-Y"
+:    SET &XPORT_KEY# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,"S_XPORT_KEY#")
+:    SET &CHANGE# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,"DB_CHANGE#")
+:    SET &ENVIRON# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,"T_ENVIRONMENT#")
+
+!    Auto determine environment if not set
+:    IF &ENVIRON# = ""
+:      SET &ENVIRON# = GET_VAR(VARA.SEC_SQLI.GET_ENVIRON_NAME)
+:    ENDIF
+
+:    IF &ENVIRON# <> ""
+!      If there was no transport key then this was loaded directly from a file.
+!      We need to generate a transport key and save the recors in the transport files VARA
+:      IF &XPORT_KEY# = ""
+:        SET &XPORT_KEY# = "&$RESTART_RUNID#_E:&ENVIRON#_S:&SYSTEM#_C:&CLIENT#"
+:        SET &DESC# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,"S_DESC#")
+:        SET &LOG# = ""
+
+!        Create a description if there was nothing available from the promptset
+:        IF &DESC# = ""
+:          SET &DESC# = "Loaded standalone by &$USER# on &TIME#"
+:        ENDIF
+
+!        Since we are creating a new transport key, check if there is a source environment
+!        variable set and use this value as the source.
+:        SET &S_ENVIRON# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,"S_ENVIRONMENT#")
+
+:        PUT_VAR &XPORT_VARA#,&XPORT_KEY#,&DESC#,&TRANSPORT#,"&TIME#",&S_ENVIRON#
+:      ELSE
+:        SET &LOG# = GET_VAR(&XPORT_VARA#,&XPORT_KEY#,5)
+:      ENDIF
+
+:      IF &CHANGE# <> ""
+:        SET &CHANGE# = ", DBChange: &CHANGE#"
+:      ENDIF
+
+:      SET &ENVS# = GET_VAR(&XPORT_VARA#,&XPORT_KEY#,4)
+:      IF &ENVS# <> ""
+:        SET &ENVS# = "&ENVS#,&ENVIRON#"
+:      ELSE
+:        SET &ENVS# = "&ENVIRON#"
+:      ENDIF
+
+!      Append to the log column if this was ann existing transport
+:      SET &LF# = UC_CRLF
+:      IF &LOG# = ""
+:        SET &LF# = ""
+:      ENDIF
+
+:      SET &LOG# = "&LOG#&LF#&TIME# - Loaded by &$USER# (&$RESTART_RUNID#) into System &SYSTEM#:&CLIENT#&CHANGE#"
+:      PUT_VAR_COL &XPORT_VARA#, &XPORT_KEY#, 5, &LOG#
+:      PUT_VAR_COL &XPORT_VARA#, &XPORT_KEY#, 4, &ENVS#
+:    ENDIF
+
+:  ENDIF
+
+
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

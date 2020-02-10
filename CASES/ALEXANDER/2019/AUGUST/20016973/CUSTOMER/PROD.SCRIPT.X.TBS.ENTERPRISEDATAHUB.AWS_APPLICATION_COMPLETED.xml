@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>INC000000614406</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt>120</mrt>
+         <mrt_alarm>SYSTEM.SCRIPT.X.UC4.X.OBJ_RUNNING_TOO_LONG</mrt_alarm>
+         <mrt_method>513</mrt_method>
+         <mrt_time>000000</mrt_time>
+         <name>PROD.SCRIPT.X.TBS.ENTERPRISEDATAHUB.AWS_APPLICATION_COMPLETED</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1691291135</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PROD.INCLUDE.X.TBS.ENTERPRISEDATAHUB.PIPELINE_SETTINGS
+
+:SET &SUBJECT       = " - AWS &APPLICATION# &ALLCAP_REGION# &MSG# Completed."
+:SET &MESSAGE1      = "&CRLF"
+:SET &MESSAGE2      = "&CRLF"
+:SET &MESSAGE3      = "This is an automated message - please do not reply to uc4@cme.com&CRLF"
+:SET &SENDTO        = SEND_MAIL('&TOLIST#','&CCLIST#','<&ENVIRONMENT#>&SUBJECT','&MESSAGE1&MESSAGE2&MESSAGE3')]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

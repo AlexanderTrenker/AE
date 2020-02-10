@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>DISDA</archive_key1>
+         <archive_key2>COGNOS</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.DISDA_AKSTATMONAT</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; AK_STATISTIK -&gt; COGNOS TRIGGER</description>
+         <versioning_id>1894851103</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! ------------------
+! Objekt definieren:
+! ------------------
+:SET &RUN_OBJECT# = "JOBS.BBS.DISDA_AKSTATMONAT"
+! ---------------------------------------
+! Bin ich am Anfang oder Ende des Monats?
+! ---------------------------------------
+:SET &HEUTE# = SYS_LDATE("JJJJ-MM-TT")
+:P ">>> HEUTE = &HEUTE#"
+:SET &FOP# = FIRST_OF_PERIOD("JJJJ-MM-TT:&HEUTE#", "MM", "JJJJ-MM-TT")
+:P " -> FOP=&FOP#"
+:SET &LOP# = LAST_OF_PERIOD("JJJJ-MM-TT:&HEUTE#", "MM", "JJJJ-MM-TT")
+:P " -> LOP=&LOP#"
+:SET &DIF_FOP# = DIFF_DATE("JJJJ-MM-TT:&HEUTE#", "JJJJ-MM-TT:&FOP#")
+:SET &DIF_FOP# = FORMAT(&DIF_FOP#)
+:P " -> DIF_FOP=&DIF_FOP#"
+:SET &DIF_LOP# = DIFF_DATE("JJJJ-MM-TT:&HEUTE#", "JJJJ-MM-TT:&LOP#")
+:SET &DIF_LOP# = FORMAT(&DIF_LOP#)
+:P " -> DIF_LOP=&DIF_LOP#"
+:IF &DIF_LOP# LE &DIF_FOP#
+! ---------------------------------------
+! In der zweiten Monatshaelfte:
+! ---------------------------------------
+! Starte die Aufgabe zum nächsten Ersten:
+! &START_TIME# [JJJJ-MM-TT 06:00:00]
+! ---------------------------------------
+: SET &START_TIME# = ADD_PERIOD("JJJJ-MM-TT:&HEUTE#", "MM:1", "JJJJ-MM-TT")
+: SET &START_TIME# = FIRST_OF_PERIOD("JJJJ-MM-TT:&START_TIME#", "MM", "JJJJ-MM-TT")
+: SET &START_TIME# = "&START_TIME# 06:00:00"
+: P " -> START_TIME = &START_TIME#"
+: INC JOBI.RUN_OBJECT_AT_TIME_PASS_VALUES
+:ELSE
+! -----------------------------
+! In der zweiten Monatshaelfte:
+! -----------------------------
+! Starte die Aufgabe sofort:
+! --------------------------
+: P " -> START_TIME = ASAP"
+: INC JOBI.RUN_OBJECT
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

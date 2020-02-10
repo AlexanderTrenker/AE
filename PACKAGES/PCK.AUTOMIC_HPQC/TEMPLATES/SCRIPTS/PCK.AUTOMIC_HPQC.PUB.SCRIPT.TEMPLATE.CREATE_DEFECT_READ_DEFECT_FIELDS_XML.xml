@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_HPQC.PUB.SCRIPT.TEMPLATE.CREATE_DEFECT_READ_DEFECT_FIELDS_XML</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Read required/optional fields xml files and store it into string variable</description>
+         <versioning_id>-496614800</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_HPQC.PRV.INCLUDE.READ_FILE UC4RB_HPQC_FILE_PATH = UC4RB_HPQC_FIELDS_XML_PATH
+
+:SET &UC4RB_FIELDS_XML_CONTENT# = &UC4RB_HPQC_FILE_CONTENT#
+:PUBLISH &UC4RB_FIELDS_XML_CONTENT#,,"TOP"
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queue>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>QUEUE.CTV.SERIENBRIEF</name>
+         <type>QUEUE</type>
+         <description>Für alle Batche die den Auslöser 1999 verwenden! - Max. parallel=1</description>
+         <priority>200</priority>
+         <versioning_id>-1537494110</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Verschiedene Batche schreiben Serienbriefe und nutzen dafür den gleichen Auslöser.
+Deshalb darf es nicht passieren, dass das Auslöserpflegetool eines Batches Auslöser löscht, während ein anderer Batch die gleichen Auslöser generiert oder selektiert.
+
+]]></Docu>
+      </row>
+   </documentation>
+   <queue_attributes>
+      <row>
+         <temp_max_slots>1</temp_max_slots>
+         <temp_priority>200</temp_priority>
+         <max_slots>1</max_slots>
+      </row>
+   </queue_attributes>
+</queue>

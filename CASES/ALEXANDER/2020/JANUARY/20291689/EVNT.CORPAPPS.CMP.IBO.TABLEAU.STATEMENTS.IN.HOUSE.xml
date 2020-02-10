@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>66</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>QgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_method>258</mrt_method>
+         <mrt_time>010005</mrt_time>
+         <name>EVNT.CORPAPPS.CMP.IBO.TABLEAU.STATEMENTS.IN.HOUSE</name>
+         <type>EVNT</type>
+         <inherit_object_variables>2</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>FT</sub_type>
+         <description>Activates JOBP.CORPAPPS.CMP.IBO.TABLEAU.STATEMENTS - BP controlled</description>
+         <versioning_id>163061696</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Links><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+<!DOCTYPE Content [
+<!ELEMENT Content ( #PCDATA | Support_Team | Submission_Method | MAGIC_Severity | Highest_Return_Code | Resolution_Instructions_for_ECC | Critical_at_Disaster_Recovery | Support_Teams_Comments )* >
+]>
+<Content>
+<Support_Team>CORPAPPS</Support_Team>
+<Submission_Method>SCHEDULED</Submission_Method>
+<MAGIC_Severity>4</MAGIC_Severity>
+<Highest_Return_Code>0</Highest_Return_Code>
+<Resolution_Instructions_for_ECC>LEAVE BLOCKED</Resolution_Instructions_for_ECC>
+<Critical_at_Disaster_Recovery>NO</Critical_at_Disaster_Recovery>
+<Support_Teams_Comments>NONE</Support_Teams_Comments>
+</Content>
+]]></_Links>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process>:send_msg ,,"File found."</process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <check_within>60</check_within>
+         <sub_type>PC</sub_type>
+         <sub_type2>FC</sub_type2>
+         <type>FT</type>
+         <platform>WINDOWS</platform>
+         <destination_agent>WIN01</destination_agent>
+         <destination_login>@LOGIN.ALL</destination_login>
+         <operator>E</operator>
+         <path>C:\TEMP\Run IBO Tableau Statements.txt</path>
+         <repeat_type>F</repeat_type>
+         <execution_type>S</execution_type>
+         <time_period>0001</time_period>
+         <unit>3</unit>
+         <check_value>1</check_value>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

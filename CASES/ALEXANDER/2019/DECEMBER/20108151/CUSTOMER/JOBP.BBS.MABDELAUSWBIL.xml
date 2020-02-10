@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>BBS</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>20</ert>
+         <workflow_children>7</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBP.BBS.MABDELAUSWBIL</name>
+         <type>JOBP</type>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Löschen Auswertung Bilanz</description>
+         <versioning_id>-123449276</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_WebConfig><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><!DOCTYPE Content [
+<!ELEMENT Content ( PARAMETER ) >
+
+<!ELEMENT MANDANTEN EMPTY >
+<!ATTLIST MANDANTEN BESCHREIBUNG CDATA "" >
+<!ATTLIST MANDANTEN PLAUSI CDATA "01,02,20,21,54" >
+<!ATTLIST MANDANTEN SEPPL CDATA "EIWP" >
+<!ATTLIST MANDANTEN WERT CDATA "01,02" >
+
+<!ELEMENT PARAMETER ( UC4_DEPLOYMENT_TEST, MANDANTEN, TRACE, PROT_VTR_FILTER_AUS, PROT_MSG_TYPE_AUS, PROT_VTR_FILTER_GEN, PROT_MSG_TYPE_GEN, PROT_VTR_FILTER_SEL, PROT_MSG_TYPE_SEL, PROT_VTR_FILTER_BEA, PROT_MSG_TYPE_BEA, RUN_AUSLOESER, RUN_GENERATOR, RUN_SELEKTIERER, RUN_BEARBEITER ) >
+
+<!ELEMENT PROT_MSG_TYPE_AUS EMPTY >
+<!ATTLIST PROT_MSG_TYPE_AUS BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_MSG_TYPE_AUS PLAUSI CDATA "INFO/WARN/ERROR/NONE" >
+<!ATTLIST PROT_MSG_TYPE_AUS SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_MSG_TYPE_AUS WERT CDATA "WARN" >
+
+<!ELEMENT PROT_MSG_TYPE_BEA EMPTY >
+<!ATTLIST PROT_MSG_TYPE_BEA BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_MSG_TYPE_BEA PLAUSI CDATA "INFO/WARN/ERROR/NONE" >
+<!ATTLIST PROT_MSG_TYPE_BEA SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_MSG_TYPE_BEA WERT CDATA "INFO" >
+
+<!ELEMENT PROT_MSG_TYPE_GEN EMPTY >
+<!ATTLIST PROT_MSG_TYPE_GEN BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_MSG_TYPE_GEN PLAUSI CDATA "INFO/WARN/ERROR/NONE" >
+<!ATTLIST PROT_MSG_TYPE_GEN SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_MSG_TYPE_GEN WERT CDATA "WARN" >
+
+<!ELEMENT PROT_MSG_TYPE_SEL EMPTY >
+<!ATTLIST PROT_MSG_TYPE_SEL BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_MSG_TYPE_SEL PLAUSI CDATA "INFO/WARN/ERROR/NONE" >
+<!ATTLIST PROT_MSG_TYPE_SEL SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_MSG_TYPE_SEL WERT CDATA "WARN" >
+
+<!ELEMENT PROT_VTR_FILTER_AUS EMPTY >
+<!ATTLIST PROT_VTR_FILTER_AUS BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_VTR_FILTER_AUS PLAUSI CDATA "OK/AUSSCHL/ERROR/NONE" >
+<!ATTLIST PROT_VTR_FILTER_AUS SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_VTR_FILTER_AUS WERT CDATA "AUSSCHL" >
+
+<!ELEMENT PROT_VTR_FILTER_BEA EMPTY >
+<!ATTLIST PROT_VTR_FILTER_BEA BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_VTR_FILTER_BEA PLAUSI CDATA "OK/AUSSCHL/ERROR/NONE" >
+<!ATTLIST PROT_VTR_FILTER_BEA SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_VTR_FILTER_BEA WERT CDATA "OK" >
+
+<!ELEMENT PROT_VTR_FILTER_GEN EMPTY >
+<!ATTLIST PROT_VTR_FILTER_GEN BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_VTR_FILTER_GEN PLAUSI CDATA "OK/AUSSCHL/ERROR/NONE" >
+<!ATTLIST PROT_VTR_FILTER_GEN SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_VTR_FILTER_GEN WERT CDATA "AUSSCHL" >
+
+<!ELEMENT PROT_VTR_FILTER_SEL EMPTY >
+<!ATTLIST PROT_VTR_FILTER_SEL BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_VTR_FILTER_SEL PLAUSI CDATA "OK/AUSSCHL/ERROR/NONE" >
+<!ATTLIST PROT_VTR_FILTER_SEL SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_VTR_FILTER_SEL WERT CDATA "AUSSCHL" >
+
+<!ELEMENT RUN_AUSLOESER EMPTY >
+<!ATTLIST RUN_AUSLOESER BESCHREIBUNG CDATA "" >
+<!ATTLIST RUN_AUSLOESER PLAUSI CDATA "J/N" >
+<!ATTLIST RUN_AUSLOESER SEPPL CDATA "E" >
+<!ATTLIST RUN_AUSLOESER WERT CDATA "J" >
+
+<!ELEMENT RUN_BEARBEITER EMPTY >
+<!ATTLIST RUN_BEARBEITER BESCHREIBUNG CDATA "" >
+<!ATTLIST RUN_BEARBEITER PLAUSI CDATA "J/N" >
+<!ATTLIST RUN_BEARBEITER SEPPL CDATA "E" >
+<!ATTLIST RUN_BEARBEITER WERT CDATA "J" >
+
+<!ELEMENT RUN_GENERATOR EMPTY >
+<!ATTLIST RUN_GENERATOR BESCHREIBUNG CDATA "" >
+<!ATTLIST RUN_GENERATOR PLAUSI CDATA "J/N" >
+<!ATTLIST RUN_GENERATOR SEPPL CDATA "E" >
+<!ATTLIST RUN_GENERATOR WERT CDATA "J" >
+
+<!ELEMENT RUN_SELEKTIERER EMPTY >
+<!ATTLIST RUN_SELEKTIERER BESCHREIBUNG CDATA "" >
+<!ATTLIST RUN_SELEKTIERER PLAUSI CDATA "J/N" >
+<!ATTLIST RUN_SELEKTIERER SEPPL CDATA "E" >
+<!ATTLIST RUN_SELEKTIERER WERT CDATA "J" >
+
+<!ELEMENT TRACE EMPTY >
+<!ATTLIST TRACE BESCHREIBUNG CDATA "Ausführliches Logfile" >
+<!ATTLIST TRACE PLAUSI CDATA "J/N" >
+<!ATTLIST TRACE SEPPL CDATA "EIWP" >
+<!ATTLIST TRACE WERT CDATA "N" >
+
+<!ELEMENT UC4_DEPLOYMENT_TEST EMPTY >
+<!ATTLIST UC4_DEPLOYMENT_TEST BESCHREIBUNG CDATA "" >
+<!ATTLIST UC4_DEPLOYMENT_TEST PLAUSI CDATA "J/N" >
+<!ATTLIST UC4_DEPLOYMENT_TEST SEPPL CDATA "E" >
+<!ATTLIST UC4_DEPLOYMENT_TEST WERT CDATA "N" >
+
+]>
+<Content>
+<PARAMETER>
+<MANDANTEN BESCHREIBUNG="Diese Mandanten werden verarbeitet" PLAUSI="01,02,20,21,54" SEPPL="WEI" WERT="01,02,20,21,54"/>
+<LOESCH_BUCHP_VON BESCHREIBUNG="Lösche Buchungsperiode von" PLAUSI="JJJJMM" SEPPL="WEI" WERT=""/>
+<LOESCH_BUCHP_BIS BESCHREIBUNG="Lösche Buchungsperiode bis" PLAUSI="JJJJMM" SEPPL="WEI" WERT=""/>
+<COMMIT BESCHREIBUNG='' PLAUSI='J/N' SEPPL='EIW' WERT='J'/>
+<TRACE BESCHREIBUNG='Erweitertes Logging' PLAUSI='J/N' SEPPL='EIW' WERT='N'/>
+</PARAMETER>
+</Content>
+]]></_WebConfig>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! BBS Standart-Include zum setzen von Variablen für aufgerufene Jobs
+:INC JOBI.BBS.JOBPDEFAULTS
+! ---------------------------------------------
+! Weitere Variablenbelegung
+!
+! ---------------------------------------------
+!**********GeneratedText, Do Not Change**********
+:SET &pttyp# = SYS_ACT_PTTYP()
+!Eintragen der READ Befehle
+:BEGINREAD
+:IF &pttyp# = "D"
+:  PRINT "", "Bei Start via GUI wird die Eingabe der Startzeit unterdrückt"
+:ELSE
+:  READ &START#,,"START [JJJJ-MM-TT HH:MM:SS]",'',K
+:ENDIF
+:READ &MANDANTEN#,,"MANDANTEN [01,02,20,21,54]",'01,02,20,21,54',K
+:READ &LOESCH_BUCHP_VON#,,"LOESCH_BUCHP_VON [JJJJMM]",'',K
+:READ &LOESCH_BUCHP_BIS#,,"LOESCH_BUCHP_BIS [JJJJMM]",'',K
+:READ &COMMIT#,,"COMMIT [J/N]",'J',K
+:READ &TRACE#,,"TRACE [J/N]",'N',K
+:ENDREAD
+
+!Eintragen der PSET Befehle
+:PSET &START# = &START#
+:PSET &MANDANTEN# = &MANDANTEN#
+:PSET &LOESCH_BUCHP_VON# = &LOESCH_BUCHP_VON#
+:PSET &LOESCH_BUCHP_BIS# = &LOESCH_BUCHP_BIS#
+:PSET &COMMIT# = &COMMIT#
+:PSET &TRACE# = &TRACE#
+!**************End of GeneratedText**************
+
+! --------------------------------------------------
+! Wenn keine Vorgabe besteht, letztes Jahr loeschen:
+! --------------------------------------------------
+:SET &L_DATE# = SYS_LDATE(JJJJMMTT)
+:SET &L_DATE_PRE_1# = SUB_PERIOD("JJJJMMTT:&L_DATE#", "JJJJ:1", "JJJJMMTT")
+:SET &JAHR_PRE_1# = SUBSTR("&L_DATE_PRE_1#", 1, 4)
+:SET &FM_JAHR_PRE_1# = "&JAHR_PRE_1#01"
+:SET &LM_JAHR_PRE_1# = "&JAHR_PRE_1#13"
+:IF &LOESCH_BUCHP_VON# EQ ""
+:  PSET &LOESCH_BUCHP_VON# = &FM_JAHR_PRE_1#
+:ENDIF
+:IF &LOESCH_BUCHP_BIS# EQ ""
+:  PSET &LOESCH_BUCHP_BIS# = &LM_JAHR_PRE_1#
+:ENDIF
+:PSET &BUCH_PER# = ""]]></process>
+      </row>
+   </scripts>
+   <workflow_attributes>
+      <row>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.BEGINWORKFLOW</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.MABDELAUSWBIL_TNBLISTEBILANZCSV</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.MABDELAUSWBIL_AUSWBIL</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>5</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.MABDELAUSWBIL_TNBLISTEBILANZCSV</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>6</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FINISHWORKFLOW</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>5</column>
+         <line_number>7</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>3</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>5</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>4</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>6</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>5</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>7</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>6</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

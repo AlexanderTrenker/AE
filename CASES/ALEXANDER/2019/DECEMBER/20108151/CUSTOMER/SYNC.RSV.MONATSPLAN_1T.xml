@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sync>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>RSVN</archive_key1>
+         <archive_key2>Verriegelung Bilanz</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>SYNC.RSV.MONATSPLAN_1T</name>
+         <type>SYNC</type>
+         <description>Verriegelung RSV_MONATSPLAN_01 gegen TAEGLICHRSV etc.</description>
+         <versioning_id>-879122275</versioning_id>
+      </row>
+   </general_attributes>
+   <state_definitions>
+      <row>
+         <state>BELEGT</state>
+         <description>batch aktiv</description>
+      </row>
+      <row>
+         <state>FREI</state>
+         <description>kein batch aktiv</description>
+      </row>
+   </state_definitions>
+   <action_definitions>
+      <row>
+         <action>STARTBATCH</action>
+         <line_number>1</line_number>
+         <check_status>FREI</check_status>
+         <set_status>BELEGT</set_status>
+      </row>
+      <row>
+         <action>STOPBATCH</action>
+         <line_number>2</line_number>
+         <check_status>BELEGT</check_status>
+         <set_status>FREI</set_status>
+      </row>
+   </action_definitions>
+   <sync_states>
+      <row>
+         <status>FREI</status>
+      </row>
+   </sync_states>
+</sync>

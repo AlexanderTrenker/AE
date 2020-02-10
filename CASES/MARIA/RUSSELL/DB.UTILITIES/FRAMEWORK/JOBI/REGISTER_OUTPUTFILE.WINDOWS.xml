@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>REGISTER_OUTPUTFILE.WINDOWS</name>
+         <type>JOBI</type>
+         <versioning_id>-1644121193</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:set &uc_register_ofile  = sys_last_registered_ofile
+:set &uc_register_ulogin = sys_last_registered_ulogin
+:set &uc_register_otype# = sys_act_me_type()
+:if &uc_register_otype# = 'JOBS'
+:  set &uc_windows_typ = get_att(win_typ)
+:  if &UC_WINDOWS_TYP = "BAT"
+:    set &UC_PATH_JOBMD# = STR_SUB("&UC_JOBMD", "\", "\\")
+if exist "&uc_register_ofile" (
+&UC_JOBMD JNR=&UC_REALNR MNR=&UC_MANDANT PNR=&UC_IP_PORT IPA=&UC_IP_ADR TYP=O ULOGIN=&uc_register_ulogin OUTFILE="&uc_register_ofile"
+)
+:    INC JOBI.RETENTION_DAYS, NOFOUND=IGNORE
+:  endif
+:endif]]></process>
+      </row>
+   </scripts>
+</jobi>

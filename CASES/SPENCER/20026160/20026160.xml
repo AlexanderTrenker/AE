@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<period>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>0                               </child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>20026160</name>
+         <type>PERIOD</type>
+         <versioning_id>218042747</versioning_id>
+      </row>
+   </general_attributes>
+   <period_attributes>
+      <row>
+         <adjust>1</adjust>
+         <calendar_conditions>2</calendar_conditions>
+         <days_mode>W</days_mode>
+         <every>1</every>
+         <from_time>0000</from_time>
+         <max_runs>1</max_runs>
+         <once>1000</once>
+         <range_mode>0</range_mode>
+         <to_time>2359</to_time>
+         <weekdays>1234567</weekdays>
+      </row>
+   </period_attributes>
+</period>

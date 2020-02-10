@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>541</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.HG.HRM_DATA_OPS.CORE_LOADS.ADQA.UNIX.RUN_ADQA_ON_ENTIRE_DATA_SOURCE</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.HG.HRM_DATA_OPS.CORE_LOADS</queue>
+         <versioning_id>-453790749</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[This task will move to /adqa/ on client 
+Check for a file to run a Quality Assessment on.
+If a file does not exist this task will move on with no error.
+If a file exists it will be DQA'ed/ADQA'ed
+
+TIP:
+File must be present and must line up with stream in order to be process correctly.
+Stream and File variables are passed in from Parent object.
+
+This is a TEAM STANDARD task used for all ADQA processing of files.  
+DO NOT MAKE CHANGES without considering how it will affect all ADQA automation.]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &DATE# = SYS_DATE("YYYYMMDD")
+:PRINT &DATE#
+
+:SET &STREAM_LIST# = ""
+:SET &STREAM_LIST_HND# = PREP_PROCESS_VAR(&DATASOURCE_VARIABLE_NAME#)
+:PROCESS &STREAM_LIST_HND#
+:   SET &LINE# = GET_PROCESS_LINE(&STREAM_LIST_HND#,1)
+:   IF &STREAM_LIST# <> ""
+:     SET &STREAM_LIST# = STR_CAT(&STREAM_LIST#,",")
+:   ENDIF
+:   SET &STREAM_LIST# = STR_CAT(&STREAM_LIST#,&LINE#)
+:ENDPROCESS
+:CLOSE_PROCESS &STREAM_LIST_HND#
+
+:IF &STREAM_LIST# <> ""
+cd /healthcare/&CLIENT#/adqa
+
+streamlist=""
+
+for stream in $(echo &STREAM_LIST# | sed "s/,/ /g")
+do
+
+! Clear out prior stream reports.
+  for adqafile in /healthcare/&CLIENT#/adqa/auto/${stream}/*&DATE#*.*
+  do
+    if [ -f $adqafile ] ;
+    then
+      echo "Attempting to remove $adqafile"
+      rm $adqafile ;
+    fi
+  done
+
+! Check current directory for target file to dqa or ADQA
+  str_file=$( sed -n '6p' ~/df/${stream}/${stream}.str )
+
+  file=$( echo $str_file | awk -F"," '{print $1}')
+
+  if [ -f $file ]
+  then
+    FILESIZE=$(wc -l "$file" | awk -F" " '{print $1}')
+    if [[ "$FILESIZE" -ne 0 ]];
+    then
+!   run DQA for Target Stream
+      if [ -z "$streamlist" ];
+      then
+        echo "Skipping adding comma, string empty"
+      else
+        streamlist="${streamlist},"
+      fi
+      streamlist="${streamlist}${stream}"
+      echo $streamlist
+    else
+      echo "Zero records in source file.  Skipping run dqa/adqa."
+    fi
+  fi
+done
+
+echo $streamlist
+
+if [ -z "$streamlist" ];
+then
+  echo "No streams to run through ADQA."
+else
+  &UC_JOBMD CMD="export PATH=$PATH:/healthcare/&CLIENT#/bin:/oracle/dev/bin:/oracle/dev/OPatch:/sbin:/usr/local/bin; python /healthcare/cpm_shared/adqa/adqa_queue.py &CLIENT# $streamlist &AUTOMIC# --threadlimit 8 "
+fi
+:ENDIF]]></process>
+      </row>
+      <row>
+         <pre_process>:INC JOBI.HG.STANDARD_CLIENT_AGENT_LOGIN_SET</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[! :IF &RESULT# = 'pass' or 'over_ride'
+! :  set &RETCODE# = 0
+! :ENDIF
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>--session -1</value>
+         <name>&amp;AUTOMIC#</name>
+      </row>
+      <row>
+         <ert_usage>1</ert_usage>
+         <name>&amp;CLIENT#</name>
+      </row>
+      <row>
+         <ert_usage>1</ert_usage>
+         <name>&amp;STREAM#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

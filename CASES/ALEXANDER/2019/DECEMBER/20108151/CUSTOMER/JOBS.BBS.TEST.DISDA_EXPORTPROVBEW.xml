@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>DISDA</archive_key2>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>6</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.TEST.DISDA_EXPORTPROVBEW</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; EXPORT TBBVTR_T_PROV_BEW (KOMPLETT) [QUELL_DB] &lt;TEST&gt;</description>
+         <versioning_id>57794497</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! -------------------------------------------
+! Parameter für JOBI.GETPW_DBTOOLS definieren:
+! -------------------------------------------
+:SET &ORADB# = "DLLW1&IDT#"
+:SET &ORAUSER# = "SPIEGELAPP"
+:SET &PARAFILE# = "&BATCH#_&ORADB#.PAR"
+:SET &DUMPFILE# = "&BATCH#_&ORADB#.DMP"
+:SET &EXPSCRIPT# = "&BATCH#_&ORADB#"
+! ----------------------------------
+:SET &LOGFILE# = "&LOGDIR#/&EXPSCRIPT#.log"
+:INC JOBI.DBTOOLS_CREATEFOLDER
+!:INC JOBI.DBTOOLS_DELETEFILE "EDIZIONE" = "&EXP_PATH#/dmp/&DUMPFILE#"
+:INC JOBI.GETPW_DBTOOLS
+! -----------------------------
+! Parameterdatei zusammenbauen:
+! ----------------------------------------------------------------------------
+! An dieser Stelle muss zwischen Test und Produktion unterschieden werden!
+! Exportiert wird in Test der gesamte Inhalt der Tabelle, waerend in Produk-
+! tion die letzten zwei kompletten Monate + die Tage bis einschliesslich heute
+! genuegen.
+! --schnipp--
+! wirksam_zum >=  to_char (add_months( trunc (sysdate, 'MM'), -2), 'YYYYMMDD')
+! --schnapp--
+! Der Grund hierfuer ist die Tatsache, dass in der Testumgebung Vertraege
+! manipuliert bzw. kopiert werden, was dazu fuehren kann, dass sich auch
+! Daten aus der Vergangenheit aendern koennen.
+! ----------------------------------------------------------------------------
+! Variante Test:
+! --------------
+cat << __EOF__  > &PARAFILE#
+TABLES=BBS.TBBVTR_T_PROV_BEW
+DUMPFILE=&DUMPFILE#
+REUSE_DUMPFILES=YES
+DIRECTORY=&DIRECTORY#
+FLASHBACK_TIME="TO_TIMESTAMP('&TS#', 'YYYYMMDDHH24MISS')"
+LOGFILE=&DIRECTORY#_LOG:&EXPSCRIPT#_&TIMESTAMP_AM#.log
+CONTENT=DATA_ONLY
+__EOF__
+:INC JOBI.DBTOOLS_RUNEXPORT]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[:INC JOBI.DBTOOLS_FILESEND "MODUS"="COPY"
+:INC JOBI.SCANREPORT "RETURNWERT"="8"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.ORACLE</agent>
+         <login>LOGIN.UC4</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

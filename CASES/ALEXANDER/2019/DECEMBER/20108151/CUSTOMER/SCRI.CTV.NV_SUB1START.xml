@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>3</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.CTV.NV_SUB1START</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Startet SUB1 Jobplan in Gruppe</description>
+         <versioning_id>1354695648</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &CTV_MAX_PAKETE# = GET_VAR(VARA.CTV.PARAMETER,"ALLGEMEIN_CTV_MAX_PAKETE",3)
+
+:SET &HND# = PREP_PROCESS_VAR(VARA.CTV.NV_UNIT)
+:PROCESS &HND#
+:  SET &UNIT#  = GET_PROCESS_LINE(&HND#,1)
+:  SET &AKTIV# = GET_PROCESS_LINE(&HND#,2)
+:  IF &AKTIV# = "J" or "Y"
+:    SET &HND2# = PREP_PROCESS_VAR(VARA.CTV.NV_DRUKZ)
+:    PROCESS &HND2#
+:      SET &DRUKZ# = GET_PROCESS_LINE(&HND2#,1)
+:      SET &AKTIV# = GET_PROCESS_LINE(&HND2#,2)
+:      IF &AKTIV# = "J" or "Y"
+:        IF &DRUKZ# = "B" or "S"
+:          SET &COUNT# = &CTV_MAX_PAKETE#
+:          WHILE "&COUNT#" <> "0"
+:            SET &NUM# = FORMAT(&COUNT#,"00")
+:            PRINT "Starte Paket &UNIT#&DRUKZ#&NUM#"
+:            PSET &PA# = "&UNIT#&DRUKZ#&NUM#"
+:            SET &ALIAS# = "&PA#"
+:            SET &RUN_OBJECT# = "JOBP.CTV.NV_SUB1"
+:            INC JOBI.RUN_OBJECT_PASS_VALUES_ALIAS
+:            SET &COUNT# = SUB(&COUNT#,1)
+:          ENDWHILE
+:        ELSE
+:          PRINT "Starte Paket &UNIT#&DRUKZ#"
+:          PSET &PA# = "&UNIT#&DRUKZ#"
+:          SET &ALIAS# = "&PA#"
+:          SET &RUN_OBJECT# = "JOBP.CTV.NV_SUB1"
+:          INC JOBI.RUN_OBJECT_PASS_VALUES_ALIAS
+:        ENDIF
+:      ELSE
+:        PRINT "Druckkennzeichen &DRUKZ# nicht aktiv!"
+:      ENDIF
+:    ENDPROCESS
+:    CLOSE_PROCESS &HND2#
+:  ELSE
+:    PRINT "Unit &UNIT# nicht aktiv!"
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

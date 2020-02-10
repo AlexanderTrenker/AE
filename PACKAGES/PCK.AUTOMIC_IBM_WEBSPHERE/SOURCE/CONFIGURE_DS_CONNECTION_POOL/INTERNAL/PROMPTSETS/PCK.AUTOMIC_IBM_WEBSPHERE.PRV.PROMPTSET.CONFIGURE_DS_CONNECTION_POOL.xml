@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.PROMPTSET.CONFIGURE_DS_CONNECTION_POOL</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-542066362</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="601" icon="PRPT" id="PRPTS" left="0" top="0" width="543"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Parameters"><properties><entry name="text">Parameters</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>22</line_number>
+         <name>UC4RB_WAS_ADDITIONAL_PARAMS#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_ADDITIONAL_PARAMSs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Additional Parameters" tooltip="Additional parameters which should be set. Format: &quot;parameter=value&quot;. Multiple parameters can be provided using &quot;,&quot; as seperator, eg: &quot;param1=value1,param2=value2,param3=value3&quot;." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Additional Parameters</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_ADDITIONAL_PARAMSs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Additional parameters which should be set. Format: &quot;parameter=value&quot;. Multiple parameters can be provided using &quot;,&quot; as seperator, eg: &quot;param1=value1,param2=value2,param3=value3&quot;.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>12</line_number>
+         <name>UC4RB_WAS_AGED_TIMEOUT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_AGED_TIMEOUTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Aged Timeout" tooltip="Specifies the interval in seconds before a physical connection is discarded." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Aged Timeout</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_AGED_TIMEOUTs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the interval in seconds before a physical connection is discarded.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>UC4RB_WAS_CLUSTER_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_CLUSTER_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Cluster" tooltip="Name of the cluster for the datasource.  Required if scope = &apos;cluster&apos;." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Cluster</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_CLUSTER_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Name of the cluster for the datasource.  Required if scope = &apos;cluster&apos;.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>15</line_number>
+         <name>UC4RB_WAS_FREE_POOL_PART#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_FREE_POOL_PARTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Number Of Free Pool Partitions" tooltip="Specifies the number of partitions that are created in each of the free pools." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Number Of Free Pool Partitions</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_FREE_POOL_PARTs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the number of partitions that are created in each of the free pools.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>UC4RB_WAS_JDBC_PROVIDER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_JDBC_PROVIDERs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="JDBC Provider" tooltip="The name of the JDBC Provider for the datasource." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">JDBC Provider</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_JDBC_PROVIDERs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The name of the JDBC Provider for the datasource.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>9</line_number>
+         <name>UC4RB_WAS_MAX_CON#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_MAX_CONs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Max Connections" tooltip="Specifies the maximum number of physical connections that you can create in this pool." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Max Connections</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_MAX_CONs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the maximum number of physical connections that you can create in this pool.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>8</line_number>
+         <name>UC4RB_WAS_MIN_CON#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_MIN_CONs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Min Connections" tooltip="Specifies the minimum number of physical connections to maintain." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Min Connections</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_MIN_CONs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the minimum number of physical connections to maintain.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>UC4RB_WAS_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Data Source Name" tooltip="The name of the datasource whose connection pool is to be configured." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Data Source Name</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The name of the datasource whose connection pool is to be configured.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>UC4RB_WAS_NODE_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_NODE_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Node" tooltip="The name of the node for the datasource.  Required if scope = &apos;node&apos; or &apos;server&apos;. " upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Node</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_NODE_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The name of the node for the datasource.  Required if scope = &apos;node&apos; or &apos;server&apos;. </entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>16</line_number>
+         <name>UC4RB_WAS_POOL_TABLE_SIZE#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_POOL_TABLE_SIZEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Free Pool Distribution Table Size" tooltip="Determines the distribution of Subject and CRI hash values in the table that indexes connection usage data." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Free Pool Distribution Table Size</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_POOL_TABLE_SIZEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Determines the distribution of Subject and CRI hash values in the table that indexes connection usage data.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>13</line_number>
+         <name>UC4RB_WAS_PURGE_POLICY#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.PURGE_POLICY</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_WAS_PURGE_POLICYs.00" nl="1" quotes="" strict="1" text="Purge Policy" tooltip="Specifies how to purge connections when a stale connection or fatal connection error is detected." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.PURGE_POLICY</entry>
+            <entry name="text">Purge Policy</entry>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_PURGE_POLICYs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">Specifies how to purge connections when a stale connection or fatal connection error is detected.</entry>
+            <entry name="customfield"/>
+            <entry name="dynamic">0</entry>
+            <entry name="modifiable">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>10</line_number>
+         <name>UC4RB_WAS_REAP_TIME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_REAP_TIMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Reap Time" tooltip="Specifies the interval, in seconds, between runs of the pool maintenance thread." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Reap Time</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_REAP_TIMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the interval, in seconds, between runs of the pool maintenance thread.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>UC4RB_WAS_SCOPE#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.SCOPE</reference>
+         <reference_type>VARA</reference_type>
+         <value>cell</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_WAS_SCOPEs.00" nl="1" quotes="" strict="1" text="Scope" tooltip="The scope of the datasource." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.SCOPE</entry>
+            <entry name="text">Scope</entry>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_SCOPEs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">The scope of the datasource.</entry>
+            <entry name="customfield"/>
+            <entry name="dynamic">0</entry>
+            <entry name="modifiable">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>UC4RB_WAS_SERVER_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_SERVER_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Server" tooltip="The name of the server for the datasource.  Required if scope = &apos;server&apos;. " upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Server</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_SERVER_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The name of the server for the datasource.  Required if scope = &apos;server&apos;. </entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>14</line_number>
+         <name>UC4RB_WAS_SHARED_POOL_PART#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_SHARED_POOL_PARTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Number Of Shared Pool Partitions" tooltip="Specifies the number of partitions that are created in each of the shared pools." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Number Of Shared Pool Partitions</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_SHARED_POOL_PARTs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the number of partitions that are created in each of the shared pools.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>21</line_number>
+         <name>UC4RB_WAS_STUCK_THRESHOLD#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_STUCK_THRESHOLDs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Stuck Threshold" tooltip="The stuck threshold is the number of connections that need to be considered stuck for the pool to be in stuck mode." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Stuck Threshold</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_STUCK_THRESHOLDs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The stuck threshold is the number of connections that need to be considered stuck for the pool to be in stuck mode.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>20</line_number>
+         <name>UC4RB_WAS_STUCK_TIME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_STUCK_TIMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Stuck Time" tooltip="The stuck time property is the interval, in seconds, allowed for a single active connection to be in use to the backend resource before it is considered to be stuck." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Stuck Time</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_STUCK_TIMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The stuck time property is the interval, in seconds, allowed for a single active connection to be in use to the backend resource before it is considered to be stuck.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>19</line_number>
+         <name>UC4RB_WAS_STUCK_TIMER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_STUCK_TIMERs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Stuck Timer Time" tooltip="This is how often, in seconds, the connection pool checks for stuck connections." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Stuck Timer Time</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_STUCK_TIMERs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">This is how often, in seconds, the connection pool checks for stuck connections.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>18</line_number>
+         <name>UC4RB_WAS_SURGE_INTERVAL#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_SURGE_INTERVALs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Surge Creation Interval" tooltip="Specifies the amount of time between connection creates when you are in surge protection mode." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Surge Creation Interval</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_SURGE_INTERVALs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the amount of time between connection creates when you are in surge protection mode.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>17</line_number>
+         <name>UC4RB_WAS_SURGE_THRESHOLD#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_SURGE_THRESHOLDs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Surge Threshold" tooltip="Specifies the number of connections created before surge protection is activated." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Surge Threshold</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_SURGE_THRESHOLDs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the number of connections created before surge protection is activated.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>7</line_number>
+         <name>UC4RB_WAS_TIMEOUT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_TIMEOUTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Connection Timeout" tooltip="Specifies the interval, in seconds, after which a connection request times out." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Connection Timeout</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_TIMEOUTs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the interval, in seconds, after which a connection request times out.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">1</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>11</line_number>
+         <name>UC4RB_WAS_UNUSED_TIMEOUT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_UNUSED_TIMEOUTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Unused Timeout" tooltip="Specifies the interval in seconds after which an unused or idle connection is discarded." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Unused Timeout</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_WAS_UNUSED_TIMEOUTs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Specifies the interval in seconds after which an unused or idle connection is discarded.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+   </elements>
+</prpt>

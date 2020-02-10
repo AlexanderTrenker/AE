@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.UTIL.INI</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>-1051667541</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[[GLOBAL]
+language  = (E,D,F)
+logging   = &LOGFILE#
+logcount  = 1
+helplib   = uc.msl
+helpcache = ALL
+]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>ucybchng</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[[GLOBAL]
+language  = (E,D)
+logging   = &LOGFILE#
+logcount  = 1
+helplib   = uc.msl
+helpcache = ALL
+docu_path = ../../Docu/uc4/webhelp
+MaxDeadlockCount = 2
+
+[TRACE]
+file     = &TRCFILE#
+trccount = 1
+database = &TRC_DB#
+level = &TRC_LEVEL#
+; 0=no
+; 1=SQL
+; 2=OPC
+; 3=BindParam
+; 4=data fields
+
+[AH_BODY]
+AH_TimeStamp1     = 1   ; activation time
+AH_TimeStamp2     = 1   ; start time
+AH_TimeStamp4     = 1   ; end time
+AH_MsgNr          = 1   ; return code
+AH_LoginDst       = 1   ; name of login object
+AH_ProcessId      = 1   ; TSN / process id
+AH_CpuTime        = 1   ; used CPU time
+AH_KernelTime     = 1   ; used kernel time
+AH_UserTime       = 1   ; used user time
+AH_IOCount        = 1   ; count of I/Os
+AH_InfoText       = 1   ; text from Agent
+AH_HostDst        = 1   ; name of the host or agentgroup
+AH_CodeNameDst    = 1   ; codetable for filetransfer
+AH_FileNameDst    = 1   ; filename for filetransfer
+AH_HostSrc        = 1   ; name of host (sender)
+AH_LoginSrc       = 1   ; name of login object for sender file
+AH_CodeNameSrc    = 1   ; codetable for filetransfer (sender)
+AH_FileNameSrc    = 1   ; filename for filetransfer (sender)
+AH_Count          = 1   ; filetransfer: bytes transfered     group: number of started activities
+AH_FileSize       = 1   ; bytes of the complete file
+AH_Records        = 1   ; number of records
+AH_Status         = 1   ; state of the activity
+AH_RetCode        = 1   ; return code
+AH_Restart        = 1   ; was this a restarted activation?
+AH_RefNr          = 1   ; reference job number
+AH_RestartPoint   = 1   ; restart point from where the task was restarted
+AH_LastRP         = 1   ; last processed restart point
+AH_EventType      = 1   ; TT time event(timer), TS time event(time of execution)
+AH_RepeatType     = 1   ; EV: R=repeated, S=single    FT: include subdirectories R=yes S=no
+AH_TimePeriod     = 1   ; period in minutes or HHMM depending on the event type
+AH_CheckCount     = 1   ; number of checks
+AH_OccurCount     = 1   ; number of occourred events
+AH_EventSubType   = 1   ; event sub type
+AH_Operator       = 1   ; G = Greater L = Less E = Equal N = NotEqual
+AH_Value          = 1   ; value to compare
+AH_Unit           = 1   ; unit of AH_Wert: 0=host specific, 1 = Byte, 2=KB, 3 = MB, 4=GB, 5=TB
+AH_Cancel         = 1   ; the cancel flag: M=manually
+AH_Source         = 1   ; WIN_EVENT: Source
+AH_Category       = 1   ; WIN_EVENT: Category
+AH_TExecType      = 1   ; EV-TS: start after 'start time' E=Execute N=NoExecute EV-TT:S=start immediately     FT: 1=filetransfer with wildcard characters
+AH_MaxRetCode     = 1   ; up to this retcode the activity is ENDED_OK
+AH_IntAccount     = 1   ; account
+AH_Name           = 1   ; name of the object
+AH_Transferred    = 1   ; Transferred bytes
+AH_Compress       = 1   ; Compress level
+AH_Ert            = 1   ; Estimated Runtime
+
+
+AH_Archive1       = 0   ; archive key 1
+AH_Archive2       = 0   ; archive key 2
+AH_Info           = 0   ; additional information like job number
+AH_ParentAct      = 0   ; AH_Idnr of activator parent
+AH_ParentPrc      = 0   ; AH_Idnr of processor parent
+AH_DeleteFlag     = 0   ; the delete flag
+AH_TaskCount      = 0   ; number of AJPP
+AH_ArchiveFlag    = 0   ; archive flag
+AH_Rest           = 0   ; . additional attributes
+AH_TZ             = 0   ; Timezone for object and script
+AH_TimePeriodTZ   = 0   ; Timezone for time period (event) when HHMM is used
+
+AH_ReuseHostGroup    = 0   ; reuse agentgroup in processflow 
+AH_HGSrc             = 0   ; name of agentgroup
+AH_HGDst             = 0   ; name of agentgroup (source)
+AH_MaxParallelHG     = 0   ; agentgroup max parallel
+AH_ChildCnt          = 0   ; children count
+AH_ChildCntFail      = 0   ; failed children  successful restarted
+AH_ChildCntFailAll   = 0   ; failed children total 
+AH_ChildCntRestart   = 0   ; restarted children
+AH_ContainerType     = 0   ; object type controlled by the container
+
+
+[ODBC]
+SQLDRIVERCONNECT=&SQLDRIVERCONNECT#
+]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>ucybdbar</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[[GLOBAL]
+language  = (E,D)
+logging   = &LOGFILE#
+logcount  = 1
+helplib   = uc.msl
+helpcache = ALL
+docu_path = ../../Docu/uc4/webhelp
+WorkTablePath = .
+DeadlockCnt   = 25
+
+[TRACE]
+file     = &TRCFILE#
+trccount = 1
+database = &TRC_DB#
+level = &TRC_LEVEL#
+; 0=no
+; 1=SQL
+; 2=OPC
+; 3=BindParam
+; 4=data fields
+
+
+[SOURCEDB]
+SQLDRIVERCONNECT=&S_SQLDRIVERCONNECT#
+
+[TARGETDB]
+TargetDB         = 1
+CommitCnt        = 1000
+SQLDRIVERCONNECT=&T_SQLDRIVERCONNECT#
+]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>ucybdbcc</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[[GLOBAL]
+language  = (E,D)
+logging   = &LOGFILE#
+logcount  = 1
+helplib   = uc.msl
+helpcache = ALL
+docu_path = ../../Docu/uc4/webhelp
+input     = ../db/
+
+[TRACE]
+file     = &TRCFILE#
+trccount = 1
+database = &TRC_DB#
+level = &TRC_LEVEL#
+; 0=no
+; 1=SQL
+; 2=OPC
+; 3=BindParam
+; 4=data fields
+
+
+[ODBC]
+SQLDRIVERCONNECT=&SQLDRIVERCONNECT#
+]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>ucybdbld</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[[GLOBAL]
+language  = (E,D)
+logging   = &LOGFILE#
+logcount  = 1
+helplib   = uc.msl
+helpcache = ALL
+docu_path = ../../Docu/uc4/webhelp
+
+[REORG]
+no_archive_check = 1
+auto_reorg = 365
+
+[TRACE]
+file     = &TRCFILE#
+trccount = 1
+database = &TRC_DB#
+level = &TRC_LEVEL#
+; 0=no
+; 1=SQL
+; 2=OPC
+; 3=BindParam
+; 4=data fields
+
+[ODBC]
+SQLDRIVERCONNECT=&SQLDRIVERCONNECT#
+]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>ucybdbre</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[[GLOBAL]
+logging    = &LOGFILE#
+logcount  = 1
+helplib    = uc.msl
+helpcache  = ALL
+Deadlock_Retry  = 0
+
+[TRACE]
+file     = &TRCFILE#
+trccount = 1
+database = &TRC_DB#
+level = &TRC_LEVEL#
+
+[ODBC]
+; Oracle with OCI
+SQLDRIVERCONNECT=&SQLDRIVERCONNECT#]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>ucybdbrr</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[[GLOBAL]
+logging    = &LOGFILE#
+logcount  = 1
+helplib    = uc.msl
+helpcache  = ALL
+Deadlock_Retry  = 0
+
+[TRACE]
+file    = &TRCFILE#
+trccount  = 1
+trcmode    = 0
+database  = 0
+reptool    = 0
+
+[ODBC]
+; Oracle with OCI
+SQLDRIVERCONNECT=&SQLDRIVERCONNECT#
+]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>ucybdbrt</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[[GLOBAL]
+language  = (E,D)
+logging   = &LOGFILE#
+logcount  = 1
+helplib   = uc.msl
+helpcache = ALL
+docu_path = ../../Docu/uc4/webhelp
+CommitCount=1000
+OUTPUT = ../db/uc_data.txt
+
+[TRACE]
+file     = &TRCFILE#
+trccount = 1
+database = &TRC_DB#
+level = &TRC_LEVEL#
+
+[TRANSPORT]
+all_entities=1
+
+[REORG]
+suppress_output=1
+reorg_mode=1 
+no_archive_check=1
+reorg_chunk_size=5000
+
+[ODBC]
+; Oracle with OCI
+SQLDRIVERCONNECT=&SQLDRIVERCONNECT#
+]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>ucybdbun</key>
+      </row>
+   </static_values>
+</vara>

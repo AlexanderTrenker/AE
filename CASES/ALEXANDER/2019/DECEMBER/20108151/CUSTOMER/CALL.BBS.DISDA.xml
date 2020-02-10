@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<call>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1026</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>CALL.BBS.DISDA</name>
+         <type>CALL</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>1</sub_type>
+         <description>Info das DISDA_INITIAL und DISDIA_DELTA aktiv sind</description>
+         <versioning_id>492443987</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu>Sabine Reimuth, Kurt Glass und die AV werden informiert das die DISDA_ORA Einplanungen wiedersprüchlich sind. </Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! ----------------------
+! Versand der Info-Mail:
+! ----------------------
+:INC JOBI.INC.BASISPARAM
+:SET &NL# = UC_CRLF()
+:SET &MESSAGE#     = "Im Kalender CALE.BBS.BATCH sind die Begriffe DISDA_DELTA.S und  DISDA_INITIAL.S aktiv, DISDA_DELTA wurde nicht gestartet!"
+:SET &DESC1#       = "Im Kalender CALE.BBS.BATCH sind die Begriffe DISDA_DELTA.S und DISDA_INITIAL.S aktiv, das ist ein Widerspruch. &NL#"
+:SET &DESC2#       = "DISDA_DELTA wurde nicht gestartet! Bitte Zustand pruefen und ggf berichtigen. &NL#"
+:SET &DESCRIPTION# = STR_CAT(&DESC1#, &DESC2#)
+:SET &BATCHNAME#   = "DISDA"
+:SET &SEVERITY#    = "1"
+:INC JOBI.SENDMAIL
+]]></process>
+      </row>
+   </scripts>
+   <notification_attributes>
+      <row>
+         <priority>3</priority>
+         <subject>DISDA_ORA_INITIAL und DISDA_ORA_DELTA sind aktiv!</subject>
+         <content><![CDATA[Im Kalender CALE.STATIC/CALE.SONDERLAUF sind die Begriffe DISDA_DELTA.S und DISDA_INITIAL.S aktiv, das ist ein Widerspruch. 
+DISDA_ORA_DELTA wurde nicht gestartet!
+Bitte Zustand pruefen und ggf. berichtigen. 
+]]></content>
+      </row>
+   </notification_attributes>
+   <notification_content>
+      <row>
+         <email>AV</email>
+         <line_number>1</line_number>
+      </row>
+   </notification_content>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</call>

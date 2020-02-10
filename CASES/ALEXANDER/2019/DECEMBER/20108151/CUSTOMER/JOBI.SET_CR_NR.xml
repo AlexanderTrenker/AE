@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>TOOLS</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.SET_CR_NR</name>
+         <type>JOBI</type>
+         <description>Bei manuellem Start auf Anforderung kann die CR-Nummer hinterlegt werden</description>
+         <versioning_id>1400262736</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.SET_CR_NR]=================================="
+! -------------------------------------------------------------------------
+! Bei manuellem Start auf Anforderung kann die CR-Nummer hinterlegt werden!
+! -------------------------------------------------------------------------
+! Da dieses Include immer gezogen wird und die Variable &CR_NR# in allen
+! relevanten, untergeordneten Objekten enthalten ist, muss sie hier einmal
+! initialisiert werden.
+! -------------------------------------------------------------------------
+! Defaultwert für &CR_NR# = 4711:
+! -------------------------------
+:RSET &CR_NR# = "CR4711"
+! -----------------------------------------------
+! Objekttyp der übergeordneten Aufgabe ermitteln:
+! -----------------------------------------------
+:SET &PARENT# = SYS_ACT_PARENT_TYPE(ACT)
+:PRINT ""
+:PRINT ">>> PARENT = &PARENT#"
+:PRINT ""
+:IF &PARENT# = "USER"
+! ----------------
+! Manueller Start!
+! -------------------------------
+:  PRINT " -> CR wird abgefragt!"
+! -------------------------------
+:  BEGINREAD "CR-Nummer eingeben ...", "F"
+:    PRINT "CR-Nummer wird dem Logverzeichnis-Namen hinzugefügt!"
+:    PRINT ""
+:    PRINT "Beispiele:"
+:    PRINT "-----------------------------------------------"
+:    PRINT "| Eingabe:      | Logverzeichnis:             |"
+:    PRINT "-----------------------------------------------"
+:    PRINT "| 112233        | <TIMESTAMP>_CR112233        |"
+:    PRINT "| 112233_SONDER | <TIMESTAMP>_CR112233_SONDER |"
+:    PRINT "-----------------------------------------------"
+:    PRINT "etc."
+:    READ &CR_NR#, , "Bitte CR-Nummer [00001-99999] eingeben  CR", "4711", "MN"
+:  ENDREAD
+! ------------
+! Formatieren:
+! ------------
+:  RSET &CR_NR# = "CR&CR_NR#"
+:  PRINT " -> EINGABE: &CR_NR#"
+:  IF &CR_NR# <> "CR4711" OR ""
+:    RSET &FOLDER# = "&TS#_&CR_NR#"
+:  ELSE
+:    RSET &FOLDER# = "&TS#"
+:  ENDIF
+:ELSE
+:  RSET &FOLDER# = "&TS#"
+! -------------------------
+! Schedule / Jobplan / etc!
+! -------------------------------------
+:  PRINT " -> CR wird nicht abgefragt!"
+! -------------------------------------
+:ENDIF
+:PRINT " ->  FOLDER: &FOLDER#"
+:PRINT "===================================[ENDE JOBI.SET_CR_NR]"]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.JOB.ROLLBACK.DELETE_DATASOURCE@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>471294530</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC4RB_BACKUP_REPORT# = "&UC4RB_BACKUP_DIRECTORY#/*+@report.txt"
+:SET &DS_VALUE# = ""
+:SET &UC4RB_DELETED_DS# = 0
+! :SET &HND# = PREP_PROCESS_FILENAME(&AGENT#, "&UC4RB_BACKUP_REPORT#","Y","N",)
+:SET &HND# = PREP_PROCESS_FILENAME(&AGENT#, &UC4RB_BACKUP_REPORT#, "Y", "N", , , "UC_LOGIN=&LOGIN#")
+:PROCESS &HND#
+:  SET &LINE# = GET_PROCESS_LINE(&HND#)
+:  SET &DS_VALUE# = STR_CAT(&DS_VALUE#, ",&LINE#")
+:  SET &UC4RB_DELETED_DS# = &UC4RB_DELETED_DS# + 1
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:SET &LENGTH# = STR_LENGTH(&DS_VALUE#)
+:IF &LENGTH# > 1
+:  SET &DS_VALUE# = STR_CUT(&DS_VALUE#,2)
+:  DEFINE &DS_LIST#, string, 100
+:  FILL &DS_LIST#[] = STR_SPLIT(&DS_VALUE#, ",")
+:ENDIF
+
+:WHILE &UC4RB_DELETED_DS# GT 0
+
+:  SET &UC4RB_BACKUP_REPORT# = &DS_LIST#[&UC4RB_DELETED_DS#]
+:  PRINT "Backup Report: &UC4RB_BACKUP_REPORT#"
+
+:  DEFINE &STRING# , string, 100
+:  FILL &STRING#[] = STR_SPLIT(&UC4RB_BACKUP_REPORT#, "+")
+:  SET &LEN# = 0
+:  SET &LINE# = ""
+:  WHILE &LINE# NE "@report.txt"
+:    SET &LEN# = &LEN# + 1
+:    SET &LINE# = &STRING#[&LEN#]
+:  ENDWHILE
+
+:  SET &LEN# = &LEN# - 1
+:  SET &UC4RB_WAS_CLUSTER_NAME# = &STRING#[&LEN#]
+:  SET &LEN# = &LEN# - 1
+:  SET &UC4RB_WAS_SERVER_NAME# = &STRING#[&LEN#]
+:  SET &LEN# = &LEN# - 1
+:  SET &UC4RB_WAS_NODE_NAME# = &STRING#[&LEN#]
+:  SET &LEN# = &LEN# - 1
+:  SET &UC4RB_WAS_SCOPE# = &STRING#[&LEN#]
+
+:  SET &HND# = PREP_PROCESS_FILE(&AGENT#, &UC4RB_BACKUP_REPORT#, ,"COL=DELIMITER", "DELIMITER=*::*")
+:  PROCESS &HND#
+:    SET &UC4RB_DS_PROPERTY# = GET_PROCESS_LINE(&HND#,1)
+:    IF &UC4RB_DS_PROPERTY# = "name"
+:      SET &UC4RB_WAS_NAME# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "description"
+:      SET &UC4RB_WAS_DESCRIPTION# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "provider"
+:      SET &UC4RB_WAS_JDBC_PROVIDER# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "datasourceHelperClassname"
+:      SET &UC4RB_WAS_HELPER# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "authDataAlias"
+:      SET &UC4RB_WAS_AUTH_ALIAS# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "xaRecoveryAuthAlias"
+:      SET &UC4RB_WAS_XA_AUTH_ALIAS# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "containerManagedPersistence"
+:      SET &UUC4RB_WAS_CMP# = "YES"
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "statementCacheSize"
+:      SET &UC4RB_WAS_CACHE_SIZE# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "serverName"
+:      SET &UC4RB_WAS_SERVERNAME# = GET_PROCESS_LINE(&HND#,2)
+:      SET &UC4RB_WAS_DB_TYPE# = "SQLServer-DD"
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "portNumber"
+:      SET &UC4RB_WAS_DB_PORT# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "databaseName"
+:      SET &UC4RB_WAS_DB_NAME# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "URL"
+:      SET &UC4RB_WAS_DB_URL# = GET_PROCESS_LINE(&HND#,2)
+:      SET &UC4RB_WAS_DB_TYPE# = "Oracle"
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "driverType"
+:      SET &UC4RB_WAS_DB_DRIVER_TYPE# = GET_PROCESS_LINE(&HND#,2)
+:      SET &UC4RB_WAS_DB_TYPE# = "DB2"
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "ifxIFXHOST"
+:      SET &UC4RB_WAS_IFX_HOST# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "informixLockModeWait"
+:      SET &UC4RB_WAS_IFX_LOCK_MODE# = GET_PROCESS_LINE(&HND#,2)
+:      SET &UC4RB_WAS_DB_TYPE# = "Informix"
+:    ENDIF
+! Connection pool properties
+:    IF &UC4RB_DS_PROPERTY# = "connectionTimeout"
+:      SET &UC4RB_WAS_TIMEOUT# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "reapTime"
+:      SET &UC4RB_WAS_REAP_TIME# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "minConnections"
+:      SET &UC4RB_WAS_MIN_CON# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "maxConnections"
+:      SET &UC4RB_WAS_MAX_CON# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "unusedTimeout"
+:      SET &UC4RB_WAS_UNUSED_TIMEOUT# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "agedTimeout"
+:      SET &UC4RB_WAS_AGED_TIMEOUT# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "purgePolicy"
+:      SET &UC4RB_WAS_PURGE_POLICY# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "numberOfSharedPoolPartitions"
+:      SET &UC4RB_WAS_SHARED_POOL_PART# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "numberOfFreePoolPartitions"
+:      SET &UC4RB_WAS_FREE_POOL_PART# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "freePoolDistributionTableSize"
+:      SET &UC4RB_WAS_POOL_TABLE_SIZE# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "surgeThreshold"
+:      SET &UC4RB_WAS_SURGE_THRESHOLD# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "surgeCreationInterval"
+:      SET &UC4RB_WAS_SURGE_INTERVAL# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "stuckTimerTime"
+:      SET &UC4RB_WAS_STUCK_TIMER# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "stuckTime"
+:      SET &UC4RB_WAS_STUCK_TIME# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:    IF &UC4RB_DS_PROPERTY# = "stuckThreshold"
+:      SET &UC4RB_WAS_STUCK_THRESHOLD# = GET_PROCESS_LINE(&HND#,2)
+:    ENDIF
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND#
+
+:  SET &ACTOBJ# =ACTIVATE_UC_OBJECT("PCK.AUTOMIC_IBM_WEBSPHERE.PRV.ACTION.ROLLBACK.DELETE_DATASOURCE_SINGLE_SCOPE",WAIT,,,, PASS_VALUES)
+:  IF &ACTOBJ# > 0
+:    SET &RETURN_CODE# = GET_STATISTIC_DETAIL(&ACTOBJ#, STATUS)
+:    IF &RETURN_CODE# <> 1900
+:      PRINT "Can not restore datasource &UC4RB_WAS_NAME# on scope &UC4RB_WAS_SCOPE#. &UC4RB_WAS_SERVER_NAME# &UC4RB_WAS_NODE_NAME# &UC4RB_WAS_CLUSTER_NAME#"
+:      EXIT 1
+:    ELSE
+:      PRINT "Restored datasource &UC4RB_WAS_NAME# on scope &UC4RB_WAS_SCOPE#. &UC4RB_WAS_SERVER_NAME# &UC4RB_WAS_NODE_NAME# &UC4RB_WAS_CLUSTER_NAME#"
+:    ENDIF
+:  ELSE
+:    PRINT "Can not restore datasource &UC4RB_WAS_NAME# on scope &UC4RB_WAS_SCOPE#. &UC4RB_WAS_SERVER_NAME# &UC4RB_WAS_NODE_NAME# &UC4RB_WAS_CLUSTER_NAME#"
+:    EXIT 1
+:  ENDIF
+
+:  SET &UC4RB_DELETED_DS# = SUB(&UC4RB_DELETED_DS#,1)
+
+:ENDWHILE]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

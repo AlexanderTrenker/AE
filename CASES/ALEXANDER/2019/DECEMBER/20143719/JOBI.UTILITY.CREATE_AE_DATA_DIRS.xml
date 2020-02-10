@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.UTILITY.CREATE_AE_DATA_DIRS</name>
+         <type>JOBI</type>
+         <versioning_id>-1014886906</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &CREATE_AE_DATA_DIRS#  = GET_VAR(VARA.MAINTENANCE,CREATE_AE_DATA_DIRS,1)
+
+:IF &CREATE_AE_DATA_DIRS# = "Y"
+:  RESOLVE &AE_DATA# = "{VARA.MAINTENANCE,AE_DATA,1}"
+:  P AE_DATA: &AE_DATA#
+
+:  SET &DHND# = PREP_PROCESS_VAR(VARA.DB.AE_DATA_DIRS)
+
+:  PROCESS &DHND#
+:    SET &SUBDIR# = GET_PROCESS_LINE(&DHND#,1)
+:    SWITCH &$PLATFORM#
+:      CASE "WINDOWS"
+:      SET &SUBDIR# = STR_SUB(&SUBDIR#,'/','\')
+    IF NOT EXIST &AE_DATA#\&SUBDIR# md &AE_DATA#\&SUBDIR#
+:      CASE "UNIX"
+:      SET &SUBDIR# = STR_SUB(&SUBDIR#,'\','/')
+    [ ! -d "&AE_DATA#/&SUBDIR#" ] && mkdir -p &AE_DATA#/&SUBDIR#
+:    ENDSWITCH
+:  ENDPROCESS
+
+:  CLOSE_PROCESS &DHND#
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+</jobi>

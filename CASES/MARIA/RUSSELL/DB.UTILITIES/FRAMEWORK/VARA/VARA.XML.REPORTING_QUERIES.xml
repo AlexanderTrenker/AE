@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.XML.REPORTING_QUERIES</name>
+         <type>VARA</type>
+         <sub_type>XML</sub_type>
+         <description>DB.Reporting Queries for Reports</description>
+         <versioning_id>-1312727923</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>XML</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<QUERY version="11.2."><file type="HTML"/><client/><max_rows/><source>DEFINITION</source><selection/><output/></QUERY>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>definitions</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<QUERY version="11.2."><file type="HTML"/><client/><max_rows/><source>FORECAST</source><reference><date/><offset/></reference><selection/><output/></QUERY>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>forecasts</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<QUERY version="11.2."><file type="HTML"/><client/><max_rows/><source>STATISTICS</source><reference><date/><offset/></reference><selection/><output/></QUERY>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>statistics</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<QUERY version="11.2."><file css="Standard.css" type="HTML">Output.html</file><client>5000</client><max_rows>1000</max_rows><source>STATISTICS</source><reference><date>TODAY</date><offset>-168</offset></reference><selection><include name="OBJECT_TYPE" value="JOBS"/><include name="STATUS" value="1800,1801,1802,1810,1815,1820,1821,1822,1823,1824,1825,1826,1827,1828,1829,1830,1850,1851,1852,1853,1854,1856,1860,1896,1899"/></selection><output order="ascending" sort="OBJECT_NAME"><field name="OBJECT_TYPE"/><field name="OBJECT_NAME"/><field name="OBJECT_TITLE"/><field name="RETCODE"/><field name="STATUS"/><field name="RUN_NUMBER"/><field name="PARENT_SCHEDULE_NAME"/><field name="PARENT_JOBPLAN_NAME"/><field name="JOB_TYPE"/><field name="ARCHIVE_KEY1"/><field name="ARCHIVE_KEY2"/><field name="LOGIN_INFO"/><field name="START_TIME"/><field name="END_TIME"/><field name="ESTIMATED_RUNTIME"/><field name="RUNTIME"/><field name="HOST"/><field name="LOGIN"/><field name="VERSION"/></output></QUERY>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>STATS_ABENDS_LAST_7_DAYS.s.xml</key>
+      </row>
+   </static_values>
+</vara>

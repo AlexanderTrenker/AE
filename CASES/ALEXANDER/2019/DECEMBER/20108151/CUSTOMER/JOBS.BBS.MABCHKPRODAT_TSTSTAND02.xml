@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>MONATSABSCHLUSS</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>18</ert>
+         <platform>SQL</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.MABCHKPRODAT_TSTSTAND02</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Prüfung auf Konsistenz</description>
+         <versioning_id>-112448434</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[SQL_ON_ROWCOUNT_ZERO RETCODE=10;
+--  ++++++++++++++++++++++++++++++++++++++++++++++++
+--  BEREITGESTELLT VON  TH.BRODRECHT ITD-SYM
+--  TEL.   : 2920
+--  SPUFI  : TSTSTAND
+--  ZWECK  : PRUEFUNG DER TABELLEN
+--           BBS.TBBVTR_LV,
+--           BBS.TBBKOLL_VTR,
+--           BBS.TBBVTR_T_GEN,
+--           BBS.TBBVTR_T
+--           DER FOKUS LIEGT HIER AUF DER KOMBINA-
+--           TION VON PROD_SKZ UND PROD_T_SKZ.
+--  VORBEREITUNG FUER DEN BBS MONATSSCHLUSS
+--  ERWARTETES ERGEBNIS: KEINE TREFFER
+--  ++++++++++++++++++++++++++++++++++++++++++++++++
+SELECT  VLV.MANDANT
+      , VLV.VTR_NR
+  FROM  BBS.TBBVTR_LV    VLV
+      , BBS.TBBKOLL_VTR  KV
+      , BBS.TBBVTR_T_GEN VTG
+      , BBS.TBBVTR_T     VT
+WHERE
+    VLV.WIRKBIS    = 99991231
+AND KV.MANDANT     = VLV.MANDANT
+AND KV.KOLL_VTR_NR = VLV.KOLL_VTR_NR
+AND VT.MANDANT     = VLV.MANDANT
+AND VT.VTR_NR      = VLV.VTR_NR
+AND VTG.MANDANT    = VT.MANDANT
+AND VTG.VTR_T_ID   = VT.VTR_T_ID
+AND VTG.WIRKBIS    = 99991231
+AND NOT EXISTS (
+    SELECT * FROM BBS.TBBPROD_PROD_T_BW BW
+    WHERE BW.MANDANT          = VLV.MANDANT
+    AND   BW.PROD_SKZ         = VLV.PROD_SKZ
+    AND   BW.LFD_BTR_JN       = VLV.LFD_BTR_JN
+    AND   BW.PROD_T_SKZ       = VTG.PROD_T_SKZ
+    AND   BW.KOLL_ART_GRP_SKZ = KV.KOLL_ART_GRP_SKZ
+    );]]></process>
+      </row>
+      <row>
+         <pre_process>:INC JOBI.SQL_BBS_PARAM</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &RET# = GET_UC_OBJECT_STATUS(,,RETCODE)
+:IF &RET# NE 10
+:  MODIFY_STATE RETCODE=1
+:ELSE
+:  MODIFY_STATE RETCODE=0
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>SQL</platform>
+         <agent>HG.SQLORA</agent>
+         <login>LOGIN.SQL.BBSBAT</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <T>MSSQL</T>
+         <database_name>[autofill...]</database_name>
+         <server_name>[autofill...]</server_name>
+         <sql_column_seperator>;</sql_column_seperator>
+         <sql_captions>1</sql_captions>
+         <sql_show_null>1</sql_show_null>
+         <sql_max_rows>0</sql_max_rows>
+         <sql_max_characters>50</sql_max_characters>
+         <data_source></data_source>
+         <A></A>
+         <sql_subst_character></sql_subst_character>
+         <sql_remove_crlf>1</sql_remove_crlf>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

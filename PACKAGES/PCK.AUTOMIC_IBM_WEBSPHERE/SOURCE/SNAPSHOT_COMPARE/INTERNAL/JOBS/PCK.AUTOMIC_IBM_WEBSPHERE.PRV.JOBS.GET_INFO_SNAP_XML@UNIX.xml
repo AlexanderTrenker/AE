@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.JOBS.GET_INFO_SNAP_XML@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1797371028</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+:SET &UC4RB_CONVERTED_STRING# = "&UC4RB_ARCHIVE_PATH#/&UC4RB_OUT_TARGET_GUID#/snap.xml"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &SNAPSHOT_FILE# = &UC4RB_CONVERTED_STRING#
+
+:INCLUDE PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ATTACH_JAVA_TOOL
+
+port=$(java -jar &$AGENT_RESOURCES_CLIENT#websphere-tool.jar XML GetAttribute -xml "&SNAPSHOT_FILE#" -x //snapshot -an 'port' -filter first | grep "XML-GetAttribute-Result")
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+port=$(echo $port | sed 's/XML-GetAttribute-Result: \[\(.*\)\]$/\1/')
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+host=$(java -jar &$AGENT_RESOURCES_CLIENT#websphere-tool.jar XML GetAttribute -xml "&SNAPSHOT_FILE#" -x //snapshot -an 'host' -filter first | grep "XML-GetAttribute-Result")
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+host=$(echo $host | sed 's/XML-GetAttribute-Result: \[\(.*\)\]$/\1/')
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+echo "Websphere: $host :: $port"
+
+application=$(java -jar &$AGENT_RESOURCES_CLIENT#websphere-tool.jar XML ExecutePath -xml "&SNAPSHOT_FILE#" -x //snapshot/application -filter first | grep "Return code: 0")
+
+server=$(java -jar &$AGENT_RESOURCES_CLIENT#websphere-tool.jar XML ExecutePath -xml "&SNAPSHOT_FILE#" -x //snapshot/server -filter first | grep "Return code: 0")
+
+if [ -n "$application" ] ; then
+  if [ -n "$server" ] ; then
+    echo "SnapMode: BOTH"
+  else
+    echo "SnapMode: APPLICATION"
+  fi
+else
+  if [ -n "$server" ] ; then
+    echo "SnapMode: SERVER"
+  else
+    echo "Unable to extract information from &SNAPSHOT_FILE#"
+    exit 1
+  fi
+fi
+
+appname=$(java -jar &$AGENT_RESOURCES_CLIENT#websphere-tool.jar XML GetAttribute -xml "&SNAPSHOT_FILE#" -x //snapshot/application/appname -an 'name' -filter first | grep "XML-GetAttribute-Result")
+
+appname=$(echo $appname | sed 's/XML-GetAttribute-Result: \[\(.*\)\]$/\1/')
+
+echo "AppName: $appname"]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &checkForText# = "Websphere:*"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.RETRIEVE_LINE_BY_TEXT
+:PRINT "&UC4RB_RESULT_LINE#"
+:IF STR_LENGTH(&UC4RB_RESULT_LINE#) > 12
+:  SET &UC4RB_RESULT_SNAP_XML# = SUBSTR(&UC4RB_RESULT_LINE#,12)
+:  DEFINE &host_port#, string, 2
+:  FILL &host_port#[] = STR_SPLIT(&UC4RB_RESULT_SNAP_XML#,"::")
+:  PSET &UC4RB_WAS_HOST# = STR_TRIM(&host_port#[1])
+:  PSET &UC4RB_WAS_PORT# = STR_TRIM(&host_port#[2])
+
+:ENDIF
+
+:SET &checkForText# = "SnapMode:*"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.RETRIEVE_LINE_BY_TEXT
+:PRINT "&UC4RB_RESULT_LINE#"
+:IF STR_LENGTH(&UC4RB_RESULT_LINE#) > 11
+:  PSET &UC4RB_SNAPSHOT_MODE# = SUBSTR(&UC4RB_RESULT_LINE#,11)
+:ENDIF
+
+:SET &checkForText# = "AppName:*"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.RETRIEVE_LINE_BY_TEXT
+:PRINT "&UC4RB_RESULT_LINE#"
+:IF STR_LENGTH(&UC4RB_RESULT_LINE#) > 10
+:  PSET &UC4RB_APP_NAME# = SUBSTR(&UC4RB_RESULT_LINE#,10)
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

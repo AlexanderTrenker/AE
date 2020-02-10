@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>00545862</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PROD.INCLUDE.X.TBS.INFOSOURCE.DATAMINE_CLOUD_AWS_SETTINGS</name>
+         <type>JOBI</type>
+         <description>Datamine EMR coordinator settings</description>
+         <versioning_id>-922980547</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PROD.INCLUDE.X.TBS.X.ENV_SETTINGS
+
+! Set values from Variable Object
+:SET &EDH_AWS_EMR_COORDINATOR_IP# = GET_VAR(PROD.VARIABLE.X.TBS.DATAMINE.DATAMINE_CLOUD_COMMON, "EMR_COORDINATOR_HOST")
+:SET &EXECUTION_ENV# = GET_VAR(PROD.VARIABLE.X.TBS.DATAMINE.DATAMINE_CLOUD_COMMON, "EXECUTION_ENV")
+:SET &PRIMARY_AWS_REGION# = GET_VAR(PROD.VARIABLE.X.TBS.DATAMINE.DATAMINE_CLOUD_COMMON, "PRIMARY_AWS_REGION")
+:SET &PRIMARY_TABLE_PREFIX# = GET_VAR(PROD.VARIABLE.X.TBS.DATAMINE.DATAMINE_CLOUD_COMMON, "PRIMARY_TABLE_PREFIX")
+
+:SET &BACKUP_AWS_REGION# = GET_VAR(PROD.VARIABLE.X.TBS.DATAMINE.DATAMINE_CLOUD_COMMON, "BACKUP_AWS_REGION")
+:SET &BACKUP_TABLE_PREFIX# = GET_VAR(PROD.VARIABLE.X.TBS.DATAMINE.DATAMINE_CLOUD_COMMON, "BACKUP_TABLE_PREFIX")
+
+! When retrieving a value from the UC4 Object we need to trim the string in the event that the value was blank,
+! GET_VAR always returns a single BLANK when there is no value associated to a Key
+:SET &PRIMARY_TABLE_PREFIX#=STR_TRIM(&PRIMARY_TABLE_PREFIX#)
+:SET &BACKUP_TABLE_PREFIX#=STR_TRIM(&BACKUP_TABLE_PREFIX#)
+
+! Construct data center based on environment and region
+:SET &EDH_AWS_DATACENTER# = '&EXECUTION_ENV#-&PRIMARY_AWS_REGION#'
+:SET &EDH_AWS_BACKUP_DATACENTER# = '&EXECUTION_ENV#-&BACKUP_AWS_REGION#'
+
+! ((ENVPROPS: UC4_ENV_ID=UC4.0100.PROD UC4_MAJOR_APP=TBS Created=2019-06-22 14:26:25 CDT
+:SET &AWS_CONSUL_LOOKUP_URL# = 'https://consul-&EDH_AWS_DATACENTER#.ops.cme.com:8500/v1/health/service'
+:SET &CONSUL_LOOKUP_HOST_LOGIN# = 'PROD.LOGIN.U.X.X.DABR'
+:SET &CONSUL_LOOKUP_HOST# = 'EDHPRAP0001D'
+:SET &EMR_COORDINATOR_LOGIN# = 'PROD.LOGIN.U.X.X.DABR'
+:SET &EMR_CONFIG_FILE# = '/tmp/emr.json'
+:SET &RESOURCE_ID# = 'datamine_emr'
+:SET &AWS_ACCOUNT# = '265450538123'
+:SET &AWS_REGION# = '&PRIMARY_AWS_REGION#'
+:SET &JENKINS_SCHEDULER_HOST_LOGIN# = 'PROD.LOGIN.U.X.X.DABR'
+:SET &JENKINS_SCHEDULER_HOST# = 'ucprap0001d'
+:SET &COORDINATOR_JENKINS_JOB# = '144/com-2702/_deployments/md-batch-job-coordinator'
+:SET &MD_FLINK_JENKINS_JOB# = '1251/com-2400/_deployments/marketdata-stream-process'
+:SET &JENKINS_ENVIRONMENT# = '&EDH_AWS_DATACENTER#'
+:SET &JENKINS_ENVIRONMENT_WEST# = '&EDH_AWS_BACKUP_DATACENTER#'
+! EOD MD Batch job configs
+:SET &JENKINS_PROFILE# = '&EDH_AWS_DATACENTER#'
+:SET &JENKINS_PROFILE_WEST# = '&EDH_AWS_BACKUP_DATACENTER#'
+:SET &COORDINATOR_CONSUL_SERVICE_NAME# = 'datamine-emr-coordinator'
+:SET &EMR_COORDINATOR_HOST# = GET_VAR(PROD.VARIABLE.X.TBS.DATAMINE.DATAMINE_CLOUD_COMMON, "EMR_COORDINATOR_HOST")
+! Sequence Check configs
+:SET &SEQCHK_JENKINS_PROFILE# = 'seqchk-&EDH_AWS_DATACENTER#'
+:SET &SEQCHK_COORDINATOR_CONSUL_NAME# = 'datamine-emr-coordinator-seqchk'
+:SET &SEQCHK_EMR_COORDINATOR_HOST# = GET_VAR(PROD.VARIABLE.X.TBS.DATAMINE.DATAMINE_CLOUD_COMMON, "SEQCHK_EMR_COORDINATOR_HOST")
+:SET &CMEDEPLOY_ADDITIONAL_PARAMS# = ''
+! ))
+
+! command line
+:SET &AWS_BIN# = '/usr/local/bin/aws']]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.JOB.UPDATE_DATASOURCE_VALIDATIONS@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Update Data Source Validations</description>
+         <versioning_id>2036613186</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: IF 'YES' = &UC4RB_WAS_VALIDATE_NEW_CONN#
+:   IF "" = &UC4RB_WAS_NO_OF_RETRIES# OR &UC4RB_WAS_RETRY_INTERVAL_NEW#
+:     STOP MSG, 50, '"Number of Retries" and "Retry Interval for New Connection" required if "Validate New Connections" is set to "YES".'
+:   ENDIF
+: ENDIF
+
+: IF 'YES' = &UC4RB_WAS_VALIDATE_EXIST_CONN#
+:   IF "" = &UC4RB_WAS_RETRY_INTERVAL_EXIST#
+:     STOP MSG, 50, '"Retry Interval for Existing Connection" required if "Validate Existing Pooled Connections" is set to "YES".'
+:   ENDIF
+: ENDIF
+
+: IF 'YES' = &UC4RB_WAS_VALIDATE_NEW_CONN# OR &UC4RB_WAS_VALIDATE_EXIST_CONN#
+:   IF &UC4RB_WAS_VALIDATION_OPTIONS# = ''
+:     STOP MSG, 50, '"Validation Options" required, if "Validate New Connections" or "Validate Existing Pooled Connections" or both are set to "YES".'
+:   ELSE
+:     IF &UC4RB_WAS_VALIDATION_OPTIONS# = 'Validation by JDBC driver'
+:       IF &UC4RB_WAS_TIMEOUT# = ''
+:         STOP MSG, 50, '"Timeout" required, if "Validation Options" is set to "Validation by JDBC driver".'
+:       ENDIF
+:     ELSE IF &UC4RB_WAS_VALIDATION_OPTIONS# = 'Validation by SQL query'
+:       IF &UC4RB_WAS_PRETEST_SQL_QUERY# = ''
+:         STOP MSG, 50, '"Query" required, if "Validation Options" is set to "Validation by SQL query".'
+:       ENDIF
+:     ENDIF
+:   ENDIF
+:   SET &COUNT# = 0
+:   IF &UC4RB_WAS_TIMEOUT# <> ''
+:     SET &COUNT# = &COUNT# + 1
+:   ENDIF
+:   IF &UC4RB_WAS_PRETEST_SQL_QUERY# <> ''
+:     SET &COUNT# = &COUNT# + 1
+:   ENDIF
+:   IF &COUNT# <> 1
+:     STOP MSG, 50, 'Only one of "Timeout" and "Query" required if "Validate New Connections" or "Validate Existing Pooled Connections" or both are set to "YES".'
+:   ENDIF
+: ENDIF
+
+@echo off
+
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+! Host
+: SET &UC4RB_LOGGING_PARAMETER# = "Host"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_HOST#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Port
+: SET &UC4RB_LOGGING_PARAMETER# = "Port"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_PORT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Username
+: SET &UC4RB_LOGGING_PARAMETER# = "Username"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_USERNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! WSAdmin Tool Bin Directory
+: SET &UC4RB_LOGGING_PARAMETER# = "WSAdmin Tool Bin Directory"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4_WSADMIN_DIR_PATH#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Data Source Name
+: SET &UC4RB_LOGGING_PARAMETER# = "Data Source Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_DATASOURCE_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Validate New Connections		
+: SET &UC4RB_LOGGING_PARAMETER# = "Validate New Connections"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_VALIDATE_NEW_CONN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Number of Retries	
+: SET &UC4RB_LOGGING_PARAMETER# = "Number of Retries"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_NO_OF_RETRIES#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Retry Interval for New Connection
+: SET &UC4RB_LOGGING_PARAMETER# = "Retry Interval for New Connection"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_RETRY_INTERVAL_NEW#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Validate Existing Pooled Connections			
+: SET &UC4RB_LOGGING_PARAMETER# = "Validate Existing Pooled Connections"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_VALIDATE_EXIST_CONN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Retry Interval for Existing Connection
+: SET &UC4RB_LOGGING_PARAMETER# = "Retry Interval for Existing Connection"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_RETRY_INTERVAL_EXIST#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Validation Options
+: SET &UC4RB_LOGGING_PARAMETER# = "Validation Options"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_VALIDATION_OPTIONS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Timeout
+: SET &UC4RB_LOGGING_PARAMETER# = "Timeout"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_TIMEOUT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Query
+: SET &UC4RB_LOGGING_PARAMETER# = "Query"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_PRETEST_SQL_QUERY#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Advanced Options
+: SET &UC4RB_LOGGING_PARAMETER# = "Advanced Options"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_WAS_ADV_OPTIONS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+
+! logging start of execution
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!-------------------------------------------------Forming the command--------------------------------------------
+: SET &UC4RB_ESCAPED_STRING# = "&UC4_WSADMIN_DIR_PATH#\wsadmin.bat"
+
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+
+: INCLUDE PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ATTACH_RES
+: SET &UC4RB_WAS_CMD# = "java -jar ""&$AGENT_RESOURCES_CLIENT#itpa-tool.jar"" arb -cmd execute &UC4RB_ESCAPED_STRING#"
+
+! Username
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_USERNAME#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -username &UC4RB_ESCAPED_STRING#")
+
+! Password
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_PASSWORD#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -password &UC4RB_ESCAPED_STRING#")
+
+: IF &UC4RB_WAS_HOST# <> ""
+!     Host
+:     SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_HOST#
+:     INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+:     SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#," -host &UC4RB_ESCAPED_STRING#")
+
+!     Port
+:     SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_PORT#
+:     INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+:     SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -port &UC4RB_ESCAPED_STRING#")
+: ENDIF
+
+! Advanced Options	
+: IF &UC4RB_WAS_ADV_OPTIONS# <> ""
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_WAS_ADV_OPTIONS#")
+: ENDIF
+
+! Attach python file to prepare running
+: ATTACH_RES "PCK.AUTOMIC_IBM_WEBSPHERE.PRV.STORE", "UPDATE_DATA_SOURCE_VALIDATIONS", T
+: SET &FILENAME# = STR_CAT(&$AGENT_RESOURCES_TASK#, "pck_websphere_update_data_source_validations.py")
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " -f ""&FILENAME#""")
+
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " ""&UC4RB_WAS_WSADMINLIB#""")
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " ""&UC4RB_WAS_UTILSLIB#""")
+
+! Data Source Name
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_WAS_DATASOURCE_NAME#
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+: SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+
+! Validate New Connections	
+: IF &UC4RB_WAS_VALIDATE_NEW_CONN# = 'YES'
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, ' "True"')
+!   Number of Retries
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, ' "_PREF:&UC4RB_WAS_NO_OF_RETRIES#"')
+!   Retry Interval for New Connection
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, ' "_PREF:&UC4RB_WAS_RETRY_INTERVAL_NEW#"')
+: ELSE
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, ' "False" "_PREF:" "_PREF:"')
+: ENDIF
+
+! Validate Existing Pooled Connections
+: IF &UC4RB_WAS_VALIDATE_EXIST_CONN# = 'YES'
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, ' "True"')
+!   Retry Interval for Existing Connection
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " _PREF:&UC4RB_WAS_RETRY_INTERVAL_EXIST#")
+: ELSE
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, ' "False" "_PREF:"')
+: ENDIF
+
+: IF 'YES' = &UC4RB_WAS_VALIDATE_NEW_CONN# OR &UC4RB_WAS_VALIDATE_EXIST_CONN#
+!   Timeout
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, ' "_PREF:&UC4RB_WAS_TIMEOUT#"')
+!   Query
+:   SET &UC4RB_ESCAPED_STRING# = "_PREF:"
+:   SET &UC4RB_ESCAPED_STRING# = STR_CAT(&UC4RB_ESCAPED_STRING#, "&UC4RB_WAS_PRETEST_SQL_QUERY#")
+:   INC PCK.AUTOMIC_IBM_WEBSPHERE.PUB.INCLUDE.ESCAPE_ARG_ADD_QUOTATION
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, " &UC4RB_ESCAPED_STRING#")
+: ELSE
+:   SET &UC4RB_WAS_CMD# = STR_CAT(&UC4RB_WAS_CMD#, ' "_PREF:" "_PREF:"')
+: ENDIF
+
+! logging the command
+: PRINT &UC4RB_WAS_CMD#
+
+! Invoking java binary
+  &UC4RB_WAS_CMD#
+
+! Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** UPDATE DATASOURCE VALIDATIONS ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** UPDATE DATASOURCE VALIDATIONS ACTION FAILED ********"
+
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process>: INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

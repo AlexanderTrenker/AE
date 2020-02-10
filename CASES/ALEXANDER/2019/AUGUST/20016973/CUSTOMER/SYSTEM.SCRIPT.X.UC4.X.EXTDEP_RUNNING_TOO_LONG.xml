@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>36315</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt>25200</mrt>
+         <mrt_alarm>SYSTEM.SCRIPT.X.UC4.X.OBJ_RUNNING_TOO_LONG</mrt_alarm>
+         <mrt_method>513</mrt_method>
+         <mrt_time>000000</mrt_time>
+         <name>SYSTEM.SCRIPT.X.UC4.X.EXTDEP_RUNNING_TOO_LONG</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1816626474</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_OPS_INFO><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Abend_History [
+<!ELEMENT Abend_History EMPTY>
+
+
+
+<!ELEMENT Content (General_Info, Restart_Info, Abend_History)>
+
+<!ELEMENT General_Info EMPTY>
+
+<!ELEMENT Restart_Info EMPTY>
+]>
+<Content>
+<General_Info/>
+<Restart_Info/>
+<Abend_History/>
+</Content>
+]]></_OPS_INFO>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[!
+! This goes and gets the object name and run number of the object that has
+!  exceeded its max runtime.  Then it sends a message to OVO (using the :PRINT
+!  statement) so Operations can investigate the reason.
+!
+!  NOTE: generate at runtime MUST be checked for this to work.
+!
+:SET &OBJNAME = SYS_ACT_PARENT_NAME(ACT)
+:SET &RUNNO   = SYS_ACT_PARENT_NR(ACT)
+:PRINT 'UC4ALERT: External Dependency inside jobplan &OBJNAME, (Run # &RUNNO) has been executing longer than expected; Please investigate.']]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

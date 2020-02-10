@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>DISDA</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.DISDA_KONF</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; SETZEN DER ALLGEMEINEN BATCHPARAMETER</description>
+         <versioning_id>70199896</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &VARA# = "VARA.BATCH.DISDA_BATCH"
+:PRINT " Vorher:"
+:PRINT "+-----------------------------------------"
+:PRINT "|KEY -> WERT_1"
+:PRINT "+-----------------------------------------"
+:SET &HND# = PREP_PROCESS_VAR(&VARA#)
+:PROCESS &HND#
+:  SET &KEY# = GET_PROCESS_LINE(&HND#, 1)
+:  SET &WERT_1# = GET_PROCESS_LINE(&HND#, 2)
+:  PRINT "|&KEY# -> &WERT_1#"
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+:PRINT "+-----------------------------------------"
+! --------------------------------------
+! Parameter fuer den DISDA-Batch setzen:
+! --------------------------------------
+:PRINT ""
+:PRINT ">>> AKTUALISIERE WERTE [&VARA#] ..."
+:PRINT ""
+! --------------------------------------
+! 1.) "SPIEGELUNG"       -> "VALUTA_VON"
+! --------------------------------------
+:SET &SPIEGELUNG# = GET_VAR(&VARA#, "SPIEGELUNG"):CLOSE_PROCESS &HND#
+:PRINT ">>> LETZE SPIEGELUNG VOM: &SPIEGELUNG#"
+:PRINT " -> VALUTA_VON: &SPIEGELUNG#"
+! --------------------------------------
+! 2.) SYS_DATE           -> "SPIEGELUNG"
+! --------------------------------------
+:SET &DATUM_AM# = SYS_DATE("JJJJMMTT"):CLOSE_PROCESS &HND#
+:PRINT ">>> HEUTE: &DATUM_AM#"
+:PRINT " -> SPIEGELUNG: &DATUM_AM#"
+! --------------------------------------
+! 3.) SYS_DATE           -> "VALUTA_BIS"
+! --------------------------------------
+:PRINT " -> VALUTA_BIS: &DATUM_AM#"
+! --------------------------------------
+! 4.) 1. des Folgemonats -> "VALUTA"
+! --------------------------------------
+:SET &MONAT_AKT_1# = FIRST_OF_PERIOD(&DATUM_AM#, "MM", "JJJJMMTT")
+:SET &MONAT_POST_1# = ADD_PERIOD(&MONAT_AKT_1#, "MM:1", "JJJJMMTT")
+:PRINT ">>> ERSTER DES FOLGEMONATS: &MONAT_POST_1#"
+:PRINT " -> VALUTA: &MONAT_POST_1#"
+! --------
+! Vollzug!
+! --------
+:IF &UC4_DEPLOYMENT_TEST# NE "N"
+:  PRINT ""
+:  PRINT ">>> UC4_DEPLOYMENT_TEST -> KEINE UPDATES!"
+:  PRINT ""
+:ELSE
+:  PUT_VAR &VARA#, "VALUTA_VON", &SPIEGELUNG#
+:  PUT_VAR &VARA#, "SPIEGELUNG", &DATUM_AM#, &SPIEGELUNG#
+:  PUT_VAR &VARA#, "VALUTA_BIS", &DATUM_AM#
+:  PUT_VAR &VARA#, "VALUTA", &MONAT_POST_1#
+:ENDIF
+:PRINT " Nachher:"
+:PRINT "+-----------------------------------------"
+:PRINT "|KEY -> WERT_1"
+:PRINT "+-----------------------------------------"
+:SET &HND# = PREP_PROCESS_VAR(&VARA#)
+:PROCESS &HND#
+:  SET &KEY# = GET_PROCESS_LINE(&HND#, 1)
+:  SET &WERT_1# = GET_PROCESS_LINE(&HND#, 2)
+:  PRINT "|&KEY# -> &WERT_1#"
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+:PRINT "+-----------------------------------------"]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

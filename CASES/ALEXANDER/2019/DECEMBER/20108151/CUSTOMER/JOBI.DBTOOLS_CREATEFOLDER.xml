@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.DBTOOLS_CREATEFOLDER</name>
+         <type>JOBI</type>
+         <description>Verzeichnisse auf Oracle Server werden ggf. angelegt ...</description>
+         <versioning_id>-1190242217</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.DBTOOLS_CREATEFOLDER]=============================="
+  echo "[START JOBI.DBTOOLS_CREATEFOLDER]=============================="
+! -------------------------------
+! Variablen werden initialisiert:
+! -------------------------------
+:SET &RUNDIR# = &RUNDIR#
+:SET &LOGDIR# = &LOGDIR#
+:SET &WORKDIR# = &WORKDIR#
+:SET &HISTDIR# = &HISTDIR#
+:SET &INDIR# = &INDIR#
+:SET &DATDIR# = &DATDIR#
+! -------------------------------------------------
+! Verzeichnisse werden, sofern definiert, angelegt:
+! -------------------------------------------------
+  array_dir=("&RUNDIR#" "&LOGDIR#" "&WORKDIR#" "&HISTDIR#" "&INDIR#" "&DATDIR#")
+  for (( cnt=0; cnt<${#array_dir[*]}; cnt++))
+  do
+    dir=${array_dir[$cnt]}
+!    echo ">>> untersuche $dir"
+!    echo " -> Laenge von $dir = ${#dir}"
+    if [ ${#dir} -gt 5 ]
+    then
+      if [ ! -d $dir ]
+      then
+        echo ">>> Verzeichnis $dir wird angelegt ..."
+        mkdir -pv $dir
+        echo "rc_mkdir=$?"
+      else
+        echo ">>> Verzeichnis $dir existiert schon ..."
+      fi
+    fi
+  done
+! ---------------------
+! Verzeichniswechsel...
+! ---------------------
+  echo ">>> Wechsel ins Runtime Verzeichnis"
+  cd &RUNDIR#
+  if [ $? -ne 0 ]; then
+    echo "Konnte nicht in &RUNDIR# Verzeichnis wechseln !"
+    exit 99
+  fi
+  pwd
+  echo "===============================[ENDE JOBI.DBTOOLS_CREATEFOLDER]"
+:PRINT "===============================[ENDE JOBI.DBTOOLS_CREATEFOLDER]"]]></process>
+      </row>
+   </scripts>
+</jobi>

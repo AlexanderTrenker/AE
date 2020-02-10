@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<call>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <ert_method>2</ert_method>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>CALL.AUTOMIC_FAILED_WEATHER_CAMERAS</name>
+         <type>CALL</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.GCI.GENERAL</queue>
+         <sub_type>3</sub_type>
+         <description>Automic Failed Job Notification</description>
+         <versioning_id>2041236635</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:read &UC_CAUSE_NAME,,
+:read &UC_CAUSE_NR,,
+:read &UC_CAUSE_STATE,,
+:read &UC_CAUSE_RETCODE,,
+:pSET &A# = &UC_CAUSE_NR
+:SET &WORKFLOW_RUNID# = GET_PARENT_NR (&A#,ACT)
+:PRINT 'THE PARENT RUN id IS &WORKFLOW_RUNID# '
+:SET &JOB# =  SYS_ACT_PARENT_NAME(ACT)
+:SET &CLIENT# = SYS_ACT_CLIENT()
+:SET &SUBJECT# = 'Failed Job, please investigate camera possibly down'
+:SET &TIME# = SYS_TIME_PHYSICAL("HH:MM:SS")
+:SET &STATUSTEXT# = get_msg_txt(&UC_CAUSE_STATE,'')PRINT]]></process>
+      </row>
+   </scripts>
+   <notification_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <priority>1</priority>
+         <subject>Error Automic Failed Job For Camera Location -  &amp;UC_CAUSE_NAME</subject>
+         <content><![CDATA[<!DOCTYPE html>
+<!--________________________________________________________________________________________________________> 
+   GCI Announcement Template V 1.0.0  - ITRT Cusomized Outage 1.0.0 - 
+   Developed at the GCI IT Response Team 2017  
+   Released 01-20-2017
+   <_________________________________________________________________________________________________________--> 
+<!-- MASTER TABLE  -->
+<!-- Main background color declared here: GCI IT: #f0f1f1 -->
+<table border=0 cellspacing=0 cellpadding=0 style='background:#f0f1f1;margin-left:6.75pt;margin-right:6.75pt;font-family:"Segoe UI",sans-serif'>
+   <!-- HEADER IMAGE  -->
+   <tr>
+      <td colspan=2>
+         <p align=center style='margin:0px'>
+            <!-- Main background header image here: GCI IT: www..com -->
+            <img width=600 height=80 src="http://static.gci.com/email/images/Email-Template-Header-IT-min.png">
+         </p>
+      </td>
+   </tr>
+   <!-- END HEADER IMAGE  -->
+   <!-- EVENT TITLE -->
+   <tr>
+      <td style='padding:0.0pt 15.0pt 15.0pt 15.0pt; width: 540px '>
+         <p style='margin-bottom:12.0pt;margin-top:17.0pt;font-size: 18.0pt;font-family:"Segoe UI Light",sans-serif;'>
+            <!-- EVENT TYPE -->
+            <span style='color:#831525; font-weight:bold;'>AUTOMIC JOB - FAILED</span>
+            <!-- END EVENT TYPE -->
+            <!-- SERVICE IMPACTED -->
+            <br> &UC_CAUSE_NAME
+            <!-- END SERVICE IMPACTED -->
+         </p>
+         <!-- END EVENT TITLE  -->
+         <!-- TOP TABLE MASTER -->
+         <table border=0 cellspacing=0 cellpadding=0 style='width:420pt;font-size:8.0pt;font-family:"Segoe UI",sans-serif;'>
+            <!-- END TOP TABLE MASTER -->
+         </table>
+         <!-- Top Divider -->
+         <table border=0 cellspacing=0 cellpadding=0 style='width:560px;font-size:8.0pt;font-family:"Segoe UI",sans-serif;'>
+            <tr>
+               <td colspan=3 style='border:none;border-bottom:solid #D9D9D9 1.0pt'>
+               </td>
+            </tr>
+         </table>
+         <br>
+         <!-- END Top Divider -->
+         <!-- MAIN ROW 1 - USER IMPACT  -->
+            <span style='line-height:13.5pt;font-size:12.0pt;color:#283535'>Notice</span> <br>
+            <span style='font-size:9.0pt;color:#000000;'>&SUBJECT#</span><br> 
+            <br>
+            <!-- MAIN ROW 2 - DATE TIME  -->
+            <span style='line-height:13.5pt;font-size:12.0pt;color:#283535'>Date/Time</span> <br>
+            <span style='font-size:9.0pt;color:#000000;'>&$PHYS_DATE_MM_DD_YYYY_s#  at &TIME#</span><br> 
+            <br>
+            <!-- MAIN ROW 3 - CLIENT  --> 
+            <span style='line-height:13.5pt;font-size:12.0pt;color:#283535'>Client</span><br> 
+            <span style='font-size:9.0pt;color:#000000;'>&CLIENT#</span><br> 
+            <br>
+            <!-- MAIN ROW 4 - STATUS  --> 
+            <span style='line-height:13.5pt;font-size:12.0pt;color:#283535'>Status</span><br> 
+            <span style='font-size:9.0pt;color:#831525;font-weight:bold'>&STATUSTEXT#</span><br> 
+            <br>
+            <!-- MAIN ROW 5 - RUN ID  --> 
+            <span style='line-height:13.5pt;font-size:12.0pt;color:#283535'>Run ID</span><br>
+            <span style='font-size:9.0pt;color:#000000;'>&UC_CAUSE_NR</span><br>  
+            <!-- MAIN ROW 6 - NEW LINK  --> 
+            <br>
+               <span style='line-height:13.5pt;font-size:12.0pt;color:#283535'>Automic AWI</span> 
+               <span style='font-size:9.0pt;color:#000000;'><a href= "https://c301prdopsut1.cycle30.com:8443/enterprise.control.center/#pm/monitor/&WORKFLOW_RUNID#">AWI</a></span>
+               <br>
+      </td>
+   </tr>
+   <!-- LOWER SECTION STATIC DATE -->
+   <tr>
+      <!-- Bottom Divider Line -->
+   <tr>
+      <td>
+         <table border=0 cellspacing=0 cellpadding=0 style='margin-left:20px;width:560px;font-size:8.0pt;font-family:"Segoe UI",sans-serif;'>
+            <tr>
+               <td colspan=3 style='border:none;border-bottom:solid #D9D9D9 1.0pt'>
+               </td>
+            </tr>
+         </table>
+      </td>
+   </tr>
+   <!-- END Bottom Divider Line -->
+   <!-- Copyright message bottom left -->
+   </tr>
+   <tr>
+      <td colspan=2 style='padding:5.0pt 15.0pt 5.0pt 15.0pt;width:400px;'>
+         <p style='line-height:13.5pt;font-size:7.5pt;color:#333333;font-style: italic;'>
+            <span style='line-height:13.5pt;font-size:7.5pt;color:#333333;font-style: italic;'>
+            This is a system generated notification. If you have any questions please contact support at servicedeskit@gci.com.<br>
+            <br>
+            The contents of this email message and any attachments are intended solely for the addressee(s) and may contain confidential and/or privileged information. If you are not the intended recipient, you are hereby
+            notified that any use, dissemination, copying, or storage of this message or its attachments is strictly prohibited. <br>
+            <span style='font-weight:bold'>
+            &copy; 2018, GCI. All Rights Reserved.
+            </span>
+            </span>
+         </p>
+      </td>
+   </tr>
+   <!-- END Copyright message bottom left -->
+   <!-- FOOTER MAIN -->
+   <tr>
+      <!-- Footer color declared here: GCI IT: #595959 -->
+      <td colspan=2 style='background:#283535;padding:7.5pt 10.5pt 7.5pt 15.0pt;'>
+         <!-- Footer text color declared here: GCI IT: white -->
+         <p align=right style='text-align:right;line-height:13.5pt;color:white'>
+            GCI IT Department
+         </p>
+      </td>
+   </tr>
+   <!-- END FOOTER MESSAGE BOTTOM -->
+</table>
+<!-- END MASTER TABLE  -->]]></content>
+      </row>
+   </notification_attributes>
+   <notification_content>
+      <row>
+         <email>C30SVCUC4DEV/CYCLE30</email>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <email>SMICK/CYCLE30</email>
+         <line_number>2</line_number>
+      </row>
+   </notification_content>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</call>

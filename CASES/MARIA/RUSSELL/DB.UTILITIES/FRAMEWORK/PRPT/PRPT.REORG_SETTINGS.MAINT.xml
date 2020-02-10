@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PRPT.REORG_SETTINGS.MAINT</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-149554875</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="673" icon="PRPT" id="PRPTS" left="0" top="0" width="424"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="PRPT"><properties><entry name="text">PRPT</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>16</line_number>
+         <name>AUDIT#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="AUDITs.00" nl="1" text="Reorg object audit?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Reorg object audit?</entry>
+        <entry name="quotes"/>
+        <entry name="id">AUDITs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>17</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>AUDIT_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="AUDIT_DAYSs.00" max="9999" min="0" nl="1" text="Object audit older than X days" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Object audit older than X days</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">AUDIT_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>18</line_number>
+         <name>AUDIT_REVISED#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="AUDIT_REVISEDs.00" nl="1" text="Only reorg revised object audits?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Only reorg revised object audits?</entry>
+        <entry name="quotes"/>
+        <entry name="id">AUDIT_REVISEDs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>MESSAGES#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="MESSAGESs.00" nl="1" text="Reorg messages?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Reorg messages?</entry>
+        <entry name="quotes"/>
+        <entry name="id">MESSAGESs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>READ_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="READ_DAYSs.00" max="9999" min="0" nl="1" text="Read messages older than X days" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Read messages older than X days</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">READ_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>19</line_number>
+         <name>REPLACE#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="REPLACEs.00" nl="1" text="Replace if exists?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Replace if exists?</entry>
+        <entry name="quotes"/>
+        <entry name="id">REPLACEs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>9</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>REPORT_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="REPORT_DAYSs.00" max="9999" min="0" nl="1" text="Reports older than X days" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Reports older than X days</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">REPORT_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>8</line_number>
+         <name>REPORTS#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="REPORTSs.00" nl="1" text="Reorg reports?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Reorg reports?</entry>
+        <entry name="quotes"/>
+        <entry name="id">REPORTSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>10</line_number>
+         <name>REPORTS_OBJ#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="REPORTS_OBJs.00" nl="1" text="Reorg reports per object?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Reorg reports per object?</entry>
+        <entry name="quotes"/>
+        <entry name="id">REPORTS_OBJs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>11</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>REPORTS_OBJ_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="REPORTS_OBJ_DAYSs.00" max="9999" min="0" nl="1" text="Keep last X reports per object" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Keep last X reports per object</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">REPORTS_OBJ_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>STATISTICS#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="STATISTICSs.00" nl="1" text="Reorg statistics?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Reorg statistics?</entry>
+        <entry name="quotes"/>
+        <entry name="id">STATISTICSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>STATISTICS_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="STATISTICS_DAYSs.00" max="9999" min="0" nl="1" text="Statistics older than X days" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Statistics older than X days</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">STATISTICS_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>STATISTICS_OBJ#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="STATISTICS_OBJs.00" nl="1" text="Reorg statistics per object?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Reorg statistics per object?</entry>
+        <entry name="quotes"/>
+        <entry name="id">STATISTICS_OBJs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>7</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>STATISTICS_OBJ_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="STATISTICS_OBJ_DAYSs.00" max="9999" min="0" nl="1" text="Keep last X statistics per object" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Keep last X statistics per object</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">STATISTICS_OBJ_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>UNREAD_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="UNREAD_DAYSs.00" max="9999" min="0" nl="1" text="Unread messages older than X days" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Unread messages older than X days</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">UNREAD_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>12</line_number>
+         <name>VERSIONS#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="VERSIONSs.00" nl="1" text="Reorg version management?" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Reorg version management?</entry>
+        <entry name="quotes"/>
+        <entry name="id">VERSIONSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>13</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>VERSIONS_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="VERSIONS_DAYSs.00" max="9999" min="0" nl="1" text="Version management older than X days" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Version management older than X days</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">VERSIONS_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>14</line_number>
+         <name>VERSIONS_OBJ#</name>
+         <reference>VARA.TRUE_FALSE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="VERSIONS_OBJs.00" nl="1" text="Version management per object" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.TRUE_FALSE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Version management per object</entry>
+        <entry name="quotes"/>
+        <entry name="id">VERSIONS_OBJs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>15</line_number>
+         <max_value>9999</max_value>
+         <min_value>0</min_value>
+         <name>VERSIONS_OBJ_DAYS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="VERSIONS_OBJ_DAYSs.00" max="9999" min="0" nl="1" text="Keep last X version management per object" tooltip="">
+      <properties>
+        <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+        <entry name="text">Keep last X version management per object</entry>
+        <entry name="min">0</entry>
+        <entry name="max">9999</entry>
+        <entry name="quotes"/>
+        <entry name="id">VERSIONS_OBJ_DAYSs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue">0</entry>
+         </properties>
+    </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+   </elements>
+</prpt>

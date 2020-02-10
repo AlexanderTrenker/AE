@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>193</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.PROCESS_APPLINX_LOG_FOLDER</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Define &amp;Server_Name_FILES_TO_PROCESS</description>
+         <time_zone>TZ.IL</time_zone>
+         <versioning_id>742587361</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process>dir /b \\&amp;SERVER_NAME#\log</process>
+      </row>
+      <row>
+         <post_process><![CDATA[:PSET &SERVER_NAME# = &SERVER_NAME#
+:PSET &RUNNING_LOG# = &RUNNING_LOG#
+:PSET &TMP_NAME# = STR_SUB(&SERVER_NAME#, "-", "_")
+:PSET &VARA_NAME# = "VARA.&TMP_NAME#_FILES_TO_PROCESS"
+:P "Working on : &VARA_NAME#"
+:SET &CURR_DATE# = SYS_DATE("YYYY.MM.DD")
+:P "CURR DATE - &CURR_DATE# "
+
+:SET &HND# = PREP_PROCESS_REPORT(, , "REP", "gxlog*.txt")
+:PROCESS &HND#
+:  SET &FILE_NAME# = GET_PROCESS_LINE(&HND#, 1)
+:  P "CURRENT FILE IS  : &FILE_NAME# "
+:  IF &FILE_NAME# = &RUNNING_LOG#
+:    PUT_VAR "&VARA_NAME#", &FILE_NAME#, &FILE_NAME#
+:  ELSE
+! :    DEFINE &STRINGS#, string, 5
+! :    FILL &STRINGS#[] = STR_SPLIT(&FILE_NAME#, " ")
+! :    SET &FILE_DATE# = &STRINGS#[2]
+! :    IF &FILE_DATE# = &CURR_DATE#
+! :      IF GET_VAR("&VARA_NAME#", &FILE_NAME#, 1)= ""
+! :        PUT_VAR "&VARA_NAME#", &FILE_NAME#, &FILE_NAME#
+! :      ELSE
+! :        P " FILE - &FILE_NAME# HAS ALLREADY BEEN PROCESSED "
+! :      ENDIF
+! :    ELSE
+! :      P "FILE - &FILE_NAME# DOES NOT MATCH CURRENT DATE "
+! :    ENDIF
+:  ENDIF
+:ENDPROCESS
+
+:SET &JOBP_NAME# = "JOBP.FOREACH.FILE_IN_LOG_FOLDER_&TMP_NAME#"
+:SET &ACTIVATOR# = ACTIVATE_UC_OBJECT("&JOBP_NAME#",WAIT,,,,PASS_VALUES)
+! :SET &ACTIVATOR# = ACTIVATE_UC_OBJECT("JOBP.FOREACH.FILE_IN_LOG_FOLDER_APPLINX1",WAIT,,,,PASS_VALUES)]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent>WIN03</agent>
+         <login>LOGIN.UC4</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>gxlog.txt</value>
+         <name>&amp;RUNNING_LOG#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

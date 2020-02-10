@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>R3</platform>
+         <last_runtimes>AQAAAAEAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.R3.IMPORTA_JOB</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Importação de jobs SAP para UC4</description>
+         <versioning_id>1599974230</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Docs><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+<!DOCTYPE Content [
+<!ELEMENT Content ( #PCDATA | A.Dados_do_formulario | B.Service_NOW | C.Job_encadeado )* >
+<!ELEMENT C.Job_encadeado ( #PCDATA | Step01 | Step02 | Step03 | Step04 )* >
+<!ATTLIST B.Service_NOW B02.Solicitante CDATA "" >
+<!ATTLIST B.Service_NOW B06.Grupo_Designado CDATA "" >
+<!ATTLIST B.Service_NOW B05.Item_de_Configuracao CDATA "" >
+<!ATTLIST B.Service_NOW B01.Tipo_de_Contato CDATA "" >
+<!ATTLIST B.Service_NOW B03.Categoria CDATA "" >
+<!ATTLIST B.Service_NOW B04.Subcategoria CDATA "" >
+<!ATTLIST Step04 Nome_Programa CDATA "" >
+<!ATTLIST Step04 Nome_Variante CDATA "" >
+<!ATTLIST Step04 Nome_Job CDATA "" >
+<!ATTLIST A.Dados_do_formulario A11.Dias_de_execucao CDATA "" >
+<!ATTLIST A.Dados_do_formulario A18.Observacoes CDATA "" >
+<!ATTLIST A.Dados_do_formulario A17.Email_da_equipe_responsavel_pelo_Job CDATA "" >
+<!ATTLIST A.Dados_do_formulario A07.Horario_previsto_de_inicio CDATA "" >
+<!ATTLIST A.Dados_do_formulario A09.Periodicidade CDATA "" >
+<!ATTLIST A.Dados_do_formulario A04.Job_encadeado ( Nao | Selecione_a_opcao | Sim ) "Selecione_a_opcao" >
+<!ATTLIST A.Dados_do_formulario A13.Impactos_da_nao_execucao_do_Job CDATA "" >
+<!ATTLIST A.Dados_do_formulario A02.Nome_do_Programa CDATA "" >
+<!ATTLIST A.Dados_do_formulario A06.Principal_Responsavel CDATA "" >
+<!ATTLIST A.Dados_do_formulario A14.Servicos_Areas_afetadas_pelo_Job CDATA "" >
+<!ATTLIST A.Dados_do_formulario A15.Acoes_em_caso_de_erros CDATA "" >
+<!ATTLIST A.Dados_do_formulario A08.Duracao_maxima_do_Job CDATA "" >
+<!ATTLIST A.Dados_do_formulario A03.Nome_da_Variante CDATA "" >
+<!ATTLIST A.Dados_do_formulario A01.Nome_do_Job CDATA "" >
+<!ATTLIST A.Dados_do_formulario A16.Nome_da_equipe_no_Service_NOW CDATA "" >
+<!ATTLIST A.Dados_do_formulario A12.Ambiente_de_execucao CDATA "" >
+<!ATTLIST A.Dados_do_formulario A05.Descricao_do_Job CDATA "" >
+<!ATTLIST A.Dados_do_formulario A10.Ressalvas_sobre_duracao CDATA "" >
+<!ATTLIST Step01 Nome_Programa CDATA "" >
+<!ATTLIST Step01 Nome_Variante CDATA "" >
+<!ATTLIST Step01 Nome_Job CDATA "" >
+<!ATTLIST Step02 Nome_Programa CDATA "" >
+<!ATTLIST Step02 Nome_Variante CDATA "" >
+<!ATTLIST Step02 Nome_Job CDATA "" >
+<!ATTLIST Step03 Nome_Programa CDATA "" >
+<!ATTLIST Step03 Nome_Variante CDATA "" >
+<!ATTLIST Step03 Nome_Job CDATA "" >
+<!ATTLIST C.Job_encadeado C01.Nome_do_workflow CDATA "" >
+]>
+<Content>
+<A.Dados_do_formulario A01.Nome_do_Job="" A02.Nome_do_Programa="" A03.Nome_da_Variante="" A04.Job_encadeado="Selecione_a_opcao" A05.Descricao_do_Job="" A06.Principal_Responsavel="" A07.Horario_previsto_de_inicio="" A08.Duracao_maxima_do_Job="" A09.Periodicidade="" A10.Ressalvas_sobre_duracao="" A11.Dias_de_execucao="" A12.Ambiente_de_execucao="" A13.Impactos_da_nao_execucao_do_Job="" A14.Servicos_Areas_afetadas_pelo_Job="" A15.Acoes_em_caso_de_erros="" A16.Nome_da_equipe_no_Service_NOW="" A17.Email_da_equipe_responsavel_pelo_Job="" A18.Observacoes=""/>
+<B.Service_NOW B01.Tipo_de_Contato="" B02.Solicitante="" B03.Categoria="" B04.Subcategoria="" B05.Item_de_Configuracao="" B06.Grupo_Designado=""/>
+<C.Job_encadeado C01.Nome_do_workflow="">
+<Step01 Nome_Job="" Nome_Programa="" Nome_Variante=""/>
+<Step02 Nome_Job="" Nome_Programa="" Nome_Variante=""/>
+<Step03 Nome_Job="" Nome_Programa="" Nome_Variante=""/>
+<Step04 Nome_Job="" Nome_Programa="" Nome_Variante=""/>
+</C.Job_encadeado>
+</Content>
+]]></_Docs>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[!:inc JOBI.GENERIC.PROCESS, NOFOUND=IGNORE
+!R3_GET_JOBS NAME=&sap_job#,START_DATE=&from#,END_DATE=&to#,NO_DATE=X,WITH_PRED=X,PRELIM=X,SCHEDUL=X,READY=X,RUNNING=X,FINISHED=X,ABORTED=X
+R3_IMPORT_JOBS SINGLE_JOBS=NO,JOB_NAME=JOB_IAN,LOGIN_NAME=LOGIN.SAP.RFCUC4,LOGINS=,JOB_FOLDER=,JOB_TEMPLATE=JOBS.R3.BOT1]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[!:inc JOBI.GENERIC.PRE_PROCESS, NOFOUND=IGNORE
+!:put_att HOST=&instance#
+!!:put_att LOGIN='LOGIN.SAP.IMPORT.&instance#'
+!:if &instance#='PR3'
+!:  put_att LOGIN='LOGIN.SAP.RFCUC4'
+!:endif
+!:set &to#=conv_date('yyyy-mm-dd:&prpt_to#','yyyymmdd')
+!:set &from#=conv_date('yyyy-mm-dd:&prpt_from#','yyyymmdd')]]></pre_process>
+      </row>
+      <row>
+         <post_process>! :inc JOBI.GENERIC.POST_PROCESS, NOFOUND=IGNORE</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>R3</platform>
+         <agent>SAP_01</agent>
+         <login>@LOGIN.ALL</login>
+         <optional_reports>PLOG</optional_reports>
+         <job_report_path>2</job_report_path>
+         <sap_client>01</sap_client>
+         <job_class>C</job_class>
+         <sap_job_delete>0</sap_job_delete>
+         <sap_lang>PT</sap_lang>
+         <job_name></job_name>
+         <sap_dst_system></sap_dst_system>
+         <sap_startmode>0</sap_startmode>
+         <sap_job_del_not_on_error>0</sap_job_del_not_on_error>
+         <sap_recipient></sap_recipient>
+         <sap_addresstype></sap_addresstype>
+         <sap_express>0</sap_express>
+         <sap_copy>0</sap_copy>
+         <sap_blindcopy>0</sap_blindcopy>
+         <sap_noforward>0</sap_noforward>
+         <sap_noprint>0</sap_noprint>
+         <sap_deliver></sap_deliver>
+         <sap_statusbymail></sap_statusbymail>
+         <sap_job_type>0</sap_job_type>
+         <sap_override_login>0</sap_override_login>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

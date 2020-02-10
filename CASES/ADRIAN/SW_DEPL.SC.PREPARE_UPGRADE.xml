@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SW_DEPL.SC.PREPARE_UPGRADE</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>SW_DEPL.QU.APP</queue>
+         <versioning_id>-2096302962</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Alarm><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+<!DOCTYPE Content [
+<!ELEMENT Content ( #PCDATA | ALARM )* >
+<!ATTLIST ALARM MSG_ID CDATA "0" >
+<!ATTLIST ALARM MSG_TEXT CDATA "null" >
+<!ATTLIST ALARM MAILADRESSE CDATA "null" >
+<!ATTLIST ALARM ESCALATION ( NO | YES ) "YES" >
+<!ATTLIST ALARM SEVERITY ( CRITICAL | FATAL | MINOR ) "MINOR" >
+]>
+<Content>
+<ALARM ESCALATION="YES" MAILADRESSE="" MSG_ID="0" MSG_TEXT="" SEVERITY="MINOR"/>
+</Content>
+]]></_Alarm>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:P "Beginn Upgrade of &DEPLPKG# on &TARGET_AGENT# with Parameters &PARAMETERS#"
+! Bestimmung aus GUI was installiert werden soll, Achtung auf Stringlängen und Positionen
+:DEFINE &COLPOS#, unsigned
+:DEFINE &DPOS#, unsigned
+:SET &COLPOS# = STR_FIND_REVERSE(&DEPLPKG#,":")
+:SET &COLPOS# = &COLPOS# + 1
+:SET &DPOS# = STR_FIND_REVERSE(&DEPLPKG#,"-")
+:SET &DPOS# = &DPOS# + 1
+:SET &VLEN# = &COLPOS# - &DPOS# - 1
+:SET &NLEN# = &DPOS#  -2
+:PSET &PKGTYPE# = SUBSTR(&DEPLPKG#, &COLPOS#)
+:PSET &PKGVERSION# = SUBSTR(&DEPLPKG#, &DPOS#,&VLEN# )
+:PSET &PKGNAME# = SUBSTR(&DEPLPKG#, 1, &NLEN# )
+:P "Package Name: &PKGNAME#, Package Version: &PKGVERSION#, Package Type: &PKGTYPE#"
+
+:P "Search Packets on &TARGET_AGENT#"
+! Bestimmung der auf dem Zielagenten installierten Paketen über VARA -> SQL in uc4dep-Schema auf AE-DB
+:PSET &SEARCH_TOKEN# = &TARGET_AGENT#
+:PSET &FOUND_PKG# = "NO"
+:SET &HND# = PREP_PROCESS_VAR(SW_DEPL.VA.PKG_UNINSTALLABLE)
+:PROCESS &HND#
+:  SET &INST_PKG# = GET_PROCESS_LINE(&HND#,1)
+:  P Found &INST_PKG#
+:  SET &CHECK# = STR_STARTS_WITH(&INST_PKG#,&PKGNAME#)
+:  IF &CHECK# EQ "Y"
+:    PSET &FOUND_PKG# = &INST_PKG#
+:    P &PKGNAME# found on &TARGET_AGENT#
+:  ENDIF
+:ENDPROCESS
+:P End of Search on &TARGET_AGENT#
+
+! Die Script-Variablen &SKIP_INSTALL# und &SKIP_UNINSTALL# werden im Jobplan als Pre-Condition zur Ausführung/Skippen benutzt
+:IF &FOUND_PKG# EQ "NO"
+:  P "&PKGNAME# not found on &TARGET_AGENT# - Skipping Uninstallation"
+:  PSET &SKIP_UNINSTALL# = "Y"
+:  PSET &SKIP_INSTALL# = "N"
+:ELSE
+! Paket gefunden, Version bestimmen, Achtung auf Positionen und Stringlängen
+:  SET &COLPOS# = STR_FIND_REVERSE(&FOUND_PKG#,":")
+:  PSET &DEL_PKG# = SUBSTR(&FOUND_PKG#,1,&COLPOS#)
+:  SET &DPOS# = STR_FIND_REVERSE(&DEL_PKG#,"-")
+:  SET &DPOS# = &DPOS# + 1
+:  SET &VLEN# = &COLPOS# - &DPOS#
+:  SET &INST_VER# = SUBSTR(&FOUND_PKG#,&DPOS#,&VLEN#)
+:  IF &INST_VER# EQ &PKGVERSION#
+:    PSET &SKIP_UNINSTALL# = "Y"
+:    PSET &SKIP_INSTALL# = "Y"
+:    P "&PKGNAME# already installed in Version &PKGVERSION# on &TARGET_AGENT#"
+:    P "Skipping further actions."
+:  ELSE
+! Paket in einer anderen Version gefunden -> ersetzen (auch Downgrade!)
+:    PSET &SKIP_UNINSTALL# = "N"
+:    PSET &SKIP_INSTALL# = "N"
+:    PSET &DEL_PKG# = &DEL_PKG#&PKGTYPE#
+:    P "Uninstalling &DEL_PKG# from &TARGET_AGENT#"
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

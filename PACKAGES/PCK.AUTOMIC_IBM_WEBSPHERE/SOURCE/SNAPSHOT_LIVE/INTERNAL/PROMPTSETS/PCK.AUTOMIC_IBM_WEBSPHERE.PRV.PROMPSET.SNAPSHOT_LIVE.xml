@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.PROMPSET.SNAPSHOT_LIVE</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1259477935</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="506" icon="PRPT" id="PRPTS" left="0" top="0" width="420"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Parameters"><properties><entry name="text">Parameters</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>8</line_number>
+         <name>UC4_WSADMIN_DIR_PATH#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>EXT:/was/wsadmin_directory</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4_WSADMIN_DIR_PATHs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="WSAdmin Tool Bin Directory" tooltip="Path to the bin directory containing the wsadmin tool which will be used to connect to the WebSphere Server" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">WSAdmin Tool Bin Directory</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4_WSADMIN_DIR_PATHs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">Path to the bin directory containing the wsadmin tool which will be used to connect to the WebSphere Server</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>UC4RB_APP_FILTER_EXCLUDE#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_APP_FILTER_EXCLUDEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Application exclude filter" tooltip="Defines which folders should be excluded from the application snapshot. If empty, no files are excluded. The directory itself with all subdirectories is excluded. You may use this parameter to exclude directories, which are changed regularly, like a tmp/, log folders." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Application exclude filter</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_APP_FILTER_EXCLUDEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Defines which folders should be excluded from the application snapshot. If empty, no files are excluded. The directory itself with all subdirectories is excluded. You may use this parameter to exclude directories, which are changed regularly, like a tmp/, log folders.</entry>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>UC4RB_APP_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>EXT:/was/application_name</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_APP_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Application name" tooltip="Defines the name of the application which should be snapshotted." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Application name</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_APP_NAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">Defines the name of the application which should be snapshotted.</entry>
+            <entry name="modifiable">1</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>UC4RB_SNAPSHOT_MODE#</name>
+         <reference>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.VARA.SNAPSHOT_MODE</reference>
+         <reference_type>VARA</reference_type>
+         <value>BOTH</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_SNAPSHOT_MODEs.00" nl="1" quotes="" strict="1" text="Snapshot mode" tooltip="Defines which parts should be included in the snapshot:         only application: only the application, without the server should be snapshotted. This is the default behaviour.         only server: only the server part should be snapshotted.         both: both the application and the server should be included in the snapshot." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_IBM_WEBSPHERE.PRV.VARA.SNAPSHOT_MODE</entry>
+            <entry name="text">Snapshot mode</entry>
+            <entry name="quotes"/>
+            <entry name="id">UC4RB_SNAPSHOT_MODEs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">Defines which parts should be included in the snapshot:
+        only application: only the application, without the server should be snapshotted. This is the default behaviour.
+        only server: only the server part should be snapshotted.
+        both: both the application and the server should be included in the snapshot.</entry>
+            <entry name="dynamic">0</entry>
+            <entry name="modifiable">1</entry>
+            <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+         </properties>
+      </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>UC4RB_WAS_HOST#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>EXT:/was/host</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_HOSTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Host" tooltip="IP or hostname of the server where either the target WAS server (Standalone) or the WAS Deployment Manager (Network Deployment) is located" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Host</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_WAS_HOSTs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">IP or hostname of the server where either the target WAS server (Standalone) or the WAS Deployment Manager (Network Deployment) is located</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>7</line_number>
+         <name>UC4RB_WAS_PASSWORD#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <show_as_password>1</show_as_password>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_PASSWORDs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="1" text="Password" tooltip="Password used to authenticate with WAS" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Password</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_WAS_PASSWORDs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">1</entry>
+        <entry name="tooltip">Password used to authenticate with WAS</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>UC4RB_WAS_PORT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>EXT:/was/port</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_PORTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Port" tooltip="SOAP_CONNECTOR_ADDRESS" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Port</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_WAS_PORTs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">SOAP_CONNECTOR_ADDRESS</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>UC4RB_WAS_USERNAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>EXT:/was/username</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_WAS_USERNAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Username" tooltip="Username used to authenticate with WAS" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Username</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_WAS_USERNAMEs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">Username used to authenticate with WAS</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+   </elements>
+</prpt>

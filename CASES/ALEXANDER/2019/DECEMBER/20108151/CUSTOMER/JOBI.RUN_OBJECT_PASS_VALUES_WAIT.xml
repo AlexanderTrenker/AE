@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.RUN_OBJECT_PASS_VALUES_WAIT</name>
+         <type>JOBI</type>
+         <description>Start von &amp;RUN_OBJECT# mit den Parametern WAIT + PASS_VALUES ...</description>
+         <versioning_id>213608023</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT ""
+:PRINT "[START JOBI.RUN_OBJECT_PASS_VALUES_WAIT]================"
+! ------------------------------------------------------------------------
+! Start von &RUN_OBJECT# mit dem Parameter WAIT:
+! ------------------------------------------------------------------------
+! Folgende Parameter finden hier Verwendung und muessen im Vorfeld defi-
+! niert worden sein:
+! ------------------------------------------------------------------------
+! &RUN_OBJECT# -> zu startendes Objekt
+! ------------------------------------------------------------------------
+! Alle vorhandenen Variablen werden als Objektvariablen an das zu startende
+! Objekt uebergeben. Aus diesem Grund ist es unbedingt erforderlich, dass
+! das in der Variablen &RUN_OBJECT# hinterlegte Objekt nicht zur Laufzeit
+! generiert wird.
+! ------------------------------------------------------------------------
+! Bei Fehler nicht gleich abbrechen:
+! ----------------------------------
+:ON_ERROR RESUME
+! -----------
+! Los geht's:
+! -----------
+:SET &UC4_DEPLOYMENT_TEST# = &UC4_DEPLOYMENT_TEST#
+:IF &UC4_DEPLOYMENT_TEST# = "J"
+:  PRINT ">>> UC4_DEPLOYMENT_TEST ..."
+:ELSE
+:  SET &AKTJOB# = ACTIVATE_UC_OBJECT(&RUN_OBJECT#, WAIT, , , , PASS_VALUES)
+! ---------------------
+! Activate erfolgreich?
+! ---------------------
+:  IF &AKTJOB# <> 0
+:    PRINT " -> Die Aufgabe &RUN_OBJECT# konnte"
+:    PRINT "    erfolgreich gestartet werden!"
+:    PRINT ""
+:  ELSE
+! ------------------
+! Details ermitteln:
+! ------------------
+:    SET &ERRNR# = SYS_LAST_ERR_NR()
+:    SET &ERRINS# = SYS_LAST_ERR_INS()
+:    SET &MESSAGE# = GET_MSG_TXT(&ERRNR#, &ERRINS#)
+:    PRINT " -> Die Aufgabe &RUN_OBJECT# konnte"
+:    PRINT "    nicht gestartet werden!"
+:    PRINT " -> Details:"
+:    PRINT "    &MESSAGE#"
+:    STOP MSG, 50, "-> &RUN_OBJECT# konnte nicht gestartet werden!"
+:  ENDIF
+:ENDIF
+:PRINT "=================[ENDE JOBI.RUN_OBJECT_PASS_VALUES_WAIT]"
+:PRINT ""]]></process>
+      </row>
+   </scripts>
+</jobi>

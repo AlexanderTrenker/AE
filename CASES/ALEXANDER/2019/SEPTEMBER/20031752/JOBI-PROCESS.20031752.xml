@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI-PROCESS.20031752</name>
+         <type>JOBI</type>
+         <versioning_id>1498796097</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[DATA @echo &xc_WnCmdInfoTag# Got retcode [%retcode%] from java call
+:DATA @if %retcode% GTR 0 (
+:DATA @set /a "retcode+=1
+:DATA @goto :retcode
+:DATA )
+:DATA @if %retcode% LSS 0 goto :retcode]]></process>
+      </row>
+   </scripts>
+</jobi>

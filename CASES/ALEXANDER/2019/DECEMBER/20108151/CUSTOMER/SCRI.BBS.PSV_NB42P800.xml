@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>SERIENBRIEF</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>2</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.PSV_NB42P800</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>12 PSV: CTV Ausloeser selektieren queuen</description>
+         <versioning_id>2075484386</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &RUN_SELEKTIERER_CTV# = "J"
+:  SET &RUN_OBJECT#    = "JOBS.BBS.PSV_NB42P800"
+:  PSET &PROGRAMMTYPAUSL# = "161"
+:  PSET &CNT#             = "1"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &PROGRAMMTYPAUSL# = "162"
+:  PSET &CNT#             = "2"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &PROGRAMMTYPAUSL# = "163"
+:  PSET &CNT#             = "3"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &PROGRAMMTYPAUSL# = "164"
+:  PSET &CNT#             = "4"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &PROGRAMMTYPAUSL# = "165"
+:  PSET &CNT#             = "5"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &PROGRAMMTYPAUSL# = "166"
+:  PSET &CNT#             = "6"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

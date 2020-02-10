@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>CTV</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.CTV.JOBPDEFAULTS</name>
+         <type>JOBI</type>
+         <description>Zentrale CTV-Exports</description>
+         <versioning_id>766930197</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC JOBI.INC.BASISPARAM
+
+!Damit die Variable auf jedenfall gesetzt auch wenn UpdateBGV bzw. ANZAHLCLLK geskipped wird.
+:PSET &RC_MAX_UpdateBatchBGV# = "0"
+:PSET &CTV_SKIP_NV_ANZ_CLL_K# = "N"
+
+!Ebene für CTV setzen
+:SWITCH &EBENE#
+:  CASE "P"
+:  PSET &CTVEBENE# = "PROD"
+:  CASE "E"
+:  PSET &CTVEBENE# = "ENTW"
+:  CASE "W"
+:  PSET &CTVEBENE# = "WART"
+:  OTHER
+:  PSET &CTVEBENE# = "INT"
+:ENDSWITCH
+
+:PSET &RUNDIR# = "/opt/ctv/&CTVEBENE#/Scripte"
+:RSET &LOCALLOGDIR# = "/mnt/ctvdata"
+
+!Bestimmung "-OB" Parameter (bei verschiedenen CTV Skripten verwendet)
+:SWITCH &BATCH#
+:  CASE "NV_BATCH"
+:  PSET &OB# = "B"
+:  CASE "NV_ONLINE"
+:  PSET &OB# = "O"
+:  OTHER
+:  PSET &OB# = "NONE"
+:ENDSWITCH
+
+!Bestimmung &UC4_CTV_SONDERLAUF# Variable
+:SET &ACTIVATOR# = SYS_ACT_PARENT_NAME()
+:SET &PRAEFIX# = MID(&ACTIVATOR# , 1 , 4)
+
+:IF &PRAEFIX# EQ "JSCH"
+: P ">>> Triggered via Scheduler..."
+: PSET &UC4_CTV_SONDERLAUF# = "NORMAL"
+:ENDIF
+
+:IF &ACTIVATOR# EQ ""
+: P ">>> Object was triggered via User..."
+: PSET &UC4_CTV_SONDERLAUF# = "SONDERLAUF"
+:ELSE
+: P ">>> Activation was initiated by: &ACTIVATOR#"
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

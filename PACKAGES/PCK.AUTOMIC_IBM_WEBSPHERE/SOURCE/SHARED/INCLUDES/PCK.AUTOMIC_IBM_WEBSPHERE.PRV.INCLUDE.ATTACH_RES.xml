@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.INCLUDE.ATTACH_RES</name>
+         <type>JOBI</type>
+         <versioning_id>-2082161750</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:ATTACH_RES "PCK.AUTOMIC_IBM_WEBSPHERE.PRV.STORE", "WSADMINLIB", C, N
+:ATTACH_RES "PCK.AUTOMIC_IBM_WEBSPHERE.PRV.STORE", "UTILSLIB", C, N
+:SET &UC4RB_WAS_WSADMINLIB# = "&$AGENT_RESOURCES_CLIENT#wsadminlib.py"
+:SET &UC4RB_WAS_WSADMINLIB# = STR_SUB(&UC4RB_WAS_WSADMINLIB#, '\', '/')
+:SET &UC4RB_WAS_UTILSLIB# = "&$AGENT_RESOURCES_CLIENT#pck_websphere_utils.py"
+:SET &UC4RB_WAS_UTILSLIB# = STR_SUB(&UC4RB_WAS_UTILSLIB#, '\', '/')
+]]></process>
+      </row>
+   </scripts>
+</jobi>

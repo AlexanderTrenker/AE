@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>DISDA</archive_key1>
+         <archive_key2>COGNOS</archive_key2>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>2</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_allowed_retcode>2</max_allowed_retcode>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.MABFIBUABGL_COGNOSAUSWERTBIL</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>04 COGNOS TRIGGER</description>
+         <versioning_id>927871558</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &PROGRAM# = "triggersev.sh"
+
+!Damit Job auch einzeln gestartet werden kann
+:SET &FIBU_FLAG# = &FIBU_FLAG#
+:READ &FIBU_FLAG#,,"FIBU_FLAG [M,JAB,M13]",'&FIBU_FLAG#',K
+
+:SWITCH &FIBU_FLAG#
+:  CASE "M13"
+:    SET &OPTIONS# = "auswert_bilanzkrit_m13"
+:  CASE "JAB"
+:    SET &OPTIONS# = "auswert_bilanzkrit_jabsl"
+:  OTHER
+:    SET &OPTIONS# = "auswert_bilanzkrit"
+:ENDSWITCH
+
+:SET &RUNDIR#  = ""
+
+:INC JOBI.COGNOS_TRIGGER
+:INC JOBI.STANDARDJOB]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[:INC JOBI.SHELL_POST
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>UNIX</platform>
+         <agent>HG.COGNOS</agent>
+         <login>LOGIN.UC4</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

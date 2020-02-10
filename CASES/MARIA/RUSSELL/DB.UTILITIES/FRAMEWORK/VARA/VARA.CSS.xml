@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.CSS</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>1499657896</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>automic</value1>
+         <value2><![CDATA[th,td {
+ padding-right: 5px;
+ font-family: arial;
+ font-size: 0.8em;
+}
+
+th {
+ border: 1px solid rgb(249,199,0);
+ background: rgb(80,80,80);
+ color: rgb(249,199,0);
+}
+
+td {
+ border: 1px solid rgb(80,80,80);
+ white-space: nowrap;
+}
+
+table {
+ border-collapse: collapse;
+ border: 1px solid grey; 
+ background: rgb(249,199,0);
+}
+
+body {
+ background: rgb(255,255,255);
+}
+
+tr:hover{background-color: rgb(255,158,21)}]]></value2>
+         <validity_range>FREI</validity_range>
+         <key>automic</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>standard</value1>
+         <value2><![CDATA[th,td {
+ font-family: arial;
+ font-size: 0.8em;
+}
+
+th {
+ background: rgb(77,148,255);
+ color: white;
+}
+
+td {
+ border: 1px solid rgb(208,213,217);
+}
+
+table {
+ border: 1px solid grey; 
+ background: white;
+}
+
+body {
+ background: rgb(208,213,217);
+}]]></value2>
+         <validity_range>FREI</validity_range>
+         <key>standard</key>
+      </row>
+   </static_values>
+</vara>

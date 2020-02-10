@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>21501</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>6</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_method>258</mrt_method>
+         <mrt_time>010005</mrt_time>
+         <name>EVNT.DWRD.PACE_DIRECTOR_UPLOAD</name>
+         <type>EVNT</type>
+         <inherit_object_variables>2</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>FT</sub_type>
+         <description>Event that looks for file from Pace as a trigger for any UC4 job name provided in the file</description>
+         <versioning_id>-1274280480</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Links><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><!DOCTYPE Content [
+<!ELEMENT Content ( Support_Team, Submission_Method, MAGIC_Severity, Highest_Return_Code, Resolution_Instructions_for_ECC, Critical_at_Disaster_Recovery, Support_Teams_Comments ) >
+
+<!ELEMENT Critical_at_Disaster_Recovery ( #PCDATA ) >
+
+<!ELEMENT Highest_Return_Code ( #PCDATA ) >
+
+<!ELEMENT MAGIC_Severity EMPTY >
+
+<!ELEMENT Resolution_Instructions_for_ECC ( #PCDATA ) >
+
+<!ELEMENT Submission_Method ( #PCDATA ) >
+
+<!ELEMENT Support_Team ( #PCDATA ) >
+
+<!ELEMENT Support_Teams_Comments ( #PCDATA ) >
+
+]>
+<Content>
+<Support_Team>DWRD</Support_Team>
+<Submission_Method>UNSCHEDULED EVENT</Submission_Method>
+<MAGIC_Severity/>
+<Highest_Return_Code>0</Highest_Return_Code>
+<Resolution_Instructions_for_ECC>LEAVE BLOCKED</Resolution_Instructions_for_ECC>
+<Critical_at_Disaster_Recovery>NO</Critical_at_Disaster_Recovery>
+<Support_Teams_Comments>Check the Pace Event UC4 job name.  Most likely a typo.</Support_Teams_Comments>
+</Content>
+]]></_Links>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &HND# = PREP_PROCESS("LKIMAPD3 ","UNIXCMD","*","CMD=ls -t  /apps1/eagle/home/eagleaci/pace/uploader/INFA/Upload_Informatica*.txt |tail -1| awk -F'/' '{ print $9 }'","COL=DELIMITER","DELIMITER=*=*","UC_LOGIN=LOGIN.DWRD.ITDWRD")
+:PROCESS &HND#
+:  SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:  PSET &FILENAME# = &KEY#
+:ENDPROCESS
+:  set &JOB# = PREP_PROCESS_FILE("LKIMAPD3 ","/apps1/eagle/home/eagleaci/pace/uploader/INFA/&FILENAME#",, "COL=DELIMITER", "DELIMITER=*|*","UC_LOGIN=LOGIN.DWRD.ITDWRD")
+:process &JOB#
+:  pset &NAME# = get_process_line(&JOB#)
+:  DEFINE &STRINGS#, string, 3
+:  Fill &STRINGS#[] = STR_SPLIT(&NAME#, "|")
+:  pset &STAGENAME# = &STRINGS#[1]
+:  pset &LISTFILE# = &STRINGS#[2]
+:  pset &WHNAME# = STR_SUBSTITUTE(&STAGENAME#, "_SG_", "_WH_")
+:  pset &FILEPATH# = &STRINGS#[3]
+:  print "(Before seting file name)File psth is &FILEPATH#"
+:endprocess
+:SET &HND2# = PREP_PROCESS("LKIMAPD3 ","UNIXCMD","*","CMD=ls -t &FILEPATH# |tail -1| awk -F'/' '{ print $10 }'","COL=DELIMITER","DELIMITER=*=*","UC_LOGIN=LOGIN.DWRD.ITDWRD")
+:PROCESS &HND2#
+:  pset &TEST# = &HND2#
+:  SET &KEY2# = GET_PROCESS_LINE(&HND2#, 1)
+:  PSET &UPLOADFILENAME# = &KEY2#
+:  ENDPROCESS
+:  PSET &FILEPATH# = STR_SUBSTITUTE(&FILEPATH#, "*.dat", &UPLOADFILENAME#)
+:  print "Job Name is &STAGENAME#"
+:  print "List File is &LISTFILE#"
+:  print "File psth is &FILEPATH#"
+:  print "Upload file name is &UPLOADFILENAME#"
+:set &ACTIVATE_JOB# = ACTIVATE_UC_OBJECT(JOBP.DWRD.INFORMATICA_MAIN_UPLOAD,,,,,PASS_VALUES)
+:set &ACTIVATE_JOB# = ACTIVATE_UC_OBJECT(JOBP.DWRD.PACE_DIRECTOR_UPLOAD_EVNT)]]></process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <check_within>7200</check_within>
+         <sub_type>PC</sub_type>
+         <sub_type2>FC</sub_type2>
+         <type>FT</type>
+         <platform>UNIX</platform>
+         <destination_agent>LKIMAPD3</destination_agent>
+         <destination_login>LOGIN.DWRD.ITDWRD</destination_login>
+         <operator>F</operator>
+         <path>/apps1/eagle/home/eagleaci/pace/uploader/INFA/Upload_Informatica*.txt</path>
+         <repeat_type>F</repeat_type>
+         <execution_type>S</execution_type>
+         <time_period>0010</time_period>
+         <unit>3</unit>
+         <check_value>1</check_value>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

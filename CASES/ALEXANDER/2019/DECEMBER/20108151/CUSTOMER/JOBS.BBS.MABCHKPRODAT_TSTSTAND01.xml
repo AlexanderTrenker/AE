@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>MONATSABSCHLUSS</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>122</ert>
+         <platform>SQL</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.MABCHKPRODAT_TSTSTAND01</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Prüfung auf Konsistenz</description>
+         <versioning_id>-141077585</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[SQL_ON_ROWCOUNT_ZERO RETCODE=10;
+--  ++++++++++++++++++++++++++++++++++++++++++++++++
+--  BEREITGESTELLT VON  TH.BRODRECHT ITD-SYM
+--  TEL.   : 2920
+--  SPUFI  : TSTSTAND
+--  ZWECK  : PRUEFUNG DER TABELLEN
+--           TBBVTR_T_STAND,
+--           TBBVTR_T_SOND_AUFT,
+--           TBBVTR_T_SO_BU_EXT,
+--           TBBVTR_T_SOND_BUCH,
+--           TBBPROD_PROD_T_BW AUF KONSISTENZ.
+--           DER FOKUS LIEGT HIER AUF DER KOMBINA-
+--           TION VON PROD_SKZ UND PROD_T_SKZ.
+--  VORBEREITUNG FUER DEN BBS MONATSSCHLUSS
+--  ERWARTETES ERGEBNIS: KEINE TREFFER
+-- +++++++++++++++++++++++++++++++++++++++++++++++++
+-- TBBVTR_T_STAND
+-- +++++++++++++++++++++++++++++++++++++++++++++++++
+SELECT 'TBBVTR_T_STAND' AS QUELLE,
+         T1.MANDANT,
+         T1.VTR_NR,
+         T1.VTR_T_ID,
+         T1.PROD_SKZ,
+         T1.PROD_T_SKZ
+  FROM                TBBVTR_T_STAND       T1
+  WHERE NOT EXISTS
+             (SELECT '1'
+              FROM   TBBPROD_PROD_T_BW  T2
+              WHERE  T1.PROD_SKZ =  T2.PROD_SKZ
+                AND  T1.PROD_T_SKZ = T2.PROD_T_SKZ
+             )
+UNION
+-- +++++++++++++++++++++++++++++++++++++++++++++++++
+-- TBBVTR_T_SOND_AUFT
+-- +++++++++++++++++++++++++++++++++++++++++++++++++
+SELECT 'TBBVTR_T_SOND_AUFT' AS QUELLE,
+       T1.MANDANT,
+       T1.VTR_NR,
+       T1.VTR_T_ID,
+       T1.PROD_SKZ,
+       T1.PROD_T_SKZ
+FROM                TBBVTR_T_SOND_AUFT   T1
+WHERE NOT EXISTS
+           (SELECT '1'
+            FROM   TBBPROD_PROD_T_BW  T2
+            WHERE  T1.PROD_SKZ =  T2.PROD_SKZ
+              AND  T1.PROD_T_SKZ = T2.PROD_T_SKZ
+           )
+UNION
+-- +++++++++++++++++++++++++++++++++++++++++++++++++
+-- TBBVTR_T_SOND_BUCH
+-- +++++++++++++++++++++++++++++++++++++++++++++++++
+SELECT 'TBBVTR_T_SOND_BUCH' AS QUELLE,
+       T1.MANDANT,
+       T1.VTR_NR,
+       T1.VTR_T_ID,
+       T1.PROD_SKZ,
+       T1.PROD_T_SKZ
+FROM                TBBVTR_T_SOND_BUCH   T1
+WHERE NOT EXISTS
+           (SELECT '1'
+            FROM   TBBPROD_PROD_T_BW  T2
+            WHERE  T1.PROD_SKZ =  T2.PROD_SKZ
+              AND  T1.PROD_T_SKZ = T2.PROD_T_SKZ
+           )
+ UNION
+-- +++++++++++++++++++++++++++++++++++++++++++++++++
+-- TBBVTR_T_SO_BU_EXT
+-- +++++++++++++++++++++++++++++++++++++++++++++++++
+SELECT 'TBBVTR_T_SO_BU_EXT' AS QUELLE,
+       T1.MANDANT,
+       T1.VTR_NR,
+       T1.VTR_T_ID,
+       T1.PROD_SKZ,
+       T1.PROD_T_SKZ
+FROM                TBBVTR_T_SO_BU_EXT   T1
+WHERE NOT EXISTS
+           (SELECT '1'
+            FROM   TBBPROD_PROD_T_BW  T2
+            WHERE  T1.PROD_SKZ =  T2.PROD_SKZ
+              AND  T1.PROD_T_SKZ = T2.PROD_T_SKZ
+           )
+;]]></process>
+      </row>
+      <row>
+         <pre_process>:INC JOBI.SQL_BBS_PARAM</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &RET# = GET_UC_OBJECT_STATUS(,,RETCODE)
+:IF &RET# NE 10
+:  MODIFY_STATE RETCODE=1
+:ELSE
+:  MODIFY_STATE RETCODE=0
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>SQL</platform>
+         <agent>HG.SQLORA</agent>
+         <login>LOGIN.SQL.BBSBAT</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <T>MSSQL</T>
+         <database_name>[autofill...]</database_name>
+         <server_name>[autofill...]</server_name>
+         <sql_column_seperator>;</sql_column_seperator>
+         <sql_captions>1</sql_captions>
+         <sql_show_null>1</sql_show_null>
+         <sql_max_rows>0</sql_max_rows>
+         <sql_max_characters>50</sql_max_characters>
+         <data_source></data_source>
+         <A></A>
+         <sql_subst_character></sql_subst_character>
+         <sql_remove_crlf>1</sql_remove_crlf>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

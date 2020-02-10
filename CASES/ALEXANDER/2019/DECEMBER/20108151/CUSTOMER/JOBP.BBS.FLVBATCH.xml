@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>MONATSABSCHLUSS</archive_key1>
+         <archive_key2>BBS</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>10087</ert>
+         <workflow_children>15</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBP.BBS.FLVBATCH</name>
+         <type>JOBP</type>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>FLV-Batch</description>
+         <versioning_id>1398499390</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_WebConfig><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><!DOCTYPE AB_VTR_NR [
+<!ELEMENT AB_VTR_NR EMPTY >
+<!ATTLIST AB_VTR_NR BESCHREIBUNG CDATA "Bei Eingabe Nummernkreis wird Paketgröße ignoriert" >
+<!ATTLIST AB_VTR_NR PLAUSI CDATA "NNNN" >
+<!ATTLIST AB_VTR_NR SEPPL CDATA "EIWP" >
+<!ATTLIST AB_VTR_NR WERT CDATA "" >
+
+<!ELEMENT BIS_VTR_NR EMPTY >
+<!ATTLIST BIS_VTR_NR BESCHREIBUNG CDATA "" >
+<!ATTLIST BIS_VTR_NR PLAUSI CDATA "NNNN" >
+<!ATTLIST BIS_VTR_NR SEPPL CDATA "EIWP" >
+<!ATTLIST BIS_VTR_NR WERT CDATA "" >
+
+<!ELEMENT COMMIT EMPTY >
+<!ATTLIST COMMIT BESCHREIBUNG CDATA "Commit" >
+<!ATTLIST COMMIT PLAUSI CDATA "J/N" >
+<!ATTLIST COMMIT SEPPL CDATA "EIW" >
+<!ATTLIST COMMIT WERT CDATA "J" >
+
+<!ELEMENT Content ( PARAMETER ) >
+
+<!ELEMENT MANDANTEN EMPTY >
+<!ATTLIST MANDANTEN BESCHREIBUNG CDATA "Diese Mandanten werden verarbeitet" >
+<!ATTLIST MANDANTEN PLAUSI CDATA "01,02,20,21,54" >
+<!ATTLIST MANDANTEN SEPPL CDATA "EIWP" >
+<!ATTLIST MANDANTEN WERT CDATA "01,02,20,21,54" >
+
+<!ELEMENT PAKETGROESSE EMPTY >
+<!ATTLIST PAKETGROESSE BESCHREIBUNG CDATA "Anzahl Verträge pro Lauf" >
+<!ATTLIST PAKETGROESSE PLAUSI CDATA "NNNN" >
+<!ATTLIST PAKETGROESSE SEPPL CDATA "EIW" >
+<!ATTLIST PAKETGROESSE WERT CDATA "1000" >
+
+<!ELEMENT PARAMETER ( UC4_DEPLOYMENT_TEST, MANDANTEN, TIMESTAMP, AB_VTR_NR, BIS_VTR_NR, PAKETGROESSE, COMMIT, PROT_VTR_FILTER_BEA, PROT_MSG_TYPE_BEA, RUN_FLVBATCH, RUN_FLVAUSWERT, RUN_FLVUPAR, RUN_FLVPBUCH ) >
+
+<!ELEMENT PROT_MSG_TYPE_BEA EMPTY >
+<!ATTLIST PROT_MSG_TYPE_BEA BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_MSG_TYPE_BEA PLAUSI CDATA "INFO/WARN/ERROR/NONE" >
+<!ATTLIST PROT_MSG_TYPE_BEA SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_MSG_TYPE_BEA WERT CDATA "WARN" >
+
+<!ELEMENT PROT_VTR_FILTER_BEA EMPTY >
+<!ATTLIST PROT_VTR_FILTER_BEA BESCHREIBUNG CDATA "Stufe der Protokollierung in der Datenbank" >
+<!ATTLIST PROT_VTR_FILTER_BEA PLAUSI CDATA "OK/AUSSCHL/ERROR/NONE" >
+<!ATTLIST PROT_VTR_FILTER_BEA SEPPL CDATA "EIWP" >
+<!ATTLIST PROT_VTR_FILTER_BEA WERT CDATA "AUSSCHL" >
+
+<!ELEMENT RUN_FLVAUSWERT EMPTY >
+<!ATTLIST RUN_FLVAUSWERT BESCHREIBUNG CDATA "Starten flvauswert" >
+<!ATTLIST RUN_FLVAUSWERT PLAUSI CDATA "J/N" >
+<!ATTLIST RUN_FLVAUSWERT SEPPL CDATA "EI" >
+<!ATTLIST RUN_FLVAUSWERT WERT CDATA "J" >
+
+<!ELEMENT RUN_FLVBATCH EMPTY >
+<!ATTLIST RUN_FLVBATCH BESCHREIBUNG CDATA "Starten flvbatch" >
+<!ATTLIST RUN_FLVBATCH PLAUSI CDATA "J/N" >
+<!ATTLIST RUN_FLVBATCH SEPPL CDATA "EI" >
+<!ATTLIST RUN_FLVBATCH WERT CDATA "J" >
+
+<!ELEMENT RUN_FLVPBUCH EMPTY >
+<!ATTLIST RUN_FLVPBUCH BESCHREIBUNG CDATA "Starten flvpbuch" >
+<!ATTLIST RUN_FLVPBUCH PLAUSI CDATA "J/N" >
+<!ATTLIST RUN_FLVPBUCH SEPPL CDATA "EI" >
+<!ATTLIST RUN_FLVPBUCH WERT CDATA "J" >
+
+<!ELEMENT RUN_FLVUPAR EMPTY >
+<!ATTLIST RUN_FLVUPAR BESCHREIBUNG CDATA "Starten flupar" >
+<!ATTLIST RUN_FLVUPAR PLAUSI CDATA "J/N" >
+<!ATTLIST RUN_FLVUPAR SEPPL CDATA "EI" >
+<!ATTLIST RUN_FLVUPAR WERT CDATA "J" >
+
+<!ELEMENT TIMESTAMP EMPTY >
+<!ATTLIST TIMESTAMP BESCHREIBUNG CDATA "Für Zeitreise im flvbatch" >
+<!ATTLIST TIMESTAMP PLAUSI CDATA "JJJJ-MM-TT-HH:MM:SS" >
+<!ATTLIST TIMESTAMP SEPPL CDATA "EIW" >
+<!ATTLIST TIMESTAMP WERT CDATA "" >
+
+<!ELEMENT UC4_DEPLOYMENT_TEST EMPTY >
+<!ATTLIST UC4_DEPLOYMENT_TEST BESCHREIBUNG CDATA "" >
+<!ATTLIST UC4_DEPLOYMENT_TEST PLAUSI CDATA "J/N" >
+<!ATTLIST UC4_DEPLOYMENT_TEST SEPPL CDATA "E" >
+<!ATTLIST UC4_DEPLOYMENT_TEST WERT CDATA "N" >
+
+]>
+<Content>
+<PARAMETER>
+<UC4_DEPLOYMENT_TEST BESCHREIBUNG="" PLAUSI="J/N" SEPPL="E" WERT="N"/>
+<MANDANTEN BESCHREIBUNG="Diese Mandanten werden verarbeitet" PLAUSI="01,02,20,21,54" SEPPL="EIWP" WERT="01,02,20,21,54"/>
+<TIMESTAMP BESCHREIBUNG="Für Zeitreise im flvbatch" PLAUSI="JJJJ-MM-TT-HH:MM:SS" SEPPL="EIW" WERT=""/>
+<AB_VTR_NR BESCHREIBUNG="Bei Eingabe Nummernkreis wird Paketgröße ignoriert" PLAUSI="NNNN" SEPPL="EIWP" WERT=""/>
+<BIS_VTR_NR BESCHREIBUNG="" PLAUSI="NNNN" SEPPL="EIWP" WERT=""/>
+<PAKETGROESSE BESCHREIBUNG="Anzahl Verträge pro Lauf" PLAUSI="NNNN" SEPPL="EIW" WERT="1000"/>
+<COMMIT BESCHREIBUNG="Commit" PLAUSI="J/N" SEPPL="EIW" WERT="J"/>
+<PROT_VTR_FILTER_BEA BESCHREIBUNG="Stufe der Protokollierung in der Datenbank" PLAUSI="OK/AUSSCHL/ERROR/NONE" SEPPL="EIWP" WERT="AUSSCHL"/>
+<PROT_MSG_TYPE_BEA BESCHREIBUNG="Stufe der Protokollierung in der Datenbank" PLAUSI="INFO/WARN/ERROR/NONE" SEPPL="EIWP" WERT="WARN"/>
+<RUN_FLVBATCH BESCHREIBUNG="Starten flvbatch" PLAUSI="J/N" SEPPL="EI" WERT="J"/>
+<RUN_FLVAUSWERT BESCHREIBUNG="Starten flvauswert" PLAUSI="J/N" SEPPL="EI" WERT="J"/>
+<RUN_FLVUPAR BESCHREIBUNG="Starten flupar" PLAUSI="J/N" SEPPL="EI" WERT="J"/>
+<RUN_FLVPBUCH BESCHREIBUNG="Starten flvpbuch" PLAUSI="J/N" SEPPL="EI" WERT="J"/>
+</PARAMETER>
+</Content>
+]]></_WebConfig>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! BBS Standart-Include zum setzen von Variablen für aufgerufene Jobs
+:INC JOBI.BBS.JOBPDEFAULTS
+! ---------------------------------------------
+! Weitere Variablenbelegung
+!
+! ---------------------------------------------
+!**********GeneratedText, Do Not Change**********
+:SET &pttyp# = SYS_ACT_PTTYP()
+!Eintragen der READ Befehle
+:BEGINREAD
+:IF &pttyp# = "D"
+:  PRINT "", "Bei Start via GUI wird die Eingabe der Startzeit unterdrückt"
+:ELSE
+:  READ &START#,,"START [JJJJ-MM-TT HH:MM:SS]",'',K
+:ENDIF
+:READ &UC4_DEPLOYMENT_TEST#,,"UC4_DEPLOYMENT_TEST [J/N]",'N',K
+:READ &MANDANTEN#,,"MANDANTEN [01,02,20,21,54]",'01,02,20,21,54',K
+:READ &TIMESTAMP#,,"TIMESTAMP [JJJJ-MM-TT-HH:MM:SS]",'',K
+:READ &AB_VTR_NR#,,"AB_VTR_NR [NNNN]",'',K
+:READ &BIS_VTR_NR#,,"BIS_VTR_NR [NNNN]",'',K
+:READ &PAKETGROESSE#,,"PAKETGROESSE [NNNN]",'1000',K
+:READ &COMMIT#,,"COMMIT [J/N]",'J',K
+:READ &PROT_VTR_FILTER_BEA#,,"PROT_VTR_FILTER_BEA [OK/AUSSCHL/ERROR/NONE]",'AUSSCHL',K
+:READ &PROT_MSG_TYPE_BEA#,,"PROT_MSG_TYPE_BEA [INFO/WARN/ERROR/NONE]",'WARN',K
+:READ &RUN_FLVBATCH#,,"RUN_FLVBATCH [J/N]",'J',K
+:READ &RUN_FLVAUSWERT#,,"RUN_FLVAUSWERT [J/N]",'J',K
+:READ &RUN_FLVUPAR#,,"RUN_FLVUPAR [J/N]",'J',K
+:READ &RUN_FLVPBUCH#,,"RUN_FLVPBUCH [J/N]",'J',K
+:ENDREAD
+
+!Eintragen der PSET Befehle
+:PSET &START# = &START#
+:PSET &UC4_DEPLOYMENT_TEST# = &UC4_DEPLOYMENT_TEST#
+:PSET &MANDANTEN# = &MANDANTEN#
+:PSET &TIMESTAMP# = &TIMESTAMP#
+:PSET &AB_VTR_NR# = &AB_VTR_NR#
+:PSET &BIS_VTR_NR# = &BIS_VTR_NR#
+:PSET &PAKETGROESSE# = &PAKETGROESSE#
+:PSET &COMMIT# = &COMMIT#
+:PSET &PROT_VTR_FILTER_BEA# = &PROT_VTR_FILTER_BEA#
+:PSET &PROT_MSG_TYPE_BEA# = &PROT_MSG_TYPE_BEA#
+:PSET &RUN_FLVBATCH# = &RUN_FLVBATCH#
+:PSET &RUN_FLVAUSWERT# = &RUN_FLVAUSWERT#
+:PSET &RUN_FLVUPAR# = &RUN_FLVUPAR#
+:PSET &RUN_FLVPBUCH# = &RUN_FLVPBUCH#
+!**************End of GeneratedText**************
+:IF &TIMESTAMP# = ""
+:  PSET &SQLDAT# = SYS_LDATE("JJJJMMTT")
+:  PSET &VALUTA# = ""
+:ELSE
+:  SET &YYYY#    = STR_CUT(&TIMESTAMP#, 1, 4)
+:  SET &MM#      = STR_CUT(&TIMESTAMP#, 6, 2)
+:  SET &DD#      = STR_CUT(&TIMESTAMP#, 9, 2)
+:  PSET &SQLDAT# = "&YYYY#&MM#&DD#"
+:  PSET &VALUTA# = "&YYYY#&MM#&DD#"
+:  PSET &RUN_FLVUPAR# = "N"
+:ENDIF
+
+:IF &AB_VTR_NR# <> ""
+:  PSET &RUN_FLVUPAR# = "N"
+:ENDIF
+
+:IF &IDT# = "P"
+:  PSET &PPROZ_GRENZE_BP# = ""
+:  PSET &OUTPUT# = "P"
+:ELSE
+:  PSET &PPROZ_GRENZE_BP# = "110"
+:  PSET &OUTPUT# = "T"
+:ENDIF
+
+:IF &IDT# <> "P"
+:  IF &START_USER# <> 'UC4_GUI'
+:    PRINT "Start per BSL > betroffene Kalenderbegriffe werden aktiv gesetzt"
+:    SET &TODAY# = SYS_DATE(YYMMDD)
+:    SET_CALE "CALE.BBS.SONDERLAUF","BBS.FLVBATCH.S",&TODAY#,,ON
+:    SET_CALE "CALE.BBS.SONDERLAUF","BBS.FLVAUSWERT.S",&TODAY#,,ON
+:    SET_CALE "CALE.BBS.SONDERLAUF","BBS.FLVPBUCH.S",&TODAY#,,ON
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+   <workflow_attributes>
+      <row>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.BEGINWORKFLOW</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>3</calendar_condition_type>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVBATCH_STATUS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0100000000000000</childflags>
+         <column>4</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVBATCH_FLVPBUCH</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>3</calendar_condition_type>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>5</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>SCRI.BBS.FLVBATCH_NUMMKR</object_name>
+         <object_type>SCRI</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>3</calendar_condition_type>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>6</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBG.BBS.FLVBATCH_NUMMKR</object_name>
+         <object_type>JOBG</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>3</calendar_condition_type>
+         <childflags>0000000000000000</childflags>
+         <column>5</column>
+         <line_number>7</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBG.BBS.FLVBATCH_FLVBATCH</object_name>
+         <object_type>JOBG</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>3</calendar_condition_type>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>8</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVBATCH_MERGE</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>2</calendar_condition_type>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>9</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVBATCH_PROTCONVERT</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>3</calendar_condition_type>
+         <childflags>0000000000000000</childflags>
+         <column>5</column>
+         <line_number>10</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVBATCH_STATUS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>2</calendar_condition_type>
+         <childflags>0100000000000000</childflags>
+         <column>4</column>
+         <line_number>11</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVBATCH_FLVAUSWERT</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <rollback_enabled>1</rollback_enabled>
+         <row>4</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <calendar_condition_type>2</calendar_condition_type>
+         <childflags>0100000000000000</childflags>
+         <column>5</column>
+         <line_number>12</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FLVBATCH_FLVUPAR</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <has_preconditions>1</has_preconditions>
+         <rollback_enabled>1</rollback_enabled>
+         <row>4</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>13</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>SCRI.BBS.FLVBATCH_CALERESET</object_name>
+         <object_type>SCRI</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>5</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>5</column>
+         <line_number>14</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.BBS.FINISHWORKFLOW</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>5</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>6</column>
+         <line_number>15</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>5</row>
+         <precondition_error_action>X</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ENDED_OK_OR_INACTIV</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>5</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>4</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>6</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>5</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>7</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>6</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>8</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>7</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>9</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>8</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>10</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>9</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>11</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>10</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>12</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>11</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>13</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>12</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>14</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>13</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>15</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>14</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <calendar_conditions>
+      <row>
+         <calendar_event>L_WT_01.R</calendar_event>
+         <calendar>CALE.HESSEN.DYN</calendar>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <calendar_event>L_WT_01.R</calendar_event>
+         <calendar>CALE.HESSEN.DYN</calendar>
+         <workflow_line_number>5</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <calendar_event>L_WT_01.R</calendar_event>
+         <calendar>CALE.HESSEN.DYN</calendar>
+         <workflow_line_number>6</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <calendar_event>L_WT_01.R</calendar_event>
+         <calendar>CALE.HESSEN.DYN</calendar>
+         <workflow_line_number>7</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <calendar_event>L_WT_01.R</calendar_event>
+         <calendar>CALE.HESSEN.DYN</calendar>
+         <workflow_line_number>8</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <calendar_event>BBS.BUCFORT.G</calendar_event>
+         <calendar>CALE.BBS.BATCH</calendar>
+         <workflow_line_number>9</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <calendar_event>L_WT_01.R</calendar_event>
+         <calendar>CALE.HESSEN.DYN</calendar>
+         <workflow_line_number>10</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <calendar_event>BBS.FLVAUSWERT.G</calendar_event>
+         <calendar>CALE.BBS.BATCH</calendar>
+         <workflow_line_number>11</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+      <row>
+         <calendar_event>BBS.FLVAUSWERT.G</calendar_event>
+         <calendar>CALE.BBS.BATCH</calendar>
+         <workflow_line_number>12</workflow_line_number>
+         <line_number>1</line_number>
+      </row>
+   </calendar_conditions>
+   <conditions>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>4</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>11</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>11</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>11</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>11</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>11</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>12</workflow_line_number>
+         <condition_line_number>1</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>C</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>RUN TASK</name>
+         <workflow_line_number>12</workflow_line_number>
+         <condition_line_number>2</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>12</workflow_line_number>
+         <condition_line_number>3</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>E</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>SKIP TASK</name>
+         <workflow_line_number>12</workflow_line_number>
+         <condition_line_number>4</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>A</type>
+      </row>
+      <row>
+         <active>1</active>
+         <name>USER DEFINED</name>
+         <workflow_line_number>12</workflow_line_number>
+         <condition_line_number>5</condition_line_number>
+         <execution_time>1</execution_time>
+         <type>F</type>
+      </row>
+   </conditions>
+   <condition_values>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>4</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;RUN_FLVPBUCH#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>4</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>=</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>4</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>J</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>4</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Job not activated!</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>11</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;RUN_FLVAUSWERT#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>11</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>=</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>11</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>J</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>11</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Job not activated!</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>12</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>&amp;RUN_FLVUPAR#</value>
+         <variable>XC_P01</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>12</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>=</value>
+         <variable>XC_P02</variable>
+      </row>
+      <row>
+         <condition_link_line_number>1</condition_link_line_number>
+         <workflow_line_number>12</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>J</value>
+         <variable>XC_P03</variable>
+      </row>
+      <row>
+         <condition_link_line_number>4</condition_link_line_number>
+         <workflow_line_number>12</workflow_line_number>
+         <execution_time>1</execution_time>
+         <type>V</type>
+         <value>Job not activated!</value>
+         <variable>XC_P01</variable>
+      </row>
+   </condition_values>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

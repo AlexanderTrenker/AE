@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>R3</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt>900</mrt>
+         <mrt_ert>20</mrt_ert>
+         <mrt_method>4</mrt_method>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.R3.BOT</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1890837271</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Docs><![CDATA[<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+<!DOCTYPE Content [
+<!ELEMENT Content ( #PCDATA | Principal )* >
+<!ATTLIST Principal r.Numero_de_erros_consecutivos CDATA "" >
+<!ATTLIST Principal f.Subcategoria CDATA "" >
+<!ATTLIST Principal c.Resumo CDATA "" >
+<!ATTLIST Principal v.Job_do_Warroom ( Sim | Nao ) "Nao" >
+<!ATTLIST Principal o.Restart_automatico ( Sim | Nao ) "Nao" >
+<!ATTLIST Principal s.Unidade_de_negocio CDATA "" >
+<!ATTLIST Principal j.Urgencia CDATA "" >
+<!ATTLIST Principal l.Link_da_documentacao CDATA "" >
+<!ATTLIST Principal p.Numero_de_restart CDATA "" >
+<!ATTLIST Principal x.Acionamento ( Sim | Nao ) "Nao" >
+<!ATTLIST Principal e.Categoria CDATA "" >
+<!ATTLIST Principal m.Job_encadeado ( Sim | Nao ) "Nao" >
+<!ATTLIST Principal z.Email_de_notificacao CDATA "" >
+<!ATTLIST Principal d.Descricao CDATA "" >
+<!ATTLIST Principal i.Impacto CDATA "" >
+<!ATTLIST Principal u.Observacao2 CDATA "" >
+<!ATTLIST Principal t.Observacao1 CDATA "" >
+<!ATTLIST Principal y.Horario_abertura_incidente ( Dias_uteis.Horario_comercial | Dias_uteis.Qualquer_horario | Qualquer_dia.Horario_comercial | Qualquer_dia.Qualquer_horario ) "Dias_uteis.Horario_comercial" >
+<!ATTLIST Principal a.Abre_incidente ( Sim | Nao ) "Nao" >
+<!ATTLIST Principal q.Erros_consecutivos ( Sim | Nao ) "Nao" >
+<!ATTLIST Principal n.Job_pai ( Sim | Nao ) "Nao" >
+<!ATTLIST Principal b.Solicitante CDATA "" >
+<!ATTLIST Principal h.Grupo_designado CDATA "" >
+<!ATTLIST Principal k.Item_de_configuracao CDATA "" >
+<!ATTLIST Principal g.Tipo_de_contato CDATA "" >
+]>
+<Content>
+<Principal a.Abre_incidente="Nao" b.Solicitante="" c.Resumo="" d.Descricao="" e.Categoria="" f.Subcategoria="" g.Tipo_de_contato="" h.Grupo_designado="" i.Impacto="" j.Urgencia="" k.Item_de_configuracao="" l.Link_da_documentacao="" m.Job_encadeado="Nao" n.Job_pai="Nao" o.Restart_automatico="Nao" p.Numero_de_restart="" q.Erros_consecutivos="Nao" r.Numero_de_erros_consecutivos="" s.Unidade_de_negocio="" t.Observacao1="" u.Observacao2="" v.Job_do_Warroom="Nao" x.Acionamento="Nao" y.Horario_abertura_incidente="Dias_uteis.Horario_comercial" z.Email_de_notificacao=""/>
+</Content>
+]]></_Docs>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process>:inc JOBI.GENERIC.PROCESS, NOFOUND=IGNORE</process>
+      </row>
+      <row>
+         <pre_process>:inc JOBI.GENERIC.PRE_PROCESS, NOFOUND=IGNORE</pre_process>
+      </row>
+      <row>
+         <post_process>:inc JOBI.GENERIC.POST_PROCESS, NOFOUND=IGNORE</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>R3</platform>
+         <agent><![CDATA[<R3>]]></agent>
+         <optional_reports>PLOGSSPL</optional_reports>
+         <job_report_path>2</job_report_path>
+         <sap_client>01</sap_client>
+         <job_class>C</job_class>
+         <sap_job_delete>0</sap_job_delete>
+         <sap_lang>EN</sap_lang>
+         <job_name></job_name>
+         <sap_dst_system></sap_dst_system>
+         <sap_startmode>0</sap_startmode>
+         <sap_job_del_not_on_error>0</sap_job_del_not_on_error>
+         <sap_recipient></sap_recipient>
+         <sap_addresstype>U</sap_addresstype>
+         <sap_express>0</sap_express>
+         <sap_copy>0</sap_copy>
+         <sap_blindcopy>0</sap_blindcopy>
+         <sap_noforward>0</sap_noforward>
+         <sap_noprint>0</sap_noprint>
+         <sap_deliver>N</sap_deliver>
+         <sap_statusbymail>N</sap_statusbymail>
+         <sap_job_type>0</sap_job_type>
+         <sap_override_login>0</sap_override_login>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.FT_HG_REPLACE_SRC</name>
+         <type>JOBI</type>
+         <description>Ersetzen des HOST Attributes fuer die Transfer-Quelle</description>
+         <versioning_id>1359896989</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &HOST# = GET_ATT(FT_SRC_HOST)
+:SET &HND# = PREP_PROCESS_AGENTGROUP("HG.SOURCE",,,)
+:PROCESS &HND#
+:   SET &HOST# = GET_PROCESS_LINE(&HND#,1)
+:   SET &STATUS# = GET_PROCESS_LINE(&HND#,2)
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:SET &OLD_EXEC# = GET_ATT(FT_SRC_HOST)
+:PUT_ATT FT_SRC_HOST = &HOST#
+:PRINT "FT_SRC_HOST: Old: &OLD_EXEC# replaced with: &HOST#"
+]]></process>
+      </row>
+   </scripts>
+</jobi>

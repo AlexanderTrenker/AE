@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>DEPLOYMASSENSQLSCRIPT_PRPT.BETRIEB</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-670764700</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="558" icon="PRPT" id="PRPTS" left="279" top="4" width="434"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="SQL-Script ausführen xdeploy"><properties><entry name="text">SQL-Script ausführen xdeploy</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>LABEL1#</name>
+         <value>Datum angeben</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL1s.00" modifiable="1" nl="1" text="Datum angeben" tooltip=""><properties><entry name="id">LABEL1s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">Datum angeben</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>LABEL10#</name>
+         <value>-- das man die Zeit ein paar Minuten in die Zukunft stellt</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL10s.00" modifiable="1" nl="1" text="-- das man die Zeit ein paar Minuten in die Zukunft stellt" tooltip=""><properties><entry name="id">LABEL10s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">-- das man die Zeit ein paar Minuten in die Zukunft stellt</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>19</line_number>
+         <name>LABEL11#</name>
+         <value>-- Dateiendung muss kleingeschrieben werden *.sql</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL11s.00" modifiable="1" nl="1" text="-- Dateiendung muss kleingeschrieben werden *.sql" tooltip=""><properties><entry name="id">LABEL11s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">-- Dateiendung muss kleingeschrieben werden *.sql</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>LABEL12#</name>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL12s.00" modifiable="1" nl="1" text="" tooltip=""><properties><entry name="id">LABEL12s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text"/></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>LABEL13#</name>
+         <value>Uhrzeit angeben</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL13s.00" modifiable="1" nl="1" text="Uhrzeit angeben" tooltip=""><properties><entry name="id">LABEL13s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">Uhrzeit angeben</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>11</line_number>
+         <name>LABEL14#</name>
+         <value>Verzeichnis der SQL-Skripte auswählen</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL14s.00" modifiable="1" nl="1" text="Verzeichnis der SQL-Skripte auswählen" tooltip=""><properties><entry name="id">LABEL14s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">Verzeichnis der SQL-Skripte auswählen</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>13</line_number>
+         <name>LABEL15#</name>
+         <value>--Verzeichnis darf als Trenner nur _(Unterstrich) enthalten</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL15s.00" modifiable="1" nl="1" text="--Verzeichnis darf als Trenner nur _(Unterstrich) enthalten" tooltip=""><properties><entry name="id">LABEL15s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">--Verzeichnis darf als Trenner nur _(Unterstrich) enthalten</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>9</line_number>
+         <name>LABEL2#</name>
+         <value>Ziel Datenbank auswählen</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL2s.00" modifiable="1" nl="1" text="Ziel Datenbank auswählen" tooltip=""><properties><entry name="id">LABEL2s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">Ziel Datenbank auswählen</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>16</line_number>
+         <name>LABEL3#</name>
+         <value>SQL Datei auswählen</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL3s.00" modifiable="1" nl="1" text="SQL Datei auswählen" tooltip=""><properties><entry name="id">LABEL3s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">SQL Datei auswählen</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>12</line_number>
+         <name>LABEL4#</name>
+         <value>--Verzeichnis darf kein Leerzeichen enthalten</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL4s.00" modifiable="1" nl="1" text="--Verzeichnis darf kein Leerzeichen enthalten" tooltip=""><properties><entry name="id">LABEL4s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">--Verzeichnis darf kein Leerzeichen enthalten</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>8</line_number>
+         <name>LABEL5#</name>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL5s.00" modifiable="1" nl="1" text="" tooltip=""><properties><entry name="id">LABEL5s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text"/></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>18</line_number>
+         <name>LABEL6#</name>
+         <value>-- Dateinamen darf als Trenner nur ein _ (Unterstrich) verwendet werden</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL6s.00" modifiable="1" nl="1" text="-- Dateinamen darf als Trenner nur ein _ (Unterstrich) verwendet werden" tooltip=""><properties><entry name="id">LABEL6s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">-- Dateinamen darf als Trenner nur ein _ (Unterstrich) verwendet werden</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>17</line_number>
+         <name>LABEL7#</name>
+         <value>-- Dateinamen darf kein Leerzeichen enthalten</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL7s.00" modifiable="1" nl="1" text="-- Dateinamen darf kein Leerzeichen enthalten" tooltip=""><properties><entry name="id">LABEL7s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">-- Dateinamen darf kein Leerzeichen enthalten</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>20</line_number>
+         <name>LABEL8#</name>
+         <value>-- Dateinamen sind möglichst kurz zu halten</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL8s.00" modifiable="1" nl="1" text="-- Dateinamen sind möglichst kurz zu halten" tooltip=""><properties><entry name="id">LABEL8s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">-- Dateinamen sind möglichst kurz zu halten</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>LABEL9#</name>
+         <value>-- darauf achten wenn ein Ablauf sofort starten soll</value>
+         <xui><![CDATA[<label alt="0" customfield="" fill="b" id="LABEL9s.00" modifiable="1" nl="1" text="-- darauf achten wenn ein Ablauf sofort starten soll" tooltip=""><properties><entry name="id">LABEL9s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">0</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="text">-- darauf achten wenn ein Ablauf sofort starten soll</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <line_number>2</line_number>
+         <name>PRPT_DATUM#</name>
+         <output_format>YYMMDD</output_format>
+         <reference>UC_DATATYPE_DATE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<datefield alt="1" calendar="" customfield="" doutputformat="YYMMDD" enabled="1" fill="b" focus="0" id="PRPT_DATUMs.00" initvalue="2015-11-04" key="" max="" min="" modifiable="1" nl="1" reference="UC_DATATYPE_DATE" strict="1" text="Datum" tooltip=""><properties><entry listparam="D" name="reference">UC_DATATYPE_DATE</entry><entry name="calendar"/><entry name="key"/><entry name="doutputformat">YYMMDD</entry><entry name="text">Datum</entry><entry alias="min" name="dmin"/><entry alias="max" name="dmax"/><entry name="id">PRPT_DATUMs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="strict">1</entry><entry name="initvalue">2015-11-04</entry></properties></datefield>]]></xui>
+         <ui_type>datefield</ui_type>
+      </row>
+      <row>
+         <line_number>10</line_number>
+         <name>PRPT_DBNAME#</name>
+         <reference>DIRLIST_DEPLOYMASSENSQLSCRIPT_BACKEND_VARA.BETRIEB</reference>
+         <reference_type>VARA</reference_type>
+         <value>MENT</value>
+         <xui><![CDATA[<combo alt="1" customfield="" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="PRPT_DBNAMEs.00" initvalue="" modifiable="1" nl="1" onchangereset="" quotes="" reference="DIRLIST_DEPLOYMASSENSQLSCRIPT_BACKEND_VARA.BETRIEB" resetable="1" strict="1" text="Datenbank" tooltip="" vtype="i" xmlkey="" xmlpath=""><properties><entry listparam="C" name="reference">DIRLIST_DEPLOYMASSENSQLSCRIPT_BACKEND_VARA.BETRIEB</entry><entry name="text">Datenbank</entry><entry name="quotes"/><entry name="id">PRPT_DBNAMEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="filter">0</entry><entry name="nl">1</entry><entry name="strict">1</entry><entry name="vtype">i</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>15</line_number>
+         <name>PRPT_DIR#</name>
+         <reference>DIRLIST_DEPLOYMASSENSQLSCRIPT_BACKEND_VARA.BETRIEB</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" customfield="" dynamic="1" enabled="1" fill="b" filter="0" focus="0" id="PRPT_DIRs.00" initvalue="" modifiable="1" nl="1" onchangereset="" quotes="" reference="DIRLIST_DEPLOYMASSENSQLSCRIPT_BACKEND_VARA.BETRIEB" resetable="1" strict="1" text="Verzeichnis" tooltip="" vtype="i" xmlkey="" xmlpath=""><properties><entry listparam="C" name="reference">DIRLIST_DEPLOYMASSENSQLSCRIPT_BACKEND_VARA.BETRIEB</entry><entry name="text">Verzeichnis</entry><entry name="quotes"/><entry name="id">PRPT_DIRs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">1</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="filter">0</entry><entry name="nl">1</entry><entry name="strict">1</entry><entry name="vtype">i</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>14</line_number>
+         <name>PRPT_ROOTDIR#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>c:\temp</value>
+         <xui><![CDATA[<text alt="1" customfield="" enabled="1" fill="b" focus="0" id="PRPT_ROOTDIRs.00" initvalue="" inputassistance="0" len="" modifiable="1" multiline="0" multilineIcon="0" multiselect="0" nl="1" onchangereset="" quotes="" reference="UC_DATATYPE_STRING" regex="" required="0" resetable="1" separator=";" showaspassword="0" text="Wurzelverzeichnis" tooltip="" upper="0" validmax="" validmin="" xmlkey="" xmlpath=""><properties><entry listparam="C" name="reference">UC_DATATYPE_STRING</entry><entry name="text">Wurzelverzeichnis</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="validmin"/><entry name="validmax"/><entry name="len"/><entry name="quotes"/><entry name="id">PRPT_ROOTDIRs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>21</line_number>
+         <name>PRPT_STEUER_SQL#</name>
+         <reference>SQLFILELIST_DEPLOYMASSENSQLSCRIPT_VARA.BETRIEB</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" customfield="" dynamic="1" enabled="1" fill="b" filter="0" focus="0" id="PRPT_STEUER_SQLs.00" initvalue="" modifiable="1" nl="1" onchangereset="" quotes="" reference="SQLFILELIST_DEPLOYMASSENSQLSCRIPT_VARA.BETRIEB" resetable="1" strict="1" text="SteuerSQL" tooltip="" vtype="i" xmlkey="" xmlpath=""><properties><entry listparam="C" name="reference">SQLFILELIST_DEPLOYMASSENSQLSCRIPT_VARA.BETRIEB</entry><entry name="text">SteuerSQL</entry><entry name="quotes"/><entry name="id">PRPT_STEUER_SQLs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">1</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="filter">0</entry><entry name="nl">1</entry><entry name="strict">1</entry><entry name="vtype">i</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <line_number>7</line_number>
+         <name>PRPT_ZEIT#</name>
+         <reference>UC_DATATYPE_TIME</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<time alt="1" customfield="" enabled="1" fill="b" focus="0" id="PRPT_ZEITs.00" initvalue="13:32" max="" min="" modifiable="1" nl="1" reference="UC_DATATYPE_TIME" text="Zeit" tooltip=""><properties><entry listparam="TI" name="reference">UC_DATATYPE_TIME</entry><entry name="text">Zeit</entry><entry alias="min" name="timin"/><entry alias="max" name="timax"/><entry name="id">PRPT_ZEITs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="initvalue">13:32</entry></properties></time>]]></xui>
+         <ui_type>time</ui_type>
+      </row>
+   </elements>
+</prpt>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>RTL.POST.PROC.INC</name>
+         <type>JOBI</type>
+         <description>Retail Post-job include</description>
+         <versioning_id>833533269</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &END_DATE#=SYS_DATE("YYYYMMDD")
+:SET &END_TIME#=SYS_TIME("HHMMSS")
+:SET &EDT#=STR_CAT(&END_DATE#,&END_TIME#)
+:PRINT &$ALIAS# END = &EDT#]]></process>
+      </row>
+   </scripts>
+</jobi>

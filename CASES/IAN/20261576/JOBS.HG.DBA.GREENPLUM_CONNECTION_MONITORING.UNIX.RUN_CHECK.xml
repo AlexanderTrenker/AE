@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt>300</mrt>
+         <mrt_method>257</mrt_method>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.HG.DBA.GREENPLUM_CONNECTION_MONITORING.UNIX.RUN_CHECK</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.DBA</queue>
+         <versioning_id>-1939780738</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[sql_statement=$(cat <<-END
+select 'Connection Percent',
+  CAST(a.current_connection_count AS DOUBLE PRECISION)/CAST(b.max_connections AS DOUBLE PRECISION) * 100
+from (
+  SELECT count(*) current_connection_count
+  from pg_stat_activity) a, (
+  SELECT name, setting max_connections
+  FROM pg_settings
+  WHERE name = 'max_connections'
+) b
+END
+)
+
+echo "SQL Statement:${sql_statement}"
+echo 'psql -c "<sql_statement>" postgres -A -t -h &GREENPLUM_SERVER#;'
+
+psql -c "${sql_statement}" postgres -A -t -h &GREENPLUM_SERVER#;
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INC JOBI.HG.PRODUCTION_CLIENT_AGENT_LOGIN_SET</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &GREENPLUM_CONN_VARIABLE_NAME# = "VARA.HG.DBA.GREENPLUM_CONNECTION_MONITORING.STATIC.RESULTS"
+
+:SET &SEND_EMAIL# = "N"
+:SET &EMAIL_BODY# = ""
+:SET &NL# = UC_CRLF()
+:INC JOBI.HG.STANDARD_SCRIPT.INCLUDE_STANDARD_HTML_EMAIL_HEADER
+:SET &EMAIL_BODY# = '&HTML_EMAIL_HEADER#&NL#'
+
+:SET &HND# = PREP_PROCESS_REPORT(,,,"Connection Percent|*")
+:PROCESS &HND#
+:  SET &LINE# = GET_PROCESS_LINE(&HND#)
+:  SET &LINE# = STR_SUB(&LINE#,"Connection Percent|","")
+:  SET &CONNECTION_PERCENT# = STR_TRIM(&LINE#)
+:  SWITCH "Y"
+:  CASE &CONNECTION_PERCENT# between 30 and 85
+:    SET &SEND_EMAIL# = "Y"
+:    SET &EMAIL_SUBJECT# = "Greenplum Database &GREENPLUM_SERVER# Max Connection Issue"
+:    SET &EMAIL_BODY# = "&EMAIL_BODY#<p>Warning! &GREENPLUM_SERVER# at &CONNECTION_PERCENT#% of maximum connections.</p>&NL#"
+:    PRINT "Connection Warning"
+:  CASE &CONNECTION_PERCENT# between 85 and 101
+:    SET &SEND_EMAIL# = "Y"
+:    SET &ADDITIONAL_RECIPIENT# = "dba_madison@healthgrades.opsgenie.net"
+:    SET &EMAIL_SUBJECT# = "Greenplum Database &GREENPLUM_SERVER# Max Connection Critical Issue"
+:    SET &EMAIL_BODY# = "&EMAIL_BODY#<p>Critical Warning! &GREENPLUM_SERVER# at &CONNECTION_PERCENT#% of maximum connections.</p>&NL#"
+:    PRINT "Connection Critical Error"
+:  OTHER
+:    PRINT "Connection threshold fine"
+:  ENDSWITCH
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:SET &EMAIL_BODY# = "&EMAIL_BODY#</body>"
+
+:IF &SEND_EMAIL# = "Y"
+:  SET &INTERVAL_NOTIFICATION_VARIABLE# = &GREENPLUM_CONN_VARIABLE_NAME#
+:  SET &INTERVAL_KEY# = &GREENPLUM_SERVER#
+:  SET &INTERVAL_NOTIFICATION_TIME# = "006000"
+:  INC JOBI.HG.STANDARD_SCRIPT.INTERVAL_NOTIFICATION_CHECK
+:  IF &SEND_INTERVAL_NOTIFICATION# = "Y"
+:    SET &SEND_EMAIL# = "Y"
+:  ELSE
+:    SET &SEND_EMAIL# = "N"
+:  ENDIF
+:ENDIF
+
+:IF &SEND_EMAIL# = "Y"
+:  IF STR_FIND(&EMAIL_SUBJECT#,"Critical") <> 0
+:    SET &SEND_DB_ALERT_SLACK_MESSAGE# = "Y"
+:  ELSE
+:    SET &SEND_DB_ALERT_SLACK_MESSAGE# = "N"
+:  ENDIF
+:  SET &ADDITIONAL_RECIPIENT# = "dba_madison@healthgrades.opsgenie.net"
+:  SET &SEND_DB_ALERT_SLACK_MESSAGE# = "Y"
+:  INC JOBI.HG.DBA.STANDARD_SCRIPT.MONITORING_NOTIFICATION
+:ENDIF
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>0</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <ert_usage>1</ert_usage>
+         <name>&amp;GREENPLUM_SERVER#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

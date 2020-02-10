@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>5</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.UNIX.COPY_FILE</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.EBS</queue>
+         <versioning_id>-521387549</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[echo source file:  `ls -lh &SOURCE_FILE#`
+echo dest dir: `ls -ld &DEST_FILE#`
+
+:SET &srcfile# = &SOURCE_FILE#
+
+:IF &GZIP_FILE# = "YES"
+:  SET &srcfile# = "&srcfile#.gz"
+  echo "gzip -fc &SOURCE_FILE# >&srcfile#"
+  gzip -fc &SOURCE_FILE# >&srcfile#
+:ENDIF
+
+echo cp -f &srcfile# &DEST_FILE#
+cp -f &srcfile# &DEST_FILE#
+
+:IF &GZIP_FILE# = "YES"
+   echo rm -f &srcfile#
+   rm -f &srcfile#
+:ENDIF]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[!:SET &JOB_RETURN_CODE# = get_uc_object_status(, , 'retcode')
+!:IF &JOB_RETURN_CODE# <> 0
+!:  SET &ACT# = ACTIVATE_UC_OBJECT(CALL.REMEDY_FORCE_NON_EBS, , , , , PASS_VALUES)
+!:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>UNIX</platform>
+         <agent>HOSTG.EBS_UNIX</agent>
+         <login>LOGIN.DEFAULT</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.COPY_FILE</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.COPY_FILE</prompt_set>
+         <variable_name>DEST_FILE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.COPY_FILE</prompt_set>
+         <value>NO</value>
+         <variable_name>GZIP_FILE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.COPY_FILE</prompt_set>
+         <variable_name>SOURCE_FILE#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

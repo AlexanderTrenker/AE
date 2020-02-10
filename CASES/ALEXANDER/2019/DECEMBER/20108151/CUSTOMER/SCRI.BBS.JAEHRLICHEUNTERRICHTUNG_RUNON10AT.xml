@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>JAEHRLICHERUNTERRICHTUNG</archive_key1>
+         <archive_key2>BBS</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.JAEHRLICHEUNTERRICHTUNG_RUNON10AT</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Plant JU bei Bedarf auf aktuellen Tag +1 ein</description>
+         <versioning_id>-1187312484</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu>Begriff Datum angepasst</Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[!Prüfung, ob JU in diesem Monat eingeplant ist/war
+!Der Eintrag in den Kalender muss am Vortag erfolgen, weil dieser keine Kalenderneuberechnung auslöst und es somit nicht funktioniert,
+!wenn das erst am Tag der geplanten Ausführung passiert VB40056!!!
+:SET &TODAY# = SYS_DATE(YYMMDD)
+:SET &TODAYPLUS1# = ADD_DAYS(&TODAY#,1)
+:SET &CURRMONTH# = SYS_DATE(MM)
+:SET &FIRSTOFMONTH# = FIRST_OF_PERIOD(&TODAY#,MM)
+:SET &JUNEXTRUN# = CALE_LOOK_AHEAD("&FIRSTOFMONTH#", "ALL", "CALE.BBS.BATCH", "BBS.JAEHRLICHEUNTERRICHTUNG.G")
+:SET &JUNEXTRUNM# = STR_CUT(&JUNEXTRUN#,3,2)
+:IF &JUNEXTRUNM# = &CURRMONTH#
+:  PRINT "JU ist/war in diesem Monat auf &JUNEXTRUN# geplant!"
+:ELSE
+:  PRINT "JU wird für morgen (10. AT) eingeplant!"
+:  SET_CALE "CALE.BBS.SONDERLAUF","BBS.JAEHRLICHEUNTERRICHTUNG.S",&TODAYPLUS1#,,ON
+:ENDIF
+! ---------------------------------------------]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

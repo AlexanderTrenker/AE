@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>WO0000000304011</archive_key1>
+         <archive_key2>00544217</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PROD.INCLUDE.X.TBS.INFOSOURCE.MARKET_DATA_PIPELINE_PATHS_CLOUD</name>
+         <type>JOBI</type>
+         <description>Hadoop Decommission. Paths for reading from Flink Raw Marketdepth S3 location</description>
+         <versioning_id>-1324576445</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Set values from Variable Object
+:SET &EDH_AWS_EMR_COORDINATOR_IP# = GET_VAR(prod.variable.x.tbs.datamine.datamine_cloud_common, "EMR_COORDINATOR_HOST")
+:SET &EXECUTION_ENV# = GET_VAR(prod.variable.x.tbs.datamine.datamine_cloud_common, "EXECUTION_ENV")
+:SET &PRIMARY_AWS_REGION# = GET_VAR(prod.variable.x.tbs.datamine.datamine_cloud_common, "PRIMARY_AWS_REGION")
+:SET &PRIMARY_TABLE_PREFIX# = GET_VAR(prod.variable.x.tbs.datamine.datamine_cloud_common, "PRIMARY_TABLE_PREFIX")
+:SET &BACKUP_AWS_REGION# = GET_VAR(prod.variable.x.tbs.datamine.datamine_cloud_common, "BACKUP_AWS_REGION")
+:SET &BACKUP_TABLE_PREFIX# = GET_VAR(prod.variable.x.tbs.datamine.datamine_cloud_common, "BACKUP_TABLE_PREFIX")
+! When retrieving a value from the UC4 Object we need to trim the string in the event that the value was blank,
+! GET_VAR always returns a single BLANK when there is no value associated to a Key
+:SET &PRIMARY_TABLE_PREFIX#=STR_TRIM(&PRIMARY_TABLE_PREFIX#)
+:SET &BACKUP_TABLE_PREFIX#=STR_TRIM(&BACKUP_TABLE_PREFIX#)
+! Construct data center based on environment and region
+:SET &EDH_AWS_DATACENTER# = '&EXECUTION_ENV#-&PRIMARY_AWS_REGION#'
+:SET &EDH_AWS_BACKUP_DATACENTER# = '&EXECUTION_ENV#-&BACKUP_AWS_REGION#'
+! ((ENVPROPS: UC4_ENV_ID=UC4.0100.PROD UC4_MAJOR_APP=TBS Created=2019-06-08 06:05:38 CDT
+:SET &EDH_BUCKET# = 'cmegroup-&EDH_AWS_DATACENTER#-edh'
+:SET &DATAMINE_BUCKET# = 'cmegroup-main-&PRIMARY_AWS_REGION#-datamine-prod'
+:SET &WEBSITE_BUCKET_EAST# = 'cmegroup-&EDH_AWS_DATACENTER#-website-transfer'
+:SET &DATAMINE_BUCKET_WEST# = 'cmegroup-prod-us-east-1-datamine'
+! SBE Raw Marketdata
+:SET &RAW_SBE_MD_CAPTURE_PREFIX# =          'staging/globex-marketdata/&PRIMARY_AWS_REGION#/fixbinary-messages'
+:SET &RAW_SBE_MD_CAPTURE_INPUT_PATH# =      's3://&EDH_BUCKET#/&RAW_SBE_MD_CAPTURE_PREFIX#'
+:SET &RAW_SBE_MD_PATH# =                    's3://&EDH_BUCKET#/archive/globex-marketdata/fixbinary-messages'
+:SET &SBE_CHECKPOINT_PATH# =                's3://&EDH_BUCKET#/workspace/144/globex-marketdata/fixbinary-messages/checkpoint'
+:SET &RAW_SBE_MD_STAGING_INPUT_PATH# =      'hdfs:///tmp/staging/sbe-inprocess'
+:SET &RAW_SBE_MD_STAGING_OUTPUT_PATH# =     'hdfs:///tmp/staging/sbe-complete'
+:SET &SBE_PREVIOUS_MANIFEST_PATH# =         's3://&EDH_BUCKET#/workspace/144/globex-marketdata/fixbinary-messages/manifest'
+! Streamline SBE Raw Marketdata
+:SET &RAW_SSBE_MD_CAPTURE_PREFIX# =         'staging/globex-marketdata/&PRIMARY_AWS_REGION#/streamline-binary-messages'
+:SET &RAW_SSBE_MD_CAPTURE_INPUT_PATH# =     's3://&EDH_BUCKET#/&RAW_SSBE_MD_CAPTURE_PREFIX#'
+:SET &RAW_SSBE_MD_PATH# =                   's3://&EDH_BUCKET#/archive/globex-marketdata/streamline-binary-messages'
+:SET &SSBE_CHECKPOINT_PATH# =               's3://&EDH_BUCKET#/workspace/144/globex-marketdata/streamline-binary-messages/checkpoint'
+! Other MD Batch process paths
+:SET &SECDEF_STAGING_PATH# =                'hdfs:///tmp/staging/security-definition'
+:SET &SECDEF_FINAL_PATH# =                  's3://&EDH_BUCKET#/history/globex-marketdata/security-definition'
+:SET &METADATA_PATH# =                      's3://&EDH_BUCKET#/workspace/144/fixbinary-messages/metadata'
+:SET &ENRICHED_MARKETDATA_PATH# =           's3://&EDH_BUCKET#/history/globex-marketdata/enriched'
+:SET &ENRICHED_STREAMLINE_PATH# =           's3://&EDH_BUCKET#/workspace/144/streamline-binary-messages/enriched'
+:SET &ORDER_BOOK_PATH# =                    's3://&EDH_BUCKET#/history/globex-marketdata/mbp-orderbook-bi'
+:SET &TOP_OF_BOOK_STAGING_PATH# =           'hdfs:///tmp/staging/top-of-book'
+:SET &TOP_OF_BOOK_FINAL_PATH# =             's3://&EDH_BUCKET#/workspace/144/topofbook'
+:SET &BEST_BID_OFFER_ERROR_PATH# =          's3://&EDH_BUCKET#/workspace/144/bbo/error'
+:SET &TIME_AND_SALES_ERROR_PATH# =          's3://&EDH_BUCKET#/workspace/144/timeandsales/error'
+:SET &EOD_TIMEANDSALES_PATH# =              's3://&EDH_BUCKET#/workspace/144/eod-timeandsales-globex'
+:SET &EOD_TIMEANDSALES_ERROR_PATH# =        's3://&EDH_BUCKET#/workspace/144/eod-timeandsales-globex/error'
+:SET &EOD_TIMEANDSALES_WEBSITE_EAST# =      's3://&WEBSITE_BUCKET_EAST#/data/incoming/timesales'
+:SET &STREAMLINE_BLOCK_PATH# =              's3://&EDH_BUCKET#/history/globex-marketdata/block-trades'
+! commodity file path
+:SET &EPRS_IMPORT_DIR_BASE# =                's3://&EDH_BUCKET#/history/referencedata/commodity/prs'
+! clearing ref file path
+:SET &REFDATA_DIR_BASE# =            's3://&EDH_BUCKET#/history/referencedata/clearing-reference'
+! Datamine paths
+:SET &MBO_RAW_BY_CHANNEL_PATH# =            's3://&DATAMINE_BUCKET#/marketdata-fixbinary-by-channel'
+:SET &MBO_EXTRACT_FINAL_PATH# =             's3://&DATAMINE_BUCKET#/mbo-fix-marketdepth'
+:SET &FIX_MARKETDEPTH_PATH# =               's3://&DATAMINE_BUCKET#/fix-marketdepth'
+:SET &BEST_BID_OFFER_PATH# =                's3://&DATAMINE_BUCKET#/bbo'
+:SET &TIME_AND_SALES_PATH# =                's3://&DATAMINE_BUCKET#/timeandsales'
+:SET &NOTIFICATION_FOLDER# =                's3://&DATAMINE_BUCKET#/notifications'
+! ))
+
+:IF &PRIMARY_AWS_REGION# = 'us-west-1'
+:  SET &DATAMINE_BUCKET# = '&DATAMINE_BUCKET_WEST#'
+:ENDIF
+
+]]></process>
+      </row>
+   </scripts>
+</jobi>

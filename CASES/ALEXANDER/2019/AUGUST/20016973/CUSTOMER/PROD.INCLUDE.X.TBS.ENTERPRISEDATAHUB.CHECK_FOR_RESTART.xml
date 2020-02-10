@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>00507617</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PROD.INCLUDE.X.TBS.ENTERPRISEDATAHUB.CHECK_FOR_RESTART</name>
+         <type>JOBI</type>
+         <versioning_id>-61846589</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &RET = GET_UC_OBJECT_STATUS(,,'RETCODE')
+:PRINT 'Return Code=&RET'
+
+:IF &RET = '255'
+:  PRINT 'LDAP Connection issue between UC4 host and Jenkins host.  Waiting 60 seconds before re-starting again.'
+:  WAIT 60
+:  SET &RESTART# = RESTART_UC_OBJECT(&$NAME#, &$RUNID#,,,)
+:ELSE
+:  IF &RET = '3'
+:    PRINT 'Jenkins Pipeline DOES NOT EXIST, please verify pipeline name prior to re-starting.'
+:  ELSE
+:    IF &RET = '2'
+:      PRINT 'Jenkins Pipeline FAILURE, please check Jenkins pipeline console for failure reason.'
+:    ELSE
+:      PRINT 'SUCCESSFUL EXECUTION OF Jenkins Pipeline'
+:    ENDIF
+:  ENDIF
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+</jobi>

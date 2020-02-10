@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>2</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.GET_TARGET_ENVIRON</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>549712787</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:read &S_XPORT_KEY#,,
+
+:define &environ_lst#,string,20
+
+:set &xport_vara# = get_var(VARA.MAINTENANCE,TRANSPORT_VARA,1)
+:set &environ_vara# = get_var(VARA.MAINTENANCE,ENVIRON_VARA,1)
+
+:set &lf# = uc_crlf
+! Create xml doc to use as lookup hash
+:set &xmlstr#  = '<?xml version="1.0" encoding="ISO-8859-15"?>&lf#<TARGET/>&lf#'
+:set &xml#     = xml_open('STRING',"&xmlstr#")
+:set &tgt#     = xml_select_node(&xml#,"/TARGET")
+
+
+
+! Get a list of all environments this transport was loaded into and check
+! their dependant environments
+:set &tmp# = get_var(&xport_vara#, &S_XPORT_KEY#,4)
+:fill &environ_lst#[] = str_split(&tmp#,",")
+:set &cnt# = 1
+:set &len# = length(&environ_lst#[],SIZE)
+
+:set &phnd# = create_process(NEW)
+:set &ret#  = put_process_line(&phnd#,"Environment")
+:set &hnd#  = prep_process_var(&environ_vara#)
+
+! Loop through the list of loaded environments including source
+! and check for dependent environments
+:while &cnt# le &len#
+:  set &xport_source# = &environ_lst#[&cnt#]
+
+!  Dependency check loop. Target must have matching or null dependents
+:  process &hnd#
+:    set &environ# = get_process_line(&hnd#,1)
+:    if &environ# <> &xport_source#
+:      set &deps#    = get_process_line(&hnd#,4)
+:      if &deps# <> ""
+
+:        if str_match("&deps#,","*&xport_source#,*") = "Y"
+!          Check if we have already added this environment to the process
+!          Using xml attributes to verify
+:          if xml_get_attribute(&tgt#,"@&environ#") <> "Y"
+:            p &environ# has deps  '&deps#' put_process_line
+:            set &ret# = put_process_line(&phnd#,&environ#)
+:            set &ret# = xml_set_attribute(&tgt#,"@&environ#","Y")
+:          endif
+:        endif
+
+:      else
+!        Check if we have already added this environment to the process
+!        Using xml attributes to verify
+:        if xml_get_attribute(&tgt#,"@&environ#") <> "Y"
+:          p &environ# has no deps  '&deps#' put_process_line
+:          set &ret# = put_process_line(&phnd#,&environ#)
+:          set &ret# = xml_set_attribute(&tgt#,"@&environ#","Y")
+:        endif
+:      endif
+:    endif
+:  endprocess
+
+:  set &cnt# = &cnt# + 1
+:endwhile
+
+:close_process &hnd#
+
+:xml_close
+:pset &T_ENVIRONMENT# = save_process(&phnd#)
+:close_process &phnd#
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

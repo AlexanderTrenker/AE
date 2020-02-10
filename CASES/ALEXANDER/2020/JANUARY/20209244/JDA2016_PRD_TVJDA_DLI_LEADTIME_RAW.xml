@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>15</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <max_retcode_alarm>JDA2016_PRD_CALL.MAIL.HTML</max_retcode_alarm>
+         <mrt_time>000000</mrt_time>
+         <name>JDA2016_PRD_TVJDA_DLI_LEADTIME_RAW</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Load LEADTIME_RAW into Oracle</description>
+         <versioning_id>-821835297</versioning_id>
+      </row>
+   </general_attributes>
+   <job_attributes>
+      <row>
+         <platform>UNIX</platform>
+         <agent>PRDLNXAP15.TRUSERV.COM</agent>
+         <login>LOGIN_PRODJDA</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type>B</unix_type>
+         <unix_cmd>/jda/bin/TVJDA_ExecDLI.sh LEADTIME_RAW</unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

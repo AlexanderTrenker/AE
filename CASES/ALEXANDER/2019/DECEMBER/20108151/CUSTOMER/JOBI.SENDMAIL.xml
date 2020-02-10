@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.SENDMAIL</name>
+         <type>JOBI</type>
+         <description>Sendmail mit Severity VARA</description>
+         <versioning_id>1350270308</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Übergabeparameter:            *Muß sinnvoll belegt sein
+! &BATCHNAME#                 = *Name des Batches (für VARA.BATCH.MAIL)
+! &SUBSYS#                    = *Anwendungskürzel (z.B. BBS, MEV, SAP, XTS,...)
+! &SEVERITY#                  = *Zahl 1-4
+! &MESSAGE#                   =  Meldung zum Returncode
+! &DESCRIPTION#               =  Auszug aus Logfile
+! &START_USER#                =  BSL Startuser (wird per Basisinclude bestimmt)
+! &LOGFILES#                  =  Logfile(s) mit ";" oder "," getrennt. Maximal 10 Files.
+! &OUTPUTFILES#               =  Outputfile(s) mit ";" oder "," getrennt. Maximal 10 Files.
+!                                MöglicheFormate: <log|data|work>/<Batch>/xxx.yyy
+!                                                 <log|data|work>\<Batch>\xxx.yyy
+!                                                 &LOGSRV#/&SUBSYS#/<log|data|work>/<Batch>/xxx.yyy
+! VARA.BATCH.MAIL.&BATCHNAME#    Wenn nicht vorhanden, wird selbst beim Start per BSL keine Mail verschickt.
+
+! Sicherstellen, dass Kann-Variablen definiert sind
+:SET &MESSAGE#             = &MESSAGE#
+:SET &DESCRIPTION#         = &DESCRIPTION#
+:SET &START_USER#          = &START_USER#
+:SET &LOGFILES#            = &LOGFILES#
+:SET &OUTPUTFILES#         = &OUTPUTFILES#
+:SET &UC4_DEPLOYMENT_TEST# = &UC4_DEPLOYMENT_TEST#
+
+:PRINT "[START JOBI.SENDMAIL]======================================"
+:SET &CRLF# = UC_CRLF()
+:SET &VARA_MAIL_BATCH# = STR_UC("VARA.BATCH.MAIL.&BATCHNAME#")
+:SET &VARATEST# = EXPORT("&VARA_MAIL_BATCH#","/dev/null")
+:IF &VARATEST# = 0
+
+:  PRINT "BATCHNAME:     &BATCHNAME#"
+:  PRINT "SUBSYS:        &SUBSYS#"
+:  PRINT "SEVERITY:      &SEVERITY#"
+:  PRINT "MESSAGE:       &MESSAGE#"
+:  PRINT "DESCRIPTION:   "
+:  PRINT "&DESCRIPTION#"
+:  PRINT "START_USER:    &START_USER#"
+:  PRINT "LOGFILES:"
+:  PRINT "&LOGFILES#"
+:  PRINT "OUTPUTFILES:"
+:  PRINT "&OUTPUTFILES#"
+
+!   ----------------------------------------------------------------
+!   Mail Variablen auslesen
+!   ----------------------------------------------------------------
+:  SET &DELAY#    = GET_VAR("&VARA_MAIL_BATCH#","DELAY",&SEVERITY#)
+:  SET &ZIPMODE#  = GET_VAR("&VARA_MAIL_BATCH#","ZIP",&SEVERITY#)
+:  SET &SENDMODE# = GET_VAR("&VARA_MAIL_BATCH#","Attachment",&SEVERITY#)
+:  SET &ADR#      = GET_VAR("&VARA_MAIL_BATCH#",&IDT#,&SEVERITY#)
+:  IF &UC4_DEPLOYMENT_TEST# = "J"
+:    SET &ADR#    = "it.systemmanagement@athora.com"
+:  ENDIF
+
+!   ----------------------------------------------------------------
+!   Mailempfänger bestimmen
+!   ----------------------------------------------------------------
+!   BSL Start-User in Mailverteiler aufnehmen
+:  SET &START_USER_MAIL# = GET_VAR (VARA.UC4.MAILADDRESSES,"&START_USER#")
+:  IF &START_USER_MAIL# <> ""
+:    IF &ADR# = ""
+:      SET &ADR# = "&START_USER_MAIL#"
+:    ELSE
+!      Nur wenn nicht eh schon im Verteiler enthalten
+:      IF STR_MATCH("&ADR#","*&START_USER_MAIL#*") = "N"
+:        SET &ADR# = "&ADR#;&START_USER_MAIL#"
+:      ENDIF
+:    ENDIF
+:  ENDIF
+!   Keine Mail, wenn Severtity=Running
+:  IF &SEVERITY# = "0"
+:    SET &ADR# = ""
+:  ENDIF
+
+!   ----------------------------------------------------------------
+!   Pfadsyntax einheitlich in Format <log|data|work>/<Batch>/... wandeln
+!   ----------------------------------------------------------------
+!   Logserverpfad abschneiden falls vorhanden
+:  SET &LOGFILES#    = STR_SUB(&LOGFILES#,"&LOGSRV#/&SUBSYS#/","")
+:  SET &OUTPUTFILES# = STR_SUB(&OUTPUTFILES#,"&LOGSRV#/&SUBSYS#/","")
+!   Windowsformat in Unixformat wandeln
+:  SET &LOGFILES#    = STR_SUB(&LOGFILES#, "\", "/")
+:  SET &OUTPUTFILES# = STR_SUB(&OUTPUTFILES#, "\", "/")
+!   Trennzeichen in ";" wandeln
+:  SET &LOGFILES#    = STR_SUB(&LOGFILES#, ",", ";")
+:  SET &OUTPUTFILES# = STR_SUB(&OUTPUTFILES#, ",", ";")
+:  PRINT "LOGFILES:"
+:  PRINT "&LOGFILES#"
+:  PRINT "OUTPUTFILES:"
+:  PRINT "&OUTPUTFILES#"
+
+!   ----------------------------------------------------------------
+!   Delay bearbeiten - nützlich, wenn Logfiles verzögert geschrieben werden. Z.B. bei Glassfish Applikationen
+!   ----------------------------------------------------------------
+:  IF &DELAY# <> ""
+:    IF &SENDMODE# <> ""
+:      WAIT &DELAY#
+:    ENDIF
+:  ENDIF
+!
+!   ----------------------------------------------------------------
+!   ZIP Flag bearbeiten
+!   ----------------------------------------------------------------
+:  IF &ZIPMODE# = "Y" or "y" or "J" or "j"
+:    SET &METYPE# = SYS_ACT_ME_TYPE()
+:    IF &METYPE# = "JOBS"
+:      RSET &MAILLOGIN# = GET_ATT(LOGIN)
+:    ELSE
+:      RSET &MAILLOGIN# = "LOGIN.UC4"
+:    ENDIF
+:    RSET &PSUBSYS# = &SUBSYS#
+:    RSET &LOGFILES# = &LOGFILES#
+:    RSET &OUTPUTFILES# = &OUTPUTFILES#
+:    SET &AKTJOB# = ACTIVATE_UC_OBJECT (JOBS.ALL.ZIPFORMAIL,WAIT,,,,PASS_VALUES)
+:  ENDIF
+
+!   ----------------------------------------------------------------
+!   Komplettpfade für Logfiles und Outputfiles bestimmen und zusammenfassen
+!   ----------------------------------------------------------------
+:  SET &LOGSRV_WIN_VAR# = GET_VAR("VARA.CONFIG_EBENE", "LOGSRV_WIN")
+:  SWITCH &IDT#
+:    CASE "I"
+:      SET &WINEBENE# = "T"
+:    OTHER
+:      SET &WINEBENE# = &IDT#
+:  ENDSWITCH
+:  SET &LOGSRV_WIN# = STR_LC("&LOGSRV_WIN_VAR#\&SUBSYS#_&WINEBENE#")
+
+!   Logfiles:
+:  SET &CNT# = 1
+:  SET &LOGLINKTEXT# = ""
+:  SET &LOGANHANG# = ""
+:  DEFINE &LOGFILES_ARRAY#, string, 10
+
+:  FILL &LOGFILES_ARRAY#[] = STR_SPLIT(&LOGFILES#,";")
+:  WHILE &CNT# LE 10
+:    IF &LOGFILES_ARRAY#[&CNT#] <> ""
+:      IF STR_CUT(&LOGFILES_ARRAY#[&CNT#],1,1) = "/"
+:        SET &LOGFILES_ARRAY#[&CNT#] = STR_CUT(&LOGFILES_ARRAY#[&CNT#],2)
+:      ENDIF
+:      IF &ZIPMODE# = "Y" or "y" or "J" or "j"
+:        SET &LOGFILESLONGUNIX# = "&LOGSRV#/&SUBSYS#/&LOGFILES_ARRAY#[&CNT#].zip"
+:      ELSE
+:        SET &LOGFILESLONGUNIX# = "&LOGSRV#/&SUBSYS#/&LOGFILES_ARRAY#[&CNT#]"
+:      ENDIF
+:      IF &LOGANHANG# = ""
+:        SET &LOGANHANG# = "&LOGFILESLONGUNIX#"
+:      ELSE
+:        SET &LOGANHANG# = "&LOGANHANG#;&LOGFILESLONGUNIX#"
+:      ENDIF
+:      SET &LOGFILEWIN# = STR_SUB (&LOGFILES_ARRAY#[&CNT#], "/", "\")
+:      SET &LOGFILESLONGWIN# = "file:&LOGSRV_WIN#\&LOGFILEWIN#"
+:      SET &LOGLINKTEXT# = "&LOGLINKTEXT#&CRLF#&LOGFILESLONGWIN#"
+:    ENDIF
+:    SET &CNT# = &CNT# + 1
+:  ENDWHILE
+
+!   Outputfiles:
+:  SET &CNT# = 1
+:  SET &OUTLINKTEXT# = ""
+:  SET &OUTANHANG# = ""
+:  DEFINE &OUTFILES_ARRAY#, string, 10
+
+:  FILL &OUTFILES_ARRAY#[] = STR_SPLIT(&OUTPUTFILES#,";")
+:  WHILE &CNT# LE 10
+:    IF &OUTFILES_ARRAY#[&CNT#] <> ""
+:      IF STR_CUT(&OUTFILES_ARRAY#[&CNT#],1,1) = "/"
+:        SET &OUTFILES_ARRAY#[&CNT#] = STR_CUT(&OUTFILES_ARRAY#[&CNT#],2)
+:      ENDIF
+:      IF &ZIPMODE# = "Y" or "y" or "J" or "j"
+:        SET &OUTFILESLONGUNIX# = "&LOGSRV#/&SUBSYS#/&OUTFILES_ARRAY#[&CNT#].zip"
+:      ELSE
+:        SET &OUTFILESLONGUNIX# = "&LOGSRV#/&SUBSYS#/&OUTFILES_ARRAY#[&CNT#]"
+:      ENDIF
+:      IF &OUTANHANG# = ""
+:        SET &OUTANHANG# = "&OUTFILESLONGUNIX#"
+:      ELSE
+:        SET &OUTANHANG# = "&OUTANHANG#;&OUTFILESLONGUNIX#"
+:      ENDIF
+:      SET &OUTFILEWIN# = STR_SUB (&OUTFILES_ARRAY#[&CNT#], "/", "\")
+:      SET &OUTFILESLONGWIN# = "file:&LOGSRV_WIN#\&OUTFILEWIN#"
+:      SET &OUTLINKTEXT# = "&OUTLINKTEXT#&CRLF#&OUTFILESLONGWIN#"
+:    ENDIF
+:    SET &CNT# = &CNT# + 1
+:  ENDWHILE
+
+!   ----------------------------------------------------------------
+!   Anhang bestimmen
+!   ----------------------------------------------------------------
+!   l = logfile
+!   o = outputfile
+:  SWITCH &SENDMODE#
+:    CASE l
+:      SET &ANHANG# = "&LOGANHANG#"
+:    CASE o
+:      SET &ANHANG# = "&OUTANHANG#"
+:    CASE lo
+:      SET &ANHANG# = "&LOGANHANG#;&OUTANHANG#"
+:    OTHER
+:      SET &ANHANG# = ""
+:  ENDSWITCH
+
+!   ----------------------------------------------------------------
+!   Betreff bearbeiten
+!   ----------------------------------------------------------------
+:  SWITCH &SEVERITY#
+:    CASE 0
+:      SET &SEVERITYTEXT# = "RUNNING"
+:    CASE 1
+:      SET &SEVERITYTEXT# = "INFO"
+:    CASE 2
+:      SET &SEVERITYTEXT# = "WARN"
+:    CASE 3
+:      SET &SEVERITYTEXT# = "ERROR"
+:    OTHER
+:      SET &SEVERITYTEXT# = "ABBRUCH"
+:  ENDSWITCH
+:  SET &BETREFF# = "[&SEVERITYTEXT#] [Ebene: &IDT#] &SUBSYS#-&BATCHNAME#: &MESSAGE#"
+:  IF &UC4_DEPLOYMENT_TEST# = "J"
+:    SET &BETREFF# = "DEPLOYMENT_TEST!!! [&SEVERITYTEXT#] [Ebene: &IDT#] &SUBSYS#-&BATCHNAME#: &MESSAGE#"
+:  ENDIF
+
+!   ----------------------------------------------------------------
+!   Mailtext bearbeiten
+!   ----------------------------------------------------------------
+:  SET &LOGLENGTH# = STR_LENGTH(&LOGLINKTEXT#)
+:  SET &OUTLENGTH# = STR_LENGTH(&OUTLINKTEXT#)
+:  SET &DESCLENGTH# = STR_LENGTH(&DESCRIPTION#)
+:  SET &SUMLENGTH# = &LOGLENGTH# + &OUTLENGTH# + &DESCLENGTH#
+:  IF &SUMLENGTH# < 1000
+:    SET &TEXT# = "&DESCRIPTION#&CRLF#&LOGLINKTEXT#&CRLF#&OUTLINKTEXT#&CRLF#&CRLF#"
+:  ELSE
+:    PRINT "Mailtext zu lang! Links werden nicht gesendet."
+:    PRINT "LOGLENGTH: &LOGLENGTH#; OUTLENGTH: &OUTLENGTH#; DESCLENGTH: &DESCLENGTH#"
+:    SET &TEXT# = "&DESCRIPTION#"
+:  ENDIF
+
+!   ----------------------------------------------------------------
+!   Mail verschicken
+!   ----------------------------------------------------------------
+:  IF &ADR# = ""
+:    PRINT "Kein Verteiler zum Verschicken von Mails gefunden!"
+:  ELSE
+:    SET &ERC# = SEND_MAIL(&ADR#,, &BETREFF#, &TEXT#, &ANHANG#)
+!      Falls die Anlagen nicht gefunden wurden, ohne diese nochmal versuchen
+:      IF &ERC# = 50014
+:        PRINT "Anlage(n) &ANHANG# fuer Mailversand nicht gefunden!"
+:        PRINT "2. Versuch ohne Anlagen!"
+:        SET &ERC# = SEND_MAIL(&ADR#,, &BETREFF#, &TEXT#)
+:      ENDIF
+:    SWITCH &ERC#
+:    CASE 0
+:     PRINT "Mailversand erfolgreich."
+:    CASE 10034
+:     PRINT "Der UC4-Server kann keine E-Mails versenden."
+:    CASE 50028
+:     PRINT "Die Empfaengeradresse ist ungueltig."
+:    OTHER
+:     PRINT "Mailversand fehlgeschlagen! RC=&ERC#"
+:    ENDSWITCH
+!    ----------------------------------------------------------------
+:    PRINT "  Betreff:   &BETREFF#"
+:    PRINT "  Adr.:      &ADR#"
+:    PRINT "  ZipMode:   &ZIPMODE#"
+:    PRINT "  Anhang:    &ANHANG#"
+:    PRINT "  Inhalt:"
+:    PRINT &TEXT#
+:  ENDIF
+:ELSE
+:  PRINT "Kein &VARA_MAIL_BATCH# Objekt für Mailversand konfiguriert > Kein Mailversand!"
+:ENDIF
+:PRINT "[END JOBI.SENDMAIL]======================================"]]></process>
+      </row>
+   </scripts>
+</jobi>

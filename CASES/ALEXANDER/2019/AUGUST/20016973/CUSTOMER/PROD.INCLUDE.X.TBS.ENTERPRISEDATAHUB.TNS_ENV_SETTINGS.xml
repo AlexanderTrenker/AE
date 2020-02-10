@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>00543255</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PROD.INCLUDE.X.TBS.ENTERPRISEDATAHUB.TNS_ENV_SETTINGS</name>
+         <type>JOBI</type>
+         <versioning_id>987493610</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PROD.INCLUDE.X.TBS.ENTERPRISEDATAHUB.PIPELINE_SETTINGS
+
+! ((ENVPROPS: UC4_ENV_ID=UC4.0100.PROD UC4_MAJOR_APP=TBS Created=2019-06-21 21:42:50 CDT
+:SET &TAS_DATA_REFDATA#                = '1376/COM-2390/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_DATA_MARKETDATA#             = '1376/COM-2386/_deployments/deployments/release%2F3.0.x_rel'
+:SET &TAS_DATA_FLOORDATA#              = '1376/COM-2388/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_DATA_OTC#                    = '1376/COM-2391/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_DATA_QUOTES#                 = '1376/COM-2389/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_DATA_VOLUME#                 = '1376/COM-2405/_deployments/deployments/release'
+:SET &TAS_DATA_ATM#                    = '1376/COM-2404/_deployments/deployments/release'
+:SET &TAS_DATA_REFDATA_WEST#           = '1376/COM-2390/_deployments/deployments/release%2F1.0.x_west'
+:SET &TAS_DATA_MARKETDATA_WEST#        = '1376/COM-2386/_deployments/deployments/release%2F3.0.x_west'
+:SET &TAS_DATA_FLOORDATA_WEST#         = '1376/COM-2388/_deployments/deployments/release%2F1.0.x_west'
+:SET &TAS_DATA_OTC_WEST#               = '1376/COM-2391/_deployments/deployments/release%2F1.0.x_west'
+:SET &TAS_DATA_VOLUME_WEST#            = '1376/COM-2405/_deployments/deployments/rel_west'
+:SET &TAS_DATA_ATM_WEST#               = '1376/COM-2404/_deployments/deployments/rel_west'
+:SET &TAS_MICRO_LAMBDA_BLOCKS#         = '1376/COM-2396/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_MICRO_LAMBDA_FIXINGS#        = '1376/COM-2392/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_MICRO_LAMBDA_QUOTES#         = '1376/COM-2395/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_MICRO_LAMBDA_QUOTES_RLLVER#  = '1376/COM-2397/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_MICRO_LAMBDA_SETTLEMENTS#    = '1376/COM-2393/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_MICRO_LAMBDA_TAMS#           = '1376/COM-2394/_deployments/deployments/release%2F1.0.x_rel'
+:SET &TAS_MICRO_LAMBDA_VOLUME#         = '1376/COM-2407/_deployments/deployments/release'
+:SET &TAS_MICRO_LAMBDA_ATM#            = '1376/COM-2406/_deployments/deployments/release'
+:SET &TAS_MICRO_LAMBDA_WEB_HEALTH_CHK# = '1376/COM-2425/_deployments/lambda website health check/release'
+! ))
+]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>QA.INCLUDE.X.UC4.ADMIN.SQL_INFO_UPDATE</name>
+         <type>JOBI</type>
+         <versioning_id>1909260957</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC QA.INCLUDE.X.UC4.ADMIN.SQL_INFO
+!
+! This sets information specific to each UC4 system, based on
+!   environment, in relation to "updating" the databases.
+!
+
+:SET &UPDATEUSER#    = GET_VAR(SYSTEM.VARIABLE.X.UC4.X.ENV,UC4_LIVEDB_UPDATE_LOGIN)
+:SET &DBSERVICENAME# = GET_VAR(SYSTEM.VARIABLE.X.UC4.X.ENV,UC4_LIVEDB_SERVICE_NAME)
+:SET &DBSCHEMANAME#  = GET_VAR(SYSTEM.VARIABLE.X.UC4.X.ENV,UC4_LIVEDB_SCHEMA_NAME)
+
+:PUT_ATT LOGIN = '&UPDATEUSER#'
+:PRINT 'Job will use login &UPDATEUSER#.'
+
+:PUT_ATT DATABASE_NAME = '&DBSERVICENAME#'
+:PRINT 'Job will use service name &DBSERVICENAME#.'
+
+:PRINT 'Job will use schema name &DBSCHEMANAME#.']]></process>
+      </row>
+   </scripts>
+</jobi>

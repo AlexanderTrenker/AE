@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>.TRANSPORT.MAIN.PRPT</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>UNLOAD - LOAD - DESCRIPTION</description>
+         <versioning_id>-437285021</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="279" top="4" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="PRPT"><properties><entry name="text">PRPT</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>LABEL1#</name>
+         <xui><![CDATA[<label fill="b" id="LABEL1s.00" nl="1" text="" tooltip="" alt="0"><properties><entry name="id">LABEL1s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text"/></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>LABEL2#</name>
+         <xui><![CDATA[<label fill="b" id="LABEL2s.00" nl="1" text="" tooltip="" alt="0"><properties><entry name="id">LABEL2s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text"/></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>14</line_number>
+         <name>LABEL3#</name>
+         <xui><![CDATA[<label fill="b" id="LABEL3s.00" nl="1" text="" tooltip="" alt="0"><properties><entry name="id">LABEL3s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text"/></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>LABEL4#</name>
+         <xui><![CDATA[<label fill="b" id="LABEL4s.00" nl="1" text="" tooltip="" alt="0"><properties><entry name="id">LABEL4s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text"/></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>9</line_number>
+         <name>LABEL5#</name>
+         <xui><![CDATA[<label fill="b" id="LABEL5s.00" nl="1" text="" tooltip="" alt="0"><properties><entry name="id">LABEL5s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text"/></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>12</line_number>
+         <name>LABEL7#</name>
+         <xui><![CDATA[<label fill="b" id="LABEL7s.00" nl="1" text="" tooltip="" alt="0"><properties><entry name="id">LABEL7s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text"/></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>11</line_number>
+         <name>P_INCIDENTNR#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="P_INCIDENTNRs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Incident Nr." tooltip="Incident Nr. in case of loading into client 1" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Incident Nr.</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">P_INCIDENTNRs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Incident Nr. in case of loading into client 1</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>7</line_number>
+         <name>P_LOAD_CHECK#</name>
+         <reference>.FRM.YES_NO.VARA</reference>
+         <reference_type>VARA</reference_type>
+         <value>NO</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="P_LOAD_CHECKs.00" nl="1" quotes="" text="LOAD ( TARGET )" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">.FRM.YES_NO.VARA</entry><entry name="text">LOAD ( TARGET )</entry><entry name="quotes"/><entry name="id">P_LOAD_CHECKs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>10</line_number>
+         <name>P_REPORT_TARGET#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="P_REPORT_TARGETs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="REPORT_TARGET" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">REPORT_TARGET</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">P_REPORT_TARGETs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>P_SOURCE_CLIENT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="P_SOURCE_CLIENTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Unload client" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Unload client</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">P_SOURCE_CLIENTs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>8</line_number>
+         <name>P_TARGET_CLIENT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="P_TARGET_CLIENTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Load client" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Load client</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">P_TARGET_CLIENTs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>13</line_number>
+         <name>P_TRANSPORT_COMMENT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="P_TRANSPORT_COMMENTs.00" inputassistance="0" len="" multiline="1" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Description" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Description</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">P_TRANSPORT_COMMENTs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">1</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>P_TRANSPORT_PROJECT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <to_uppercase>1</to_uppercase>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="1" id="P_TRANSPORT_PROJECTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" resetable="1" separator=";" showaspassword="0" text="Project Docu" tooltip="Name of DOCU-Card without &quot;.DOCU&quot;. The default is &lt;PRJ.UNIT.SPRJ#&gt;" upper="1" required="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Project Docu</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">P_TRANSPORT_PROJECTs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">1</entry><entry name="focus">1</entry><entry name="showaspassword">0</entry><entry name="tooltip">Name of DOCU-Card without &quot;.DOCU&quot;. The default is &lt;PRJ.UNIT.SPRJ#&gt;</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">1</entry><entry name="resetable">1</entry><entry name="onchangereset"/><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>P_UNLOAD_CHECK#</name>
+         <reference>.FRM.YES_NO.VARA</reference>
+         <reference_type>VARA</reference_type>
+         <value>YES</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="P_UNLOAD_CHECKs.00" nl="1" quotes="" text="UNLOAD ( SOURCE )" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">.FRM.YES_NO.VARA</entry><entry name="text">UNLOAD ( SOURCE )</entry><entry name="quotes"/><entry name="id">P_UNLOAD_CHECKs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+   </elements>
+</prpt>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>WSPIEGEL</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>2833</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.WSPIEGEL_IMPORTENABLEFK</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>WSPIEGEL -&gt; ENABLE FOREIGN-KEY [ZIEL-DB]</description>
+         <versioning_id>-1330852992</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! ----------------------------------
+! Parameter für JOBI.SQL definieren:
+! ----------------------------------
+:SET &ORASCRIPT# = "&BATCH_LC#.sql"
+:SET &ORADB# = "&ORADB_DST#"
+:SET &ORAUSER# = "SPIEGELAPP"
+! ----------------------------------
+cat << __EOF__ | tee &RUNDIR#/&ORASCRIPT#
+prompt Ausgeben Datum und Timestamp
+select sysdate, systimestamp, user from dual;
+set timing on
+set echo on
+exec dbatools.uc4tools.enablefks('BB')
+exec dbatools.uc4tools.enablefks('BBS')
+exec dbatools.uc4tools.enablefks('BI')
+exec dbatools.uc4tools.enablefks('CD')
+exec dbatools.uc4tools.enablefks('COURTAGE')
+exec dbatools.uc4tools.enablefks('CRM')
+exec dbatools.uc4tools.enablefks('EK')
+exec dbatools.uc4tools.enablefks('IMS')
+exec dbatools.uc4tools.enablefks('NB')
+exec dbatools.uc4tools.enablefks('MEV')
+exec dbatools.uc4tools.enablefks('NG')
+exec dbatools.uc4tools.enablefks('PDB')
+exec dbatools.uc4tools.enablefks('KDB')
+exec dbatools.uc4tools.enablefks('PR')
+exec dbatools.uc4tools.enablefks('SD')
+exec dbatools.uc4tools.enablefks('SERV')
+exec dbatools.uc4tools.enablefks('TUSSY')
+exec dbatools.uc4tools.enablefks('VU')
+exec dbatools.uc4tools.enablefks('ZFA')
+exec dbatools.uc4tools.enablefks('CTV')
+__EOF__
+
+! ----------------------------------------
+! Aufruf des SQL-Includes für csv-Ausgabe:
+! ----------------------------------------
+  export TNS_ADMIN="/usr/lib/oracle/11.2/client/network/admin"
+:INC JOBI.SQL
+! ------------------
+! Returncode setzen:
+! ------------------
+  exit $rc]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH6_BATCH</agent>
+         <login>LOGIN.BBSBATCH</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>Unterrichtung</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.JAEHRLICHEUNTERRICHTUNG_INFOMAIL</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.CTV</queue>
+         <description>Info an Fachbereich wann nächster Lauf geplant ist</description>
+         <versioning_id>933901527</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Details><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE Content [
+<!ELEMENT Content ( #PCDATA ) >
+<!ATTLIST Content Ersteller CDATA "xxx" >
+
+]>
+<Content Ersteller="">Info aus Objekt Template</Content>
+]]></_Details>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &CRLF# = UC_CRLF()
+:SET &CURRMONTH# = SYS_DATE(MM)
+:SET &NEXTDAY# = ADD_DAYS("&DATUM_AM#", 1)
+:SET &JUNEXTRUN# = CALE_LOOK_AHEAD("&NEXTDAY#", "ALL", "CALE.BBS.BATCH", "BBS.JAEHRLICHEUNTERRICHTUNG.G")
+:IF &JUNEXTRUN# = ""
+:  SET &JUNEXTRUN# = "29990101"
+:ENDIF
+
+!Wenn im nächsten Monat kein CTV Release geplant ist, soll der nächste Lauf am 10. AT erfolgen
+:SET &JUNEXTRUNM# = STR_CUT(&JUNEXTRUN#,5,2)
+:SET &NEXTMONTH# = ADD_PERIOD("&DATUM_AM#","MM;1")
+:SET &NEXTMONTHM# = STR_CUT(&NEXTMONTH#,3,2)
+:IF &JUNEXTRUNM# <> &NEXTMONTHM# OR &CURRMONTH#
+:  SET &JUNEXTRUN# = CALE_LOOK_AHEAD("&NEXTDAY#", "ALL", "CALE.HESSEN.DYN", "WT_10.R")
+:  SET &JUNEXTRUN# = CONV_DATE(&JUNEXTRUN#,"YYYYMMDD")
+:  SET &ADDMESSAGE# = "(Kein CTV Release im nächsten Monat geplant)"
+:ENDIF
+
+:IF &CURRMONTH# = "11"
+:  SET &ADDMESSAGE# = "(Dezemberlauf ist von KD manuell anzufordern)"
+:ENDIF
+
+:SET &MESSAGE#     = "JU gestartet; Nächster JU-Termin: &JUNEXTRUN# &ADDMESSAGE#"
+:SET &DESC1#       = "Aktueller Lauf mit Vertragsart: &VERTRAGSART# gestartet.&CRLF#&CRLF#"
+:SET &DESC2#       = "VERTRAGSART=   --> alle Vertragsarten werden verarbeitet&CRLF#"
+:SET &DESC3#       = "VERTRAGSART=P  --> nur Privatgeschäft wird verarbeitet&CRLF#"
+:SET &DESC4#       = "VERTRAGSART=E  --> nur bAV-Einzelgeschäft&CRLF#"
+:SET &DESC5#       = "VERTRAGSART=K  --> nur bAV-Kollektivgeschäft&CRLF#"
+:SET &DESCRIPTION# = "&DESC1#&DESC2#&DESC3#&DESC4#&DESC5#"
+:SET &BATCHNAME#   = "&BATCH#"
+:SET &SEVERITY#    = "1"
+:INC JOBI.SENDMAIL
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>00541374</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PROD.INCLUDE.X.TBS.INFOSOURCE.SET_DATAMINE_COORDINATOR_AS_HOST</name>
+         <type>JOBI</type>
+         <description>Sets the job's host as the DatamineCoordinatorServer</description>
+         <versioning_id>205021371</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! ((ENVPROPS: UC4_ENV_ID=UC4.0100.PROD UC4_MAJOR_APP=TBS Created=2019-06-01 09:01:02 CDT
+! Make sure to include INCLUDE.X.TBS.INFOSOURCE.DATAMINE_CLOUD_AWS_SETTINGS before this
+:PUT_ATT HOST = &EMR_COORDINATOR_HOST#
+:PUT_ATT LOGIN = &DABR#
+:PRINT "Running on host: &EMR_COORDINATOR_HOST#"
+
+
+
+
+
+
+
+
+
+
+
+
+! ))
+]]></process>
+      </row>
+   </scripts>
+</jobi>

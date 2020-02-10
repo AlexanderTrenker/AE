@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.PLUS_MINUS_DATES</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1800820110</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:set &DATES# = create_process("NEW")
+:SET &NOW# = SYS_TIMESTAMP_PHYSICAL(&$TIMEZONE#)
+:SET &DATE# = SYS_DATE("MM/DD/YYYY",&$TIMEZONE#)
+:SET &ret# = put_process_line(&DATES#,"PLMI;TS;MM/DD/YYYY;DD-MON-YYYY;MM-DD-YYYY;YYYY-MM-DD",";")
+:SET &C# = 0
+:WHILE &C# <= 90
+:  SET &C# = FORMAT(&C#)
+:  IF &C# <> 0
+:    SET &PL_TS# = ADD_TIMESTAMP(&PL_TS#,"24:00:00")
+:    SET &MI_TS# = SUB_TIMESTAMP(&MI_TS#,"24:00:00")
+:    SET &PL_DATE# = ADD_DAYS("MM/DD/YYYY:&DATE#",&C#)
+:    SET &MI_DATE# = SUB_DAYS("MM/DD/YYYY:&DATE#",&C#)
+:    SET &PL_MON# = CONV_DATE("MM/DD/YYYY:&PL_DATE#","DD-MON-YYYY")
+:    SET &MI_MON# = CONV_DATE("MM/DD/YYYY:&MI_DATE#","DD-MON-YYYY")
+:    SET &PL_MMDDYYYY# = CONV_DATE("MM/DD/YYYY:&PL_DATE#","MM-DD-YYYY")
+:    SET &MI_MMDDYYYY# = CONV_DATE("MM/DD/YYYY:&MI_DATE#","MM-DD-YYYY")
+:    SET &PL_YYYYMMDD# = CONV_DATE("MM/DD/YYYY:&PL_DATE#","YYYY-MM-DD")
+:    SET &MI_YYYYMMDD# = CONV_DATE("MM/DD/YYYY:&MI_DATE#","YYYY-MM-DD")
+:    SET &ret# = put_process_line(&DATES#,"+&C#;&PL_TS#;&PL_DATE#;&PL_MON#;&PL_MMDDYYYY#;&PL_YYYYMMDD#",";")
+:    SET &ret# = put_process_line(&DATES#,"-&C#;&MI_TS#;&MI_DATE#;&MI_MON#;&MI_MMDDYYYY#;&mi_YYYYMMDD#",";")
+:  ELSE
+:    SET &PL_TS# = &NOW#
+:    SET &MI_TS# = &NOW#
+:    SET &PL_DATE# = &DATE#
+:    SET &MI_DATE# = &DATE#
+:    SET &MON# = CONV_DATE("MM/DD/YYYY:&DATE#","DD-MON-YYYY")
+:    SET &MMDDYYYY# = CONV_DATE("MM/DD/YYYY:&DATE#","MM-DD-YYYY")
+:    SET &YYYYMMDD# = CONV_DATE("MM/DD/YYYY:&DATE#","YYYY-MM-DD")
+:    SET &ret# = put_process_line(&DATES#,"&C#;&NOW#;&DATE#;&MON#;&MMDDYYYY#;&YYYYMMDD#",";")
+:  ENDIF
+:  SET &C# = &C# + 1
+:ENDWHILE
+
+:pset &RESULT# = save_process(&DATES#)
+:close_process &DATES#]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

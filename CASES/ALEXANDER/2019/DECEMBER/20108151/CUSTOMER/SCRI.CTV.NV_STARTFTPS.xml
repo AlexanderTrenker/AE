@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_allowed_retcode>2</max_allowed_retcode>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.CTV.NV_STARTFTPS</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Startet FTP Übertragung an Docsellent und Hanse Vorsorge</description>
+         <versioning_id>-1362770082</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC JOBI.INC.BASISPARAM
+:SET &CTV_STARTDOCSELLENTFTP# = GET_VAR(VARA.CTV.PARAMETER,"ALLGEMEIN_CTV_STARTDOCSELLENTFTP_&OB#",3)
+! CR36720/VB41945
+! Da es in den meisten Faellen keinen Sinn macht die AFP Uebertragung an zu werfen wenn die
+! CTV-NV per BSL gestartet wird erfolgt keine Uebertragung bei BSL Start.
+:IF &JobUser# <> 'WSDL'
+:  IF &CTV_STARTDOCSELLENTFTP# = "J"
+:    SET &RUN_OBJECT# = "JOBP.CTV.DOCSELLENTFTP"
+:    INC JOBI.RUN_OBJECT
+:    SET &RUN_OBJECT# = "JOBP.CTV.HANSEVORSORGE"
+:    INC JOBI.RUN_OBJECT
+:  ENDIF
+:ENDIF
+
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

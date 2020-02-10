@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.GETPW_DBTOOLS</name>
+         <type>JOBI</type>
+         <description>Liest verschlüsseltes PW aus Login Obekt</description>
+         <versioning_id>-2105073236</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.GETPW_DBTOOLS]============================="
+:SET &LC_ORAUSER# = str_lc(&ORAUSER#)
+:SET &LC_ORADB# = str_lc(&ORADB#)
+
+! Use dedicated passwords for some specific databases
+:SET &DedicatedDB# = get_var(VARA.GETPW.SQLPLUS,&LC_ORADB#)
+:IF &DedicatedDB# <> ""
+:   SET &LC_ORAUSER# = '&LC_ORAUSER#-&LC_ORADB#'
+:ENDIF
+
+! Read encrypted password from login object
+:SET &ORA_PASSWD# = GET_LOGIN("LOGIN.SQL.SQLPLUS","&LC_ORAUSER#",SQLPLUS,PASSWORD)
+
+! Decrypt password and put it into shell variable for use in older jobs and includes
+ORA_PASSWD=$(&UC_JOBMD CMD='echo &ORA_PASSWD#')
+
+! To make sure having an empty space after &ORA_PASSWD# variable in further scripts!
+:SET &ORA_PASSWD# = '&ORA_PASSWD# '
+:PRINT "==============================[ENDE JOBI.GETPW_DBTOOLS]"]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.GENERIC.DELETE_EXPIRED_OUTPUT</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-699467109</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &SCRI# = CREATE_PROCESS(NEW)
+:PUT_ATT LOGIN = &LOGIN#
+:SET &RET# = PUT_PROCESS_LINE(&SCRI#, "echo START")
+:SET &FILES# = PREP_PROCESS_VAR(VARA.REGISTERED_OUTPUTFILES,"&AGENT#,&LOGIN#,*")
+:PROCESS &FILES#
+:  SET &KEY# = GET_PROCESS_LINE(&FILES#,1)
+:  SET &FILE# = GET_PROCESS_LINE(&FILES#,2)
+:  SET &EXPIRE_DATE# = GET_PROCESS_LINE(&FILES#,5)
+:  SET &CURR_DATE# = &$PHYS_DATE_YYYYMMDD#
+:  IF &CURR_DATE# >= &EXPIRE_DATE#
+! :    PRINT "DELETE FILE &FILE#"
+:    SWITCH &$PLATFORM#
+:      CASE "WINDOWS"
+:        SET &DELCMD# = 'DEL /F "&FILE#"'
+:      CASE "UNIX"
+:        SET &DELCMD# = 'rm -f "&FILE#"'
+:      OTHER
+:    ENDSWITCH
+:    SET &RET# = PUT_PROCESS_LINE(&SCRI#, &DELCMD#)
+:    DELETE_VAR VARA.REGISTERED_OUTPUTFILES,&KEY#
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &FILES#
+:SET &RET# = PUT_PROCESS_LINE(&SCRI#, "echo END")
+:SET &OUTDIR# = GET_VAR('UC_EX_PATH_JOBREPORT',&$AGENT#)
+:SWITCH &$PLATFORM#
+:  CASE "WINDOWS"
+:    SET &DELSCR# = "&OUTDIR#DEL.&$RESTART_RUNID#.bat"
+call &DELSCR#
+:  CASE "UNIX"
+:    SET &DELSCR# = "&OUTDIR#DEL.&$RESTART_RUNID#.sh"
+. &DELSCR#
+:  OTHER
+:ENDSWITCH
+:SET &RET# = WRITE_PROCESS(&SCRI#,&DELSCR#,&$AGENT#, &$LOGIN#,OVERWRITE)
+:REGISTER_OUTPUTFILE "&DELSCR#","N"]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+         <login>{VARA.MAINTENANCE,LOGIN}</login>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>{VARA.MAINTENANCE,RETENTION_DAYS}</value>
+         <name>&amp;RETENTION_DAYS#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.DELETE_EXPIRED_OUTPUT</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

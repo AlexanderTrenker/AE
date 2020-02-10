@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>GDV</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.GDV_DEL3777508</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>02 SQL-Script (Delete Vermttler 3777508l)</description>
+         <versioning_id>-1206734252</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <_Details><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE Change-Log [
+<!ELEMENT Change-Log ( #PCDATA ) >
+
+<!ELEMENT Content ( #PCDATA | Change-Log | Externe_Links | Restart-Info )* >
+<!ATTLIST Content Ersteller CDATA "null" >
+<!ATTLIST Content Erstellungsdatum CDATA "null" >
+
+<!ELEMENT Externe_Links ( #PCDATA ) >
+
+<!ELEMENT Restart-Info ( #PCDATA ) >
+<!ATTLIST Restart-Info Priorität ( 0 | 1 | 2 | 3 ) "0" >
+<!ATTLIST Restart-Info Restart-erlaubt ( ja | nein ) "ja" >
+
+]>
+<Content Ersteller="BLxxxxx/EXxxxxx" Erstellungsdatum="xx.xx.xxxx">Freier Dokumentationstext
+
+<Change-Log>Datum		Wer		Warum
+
+xx.xx.xxxx	BLxxxxx	Änderungsgrund
+			EXxxxxx
+</Change-Log>
+<Externe_Links>ACHTUNG: die Links dürfen keine Leerzeichen enthalten!!!!
+z.B.	file:c:\temp\bla.txt
+		http://www.aaa.com
+---------------------------------------------------------
+
+</Externe_Links>
+<Restart-Info Priorität="2" Restart-erlaubt="ja">Priorität=0:	unternehmenskritisch, muss sofort behoben werden 
+				(z.B. monetäre Schäden)
+Priorität=1:	kritisch, es muss sofort zu Beginn der 
+				Arbeitszeit von System Management mit der 
+				Fehlerbehebung oder Workaround begonnen werden 
+				(z.B. Fehlinformationen an Kunden) 
+Priorität=2:	mittlere Auswirkungen, mit der Fehlerbehebung 
+				oder Workaround muss am gleichen Tag begonnen 
+				werden
+Priorität=3:	geringe Auswirkungen (muss innerhalb einer Woche
+				behoben werden)
+</Restart-Info>
+
+</Content>
+]]></_Details>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &ORADB# = "DLLW1&IDT#"
+:SET &ORAUSER# = "bbsbat"
+:SET &ORASCRIPT# = "del_3777508.sql"
+
+cat << __EOF__  > &RUNDIR#/&ORASCRIPT#
+-- Entsprechend Aenderungsantrag 41046 sollen die Bestandsdaten
+-- des Vermittlers 3777508 (Quell_P_Id) nicht an den Vermittler
+-- 3767818 (Ziel_P_Id) uebertragen werden.
+
+-- Deshalb werden die Datensaetze des Vermittlers 3777508 als Quelle
+-- an 3767818 (Ziel) aus der Tabelle TVU_GDV geloescht, bevor die
+-- GDV-Verarbeitung beginnt.
+-- Erwartet werden 5 Datensaetze; einer pro Mandant.
+
+-- TVU_GDV
+
+whenever sqlerror exit 8 rollback
+delete from tvu_gdv
+where  quell_p_id = 3777508
+and ziel_p_id = 3767818;
+
+commit;
+__EOF__
+
+! SQL-Script aufrufen
+:INC JOBI.SQL
+
+!Returncode setzen
+exit $rc
+]]></process>
+      </row>
+      <row>
+         <post_process>:INC JOBI.SHELL_POST</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH6_BATCH</agent>
+         <login>LOGIN.BBSBATCH</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

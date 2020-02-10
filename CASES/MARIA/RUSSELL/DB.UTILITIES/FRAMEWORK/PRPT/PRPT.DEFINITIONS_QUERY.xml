@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PRPT.DEFINITIONS_QUERY</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1392188054</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="0" top="0" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="PRPT"><properties><entry name="text">PRPT</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>AGENT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="0" fill="b" focus="0" id="AGENTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Agent" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Agent</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">AGENTs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">1</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <input_assistent>1</input_assistent>
+         <line_number>3</line_number>
+         <name>CLIENT#</name>
+         <reference>VARA.SQLI.USED_CLIENTS</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CLIENTs.00" inputassistance="1" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Client" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="SQLI">VARA.SQLI.USED_CLIENTS</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Client</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">CLIENTs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">1</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">1</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <input_assistent>1</input_assistent>
+         <line_number>4</line_number>
+         <allow_multiselect>1</allow_multiselect>
+         <name>COLUMNS#</name>
+         <reference>VARA.REPORTING_COLUMNS.DEFS</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="COLUMNSs.00" inputassistance="1" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Columns" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.REPORTING_COLUMNS.DEFS</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Columns</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">1</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">COLUMNSs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">1</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">1</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>9</line_number>
+         <name>CSS#</name>
+         <reference>VARA.CSS</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="CSSs.00" nl="1" strict="1" text="Style Sheet if HTML" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         
+         
+      <properties>
+        <entry listparam="" name="reference" reftype="STATIC">VARA.CSS</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Style Sheet if HTML</entry>
+        <entry name="quotes"/>
+        <entry name="id">CSSs.00</entry>
+        <entry name="dynamic">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="onchangereset"/>
+        <entry name="customfield"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>8</line_number>
+         <name>DELIMITER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="DELIMITERs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Delimiter if CSV" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Delimiter if CSV</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">DELIMITERs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>7</line_number>
+         <name>FORMAT#</name>
+         <reference>VARA.CSV_HTML</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="FORMATs.00" nl="1" text="Output Format" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.CSV_HTML</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Output Format</entry>
+        <entry name="quotes"/>
+        <entry name="id">FORMATs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>12</line_number>
+         <name>OBJECT_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="OBJECT_NAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Object Name" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Object Name</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">OBJECT_NAMEs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>13</line_number>
+         <name>OBJECT_NAME_IE#</name>
+         <reference>VARA.INCL_EXCL</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="OBJECT_NAME_IEs.00" nl="1" text="Object Name" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.INCL_EXCL</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Object Name</entry>
+        <entry name="quotes"/>
+        <entry name="id">OBJECT_NAME_IEs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>ORDER#</name>
+         <reference>VARA.ASC_DESC</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="ORDERs.00" nl="1" text="Order" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.ASC_DESC</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Order</entry>
+        <entry name="quotes"/>
+        <entry name="id">ORDERs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <input_assistent>1</input_assistent>
+         <line_number>10</line_number>
+         <allow_multiselect>1</allow_multiselect>
+         <name>OTYPES#</name>
+         <reference>VARA.SQLI.ALL_OTYPS</reference>
+         <reference_type>VARA</reference_type>
+         <separator>,</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="OTYPESs.00" inputassistance="1" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator="," showaspassword="0" text="Object Types" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="SQLI">VARA.SQLI.ALL_OTYPS</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Object Types</entry>
+        <entry name="multiline">0</entry>
+        <entry name="multilineIcon">0</entry>
+        <entry name="multiselect">1</entry>
+        <entry name="separator">,</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">OTYPESs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">1</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+        <entry name="onchangereset"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>11</line_number>
+         <name>OTYPES_IE#</name>
+         <reference>VARA.INCL_EXCL</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="OTYPES_IEs.00" nl="1" text="Object Types" tooltip="" required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">VARA.INCL_EXCL</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Object Types</entry>
+        <entry name="quotes"/>
+        <entry name="id">OTYPES_IEs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>SORT#</name>
+         <reference>VARA.REPORTING_COLUMNS.DEFS</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="SORTs.00" nl="1" strict="1" text="Sort Column" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         
+         
+      <properties>
+        <entry listparam="" name="reference" reftype="STATIC">VARA.REPORTING_COLUMNS.DEFS</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Sort Column</entry>
+        <entry name="quotes"/>
+        <entry name="id">SORTs.00</entry>
+        <entry name="dynamic">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="onchangereset"/>
+        <entry name="customfield"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>SYSTEM#</name>
+         <reference>VARA.UTIL.CONNECTIONS</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="SYSTEMs.00" nl="1" strict="1" text="Select Environment" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+      
+      
+      
+      <properties>
+        <entry listparam="" name="reference" reftype="STATIC">VARA.UTIL.CONNECTIONS</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Select Environment</entry>
+        <entry name="quotes"/>
+        <entry name="id">SYSTEMs.00</entry>
+        <entry name="dynamic">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip"/>
+        <entry name="modifiable">1</entry>
+        <entry name="onchangereset"/>
+        <entry name="customfield"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/></properties>
+    </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+   </elements>
+</prpt>

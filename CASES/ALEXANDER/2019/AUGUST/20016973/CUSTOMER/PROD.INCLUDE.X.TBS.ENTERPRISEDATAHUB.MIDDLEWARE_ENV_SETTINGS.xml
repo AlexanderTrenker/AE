@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>00543331</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PROD.INCLUDE.X.TBS.ENTERPRISEDATAHUB.MIDDLEWARE_ENV_SETTINGS</name>
+         <type>JOBI</type>
+         <versioning_id>883924579</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PROD.INCLUDE.X.TBS.ENTERPRISEDATAHUB.PIPELINE_SETTINGS
+
+! ((ENVPROPS: UC4_ENV_ID=UC4.0100.PROD UC4_MAJOR_APP=TBS Created=2019-06-07 20:19:44 CDT
+:SET &TAS_MIDDLEWARE_EMR#              = '1251/COM-1330/_deployments/deployments/master'
+:SET &TAS_MIDDLEWARE_ZOOKEEPER#        = '1281/COM-1781/_deployments/kafka_zookeeper/master'
+:SET &TAS_MIDDLEWARE_KAFKA#            = '1281/COM-1782/_deployments/kafka_broker/master'
+:SET &TAS_MIDDLEWARE_KAFKA_CONNECT#    = '1281/COM-1783/_deployments/kafka_connect/master'
+:SET &TAS_MIDDLEWARE_MIRRORMAKER#      = '1281/COM-1784/_deployments/kafka_mirror_maker'
+! ))]]></process>
+      </row>
+   </scripts>
+</jobi>

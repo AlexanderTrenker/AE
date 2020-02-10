@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PUB.DOC</name>
+         <type>DOCU</type>
+         <versioning_id>-1978742270</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Use these actions to carry out your application deployments into a WebSphere application server.
+
+=Supported versions=
+
+See http://docs.automic.com/compatibility?len=Package.IBM.WebSphere&comp=PCK.AUTOMIC_IBM_WEBSPHERE&version=1.0.0
+
+The actions are implemented using the wsadmin tool provided with a WebSphere Server or WebSphere Client installation. 
+
+=Setup=
+
+1. Set environment variable UC4_WSADMIN_DIR_PATH to point to the bin directory using the wsadmin tool (either on WebSphere server or WebSphere Thin Client).
+
+2. The executing user needs write permissions on the UC4_WSADMIN_DIR_PATH directory as temporary jython script files will be created.
+
+3. Copy wsadminlib.py into the UC4_WSADMIN_DIR_PATH directory. The wsadminlib.py can be either downloaded from IBM examples page (http://www.ibm.com/developerworks/websphere/library/samples/SampleScripts.html) or you can copy it from our redistribution.
+
+4. Check if Java JDK 1.6 or higher is installed and is executeable as 'java'
+
+5. itpa-tool.jar must be available in the agents install directory.
+
+6. When using the 'Start Server' and'Stop Server' actions, ensure, that the startServer.sh/bat and stopServer.sh/bat scripts are located in the same directory as the wsadmin tool.
+
+For Linux / Unix only: 
+
+This actions require the bash shell to be available on linux and unix host to work.
+
+=Rollback=
+
+The WebSphere actions support rollback. The rollbacks are implemented as follows:
+
+* CONFIGURE_DATASOURCE_CONNECTION_POOL: Before executing the roll forward function, the original datasource username and password are stored. The rollback function restores the original values of the datasource username/password.
+
+* CREATE_DATASOURCE: Before executing the roll forward function, the information is stored, if the datasource has existed before. The rollback restores the original state of the datasource. If it existed has existed before further exist after the rollback. If it has not existed before it is removed by the rollback.
+
+* CREATE_JAAS: before executing the roll forward function, the information if the JAAS existed before, together with the old username/alias/password is stored. The rollback restores the orginal state of the JAAS.
+
+* CREATE_SERVER: before executing the roll forward function, the information is stored, if the server existed and if yes, to which cluster it was assigned before executing the roll forward function. The rollback function restores the original server state. If the server did not exist before, it will be removed. If the server existed, it is not removed during rollback.
+
+* CREATE_VHOST: before executing the roll forward function, the information is stored if the virtual host existed before. The rollback function restore the original state of the virtual host. If the virtual host existed before it further exists after a rollback. If the has not exist before it will not exist after a rollback.
+
+* DELETE_DATASOURCE: Before executing the roll forward operation, the all datasource attributes (name, description, servername, port,...) are stored. In case a srollback is necessary, the datasource is recreated using the old attributes.
+
+* DELETE_ENV_VAR: before executing the roll forward function, the information is stored, if the environment variable if existed before, and if yes, which value/scope/node/server/cluster it was assigned to. The rollback restores the original state.
+
+* DELETE_JAAS: Delete JAAS does not offer rollback because the password attribute can not be extracted from the configuration and therefore not be recreated. Deleting a JAAS record with this function can not be undone.
+
+* DELETE_SERVER: Important note: when removing a server, a backup is created from the application server only. Note, that applications deployed to the server are not backed up, meaning, that after a rollback the applications are not redeployed on the server!! Also, if a server was part of a cluster, it can not be reassigned during a rollback (Please refer to 
+http://www.ibm.com/developerworks/forums/thread.jspa?messageID=14685565 for more details).
+Rollback prepration step: The server is backed up using the 'exportAppServer.jacl' script from http://www.ibm.com/developerworks/websphere/library/samples/SampleScripts.html. In case of a rollback: the application server is reimported using the 'importAppServer.jacl' script.
+
+* DELETE_VHOST: Before executing the roll forward operation, the virtual host's 'Aliases and a list of applications, which reference this virtual host are backed up. In case of a rollback, the custom rollback function creates a virtual host and reassigns the virtual host to all applications, which has referenced the removed virtual host before.
+
+* EXECUTE_SCRIPT: Important note!! for this action NO ROLLBACK is provided. The reason is, that this is a generic action and an arbitrary custom-scripts can be executed. 
+
+* INSTALL_APPLICATION: Before executing the roll forward function, the information if the application was already deployed before is stored. The rollback should restore the original state. If the application was not deployed before it is undeployed by the rollback. If the application was deployed before it remains untouched.
+
+* SET_ENV_VAR: before executing the roll forward function, the information is stored, if the environment variable existed before, and if yes, which value/scope/node/server/cluster it was assigned to.
+The rollback restores the original state.
+
+* START_APPLICATION: Before executing the roll forward function, it is checked if the application is running or not. The rollback function restores the orginal state of the application. If it was running, after a rollback the application runs again. If it was stopped, after a rollback the application is stopped again.
+
+* START_SERVER: Before executing the roll forward function, the original state of the servers are stored. The rollback should restore the original state. Servers which were stopped before are stopped after a rollback. Servers, which were running before run again after a rollback.
+
+* STOP_APPLICATION: Before executing the roll forward function, it is checked if the application is running or not. The rollback function restores the orginal state of the application. If it was running, after a rollback the application runs again. If it was stopped, after a rollback the application is stopped again.
+
+* STOP_SERVER: Before executing the roll forward function, the original state of the servers are stored. The rollback should restore the original state. Servers which were stopped before are stopped after a rollback. Servers, which were running before run again after a rollback.
+
+* TEST_DATASOURCE_CONNECTION: Since the action does not have any side-effects, no rollback function is necessary.
+
+* UNINSTALL_APPLICATION: Prior uninstalling the application, the application is backed up using a script 'exportApplication.jacl' from http://www.ibm.com/developerworks/websphere/library/samples/SampleScripts.html. In case of a rollback the 'importApplication.jacl' script is used to reimport the application.
+
+* UPDATE_APPLICATION: Prior uninstalling the application, the application is backed up using a script 'exportApplication.jacl' from http://www.ibm.com/developerworks/websphere/library/samples/SampleScripts.html. In case of a rollback the 'importApplication.jacl' script is used to reimport the application.
+
+* UPDATE_APPLN_ADVANCED: This action is used to update an installed application with advanced options.
+
+* START_CLUSTER: This action starts all the members of a cluster at the same time by requesting that the state of a cluster change to running. 
+
+* STOP_CLUSTER: This action stops all the members of a cluster. 
+
+* MAP_MODULES_TO_SERVERS: This action installs a new application and map application modules to specific servers.
+
+* MAP_WEB_MODULE_TO_VIRTUAL_HOST:  This action maps Web Module to Virtual Host.
+
+* MAP_ROLE_TO_USER_OR_GROUP: This action maps role to user or group.
+
+* ASSOCIATE_SHARED_LIBRARY_WITH_APPLN:  This action associates the shared library to the application.
+
+* CHANGE_JNDI_NAME:   This action changes the Target Resource JNDI Name of the module(s) for an Application.
+
+* ADD_NEW_SHARED_LIBRARY:  This action add new shared library to websphere.]]></Docu>
+      </row>
+   </documentation>
+</docu>

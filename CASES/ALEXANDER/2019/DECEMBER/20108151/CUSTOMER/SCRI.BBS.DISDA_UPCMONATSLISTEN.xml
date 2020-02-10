@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.DISDA_UPCMONATSLISTEN</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; UPC_MONATSLISTEN  -&gt; COGNOS TRIGGER</description>
+         <versioning_id>-1419259427</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! --------------------------------------------------------------------------------
+! Die COGNOS-Aufgabe "UPC_Monatslisten" soll immer mit dem beim letzten DELTA-Lauf
+! im Monat ausgeführt werden. Triggername: "upc_monatslisten"
+! Ausnahme: Im Dezember sollen die Listen im Rahmen des Jahresabschlusses laufen,
+! aber nicht nochmal am Ende des Monats.
+! --------------------------------------------------------------------------------
+! Strategie:
+! 1. Referenzdatum ermitteln = aktuelle Spiegelung
+!   (VARA.BATCH.DISDA_BATCH|SPIEGELUNG)
+! 2. Mittels CALE_LOOK_AHEAD den nächsten Lauftermin ermitteln
+!   (CALE.BBS.BATCH|BBS.DISDA_DELTA.G)
+! 3. Für Jan bis einschl. Nov prüfen, ob dieser noch im aktuellen Monat liegt:
+!    ja   -> nicht der letzte Lauf -> Trigger nicht feuern!
+!    nein -> letzter Delta-Lauf im Monat -> Trigger feuern!
+! 4. Im Dezember soll der Initialauf mit den Monatslisten beglückt werden.
+!    Lösung: JOBS.BBS.DISDA_UPCMONATSLISTEN wird aus JOBP.BBS.JAHRESABSCHLUSS
+!    direkt aufgerufen.
+! --------------------------------------------------------------------------------
+! Objekt definieren:
+! ------------------
+:SET &RUN_OBJECT# = "JOBS.BBS.DISDA_UPCMONATSLISTEN"
+:SET &RUN# = "NO"
+! ------------------------
+! Referenzdatum ermitteln:
+! ------------------------
+:SET &VALUTA# = GET_VAR("VARA.BATCH.DISDA_BATCH", "SPIEGELUNG", 1)
+:SET &VALUTA1# = ADD_DAYS("JJJJMMTT:&VALUTA#", 1)
+! --------------------
+! Nächster Lauftermin:
+! --------------------
+:SET &CALE# = "CALE.BBS.BATCH"
+:SET &VALID# = "BBS.DISDA_DELTA.G"
+:SET &NEXT_RUN# = CALE_LOOK_AHEAD("JJJJMMTT:&VALUTA1#", "ALL", "&CALE#", "&VALID#")
+:SET &AKT# = SUBSTR("&VALUTA#", 1, 6)
+! ------------------------------------------------------------------------
+! Wenn kein Termin in der Zukunft eingepflegt wurde - Generierung beenden:
+! ------------------------------------------------------------------------
+:SWITCH &NEXT_RUN#
+:  CASE 0
+:  CASE ""
+:  PRINT "NO LONGER SCHEDULED"
+:  EXIT
+:  OTHER
+:  SET &NEXT# = SUBSTR("&NEXT_RUN#", 1, 6)
+:ENDSWITCH
+! -----------------------------------------
+! Monate bis zum nächsten lauf ermitteln:
+! 0  -> gleicher Monat -> keine Berichte
+! 1  -> Monatswechsel  -> Berichte triggern
+! 89 -> Jahreswechsel  -> keine Berichte
+! -----------------------------------------
+:SET &AKT# = CONVERT(unsigned, &AKT#)
+:SET &NEXT# = CONVERT(unsigned, &NEXT#)
+:DEFINE &DIFF#, unsigned
+:SET &DIFF# = SUB(&NEXT#, &AKT#)
+:SWITCH SUB(&NEXT#, &AKT#)
+:  CASE 1
+:  INC JOBI.RUN_OBJECT
+:ENDSWITCH
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

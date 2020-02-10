@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>15</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.GENERIC.LOAD_ARCHIVE_SETTINGS</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1889471471</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UTILITY# = "ucybdbld"
+! Common Setup
+:INC JOBI.UTILITY.SETUP
+
+! Utility Specific
+:PUT_ATT ARCHIVE_KEY1 = &CLIENT#
+
+:IF &AR_STATISTICS# = "TRUE"
+:  SET &@STATISTICS# = "TRUE "
+:ELSE
+:  SET &@STATISTICS# = &AR_STATISTICS#
+:ENDIF
+:SET &@STATISTICS_DAYS# = FORMAT(&AR_STATISTICS_DAYS#,"0000")
+:SET &@AH# = "&@STATISTICS# &@STATISTICS_DAYS#"
+:SET &@AH_LEN# = STR_LENGTH(&@AH#)
+:SET &@AH_LEN# = FORMAT(&@AH_LEN#,"000000000")
+
+:IF &AR_MESSAGES# = "TRUE"
+:  SET &@MESSAGES# = "TRUE "
+:ELSE
+:  SET &@MESSAGES# = &AR_MESSAGES#
+:ENDIF
+:SET &@READ_DAYS# = FORMAT(&AR_READ_DAYS#,"0000")
+:SET &@UNREAD_DAYS# = FORMAT(&AR_UNREAD_DAYS#,"0000")
+:SET &@MELD# = "&@MESSAGES# &@READ_DAYS# &@UNREAD_DAYS#"
+:SET &@MELD_LEN# = STR_LENGTH(&@MELD#)
+:SET &@MELD_LEN# = FORMAT(&@MELD_LEN#,"000000000")
+
+:SET &@FORMAT# = &FORMAT#
+:SET &@FORMAT_LEN# = STR_LENGTH(&@FORMAT#)
+:SET &@FORMAT_LEN# = FORMAT(&@FORMAT_LEN#,"000000000")
+
+:SET &@PATH# = &DIRECTORY#
+:SET &@PATH_LEN# = STR_LENGTH(&@PATH#)
+:SET &@PATH_LEN# = FORMAT(&@PATH_LEN#,"000000000")
+
+:SET &@SIZE# = FORMAT(&SIZE#,"000000")
+:SET &@SIZE_LEN# = STR_LENGTH(&@SIZE#)
+:SET &@SIZE_LEN# = FORMAT(&@SIZE_LEN#,"000000000")
+
+! Check if UC_UTILITY_ARCHIVE already exists
+! And get values if it does
+:SET &VARNAME# = "UC_UTILITY_ARCHIVE"
+:SET &VARCLIENT# = &CLIENT#
+
+! :SET &VARVALUE# = "TIMEMELD"
+! :SET &@TIMEMELD# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+! :SET &@TIMEMELD_LEN# = STR_LENGTH(&@TIMEMELD#)
+! :SET &@TIMEMELD_LEN# = FORMAT(&@TIMEMELD_LEN#,"000000000")
+
+! :SET &VARVALUE# = "TIMEAH"
+! :SET &@TIMEAH# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+! :SET &@TIMEAH_LEN# = STR_LENGTH(&@TIMEAH#)
+! :SET &@TIMEAH_LEN# = FORMAT(&@TIMEAH_LEN#,"000000000")
+
+! :SET &VARVALUE# = "TIMERH"
+! :SET &@TIMERH# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+! :SET &@TIMERH_LEN# = STR_LENGTH(&@TIMERH#)
+! :SET &@TIMERH_LEN# = FORMAT(&@TIMERH_LEN#,"000000000")
+
+:SET &VARVALUE# = "ARCHIVSET"
+:SET &@ARCHIVSET# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+:SET &@ARCHIVSET_LEN# = STR_LENGTH(&@ARCHIVSET#)
+:SET &@ARCHIVSET_LEN# = FORMAT(&@ARCHIVSET_LEN#,"000000000")
+
+! :SET &VARVALUE# = "SIZERH"
+! :SET &@SIZERH# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+! :SET &@SIZERH_LEN# = STR_LENGTH(&@SIZERH#)
+! :SET &@SIZERH_LEN# = FORMAT(&@SIZERH_LEN#,"000000000")
+
+! :SET &VARVALUE# = "SIZEMELD"
+! :SET &@SIZEMELD# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+! :SET &@SIZEMELD_LEN# = STR_LENGTH(&@SIZEMELD#)
+! :SET &@SIZEMELD_LEN# = FORMAT(&@SIZEMELD_LEN#,"000000000")
+
+:SET &VARVALUE# = "LASTAHRH"
+:SET &@LASTAHRH# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+:SET &@LASTAHRH_LEN# = STR_LENGTH(&@LASTAHRH#)
+:SET &@LASTAHRH_LEN# = FORMAT(&@LASTAHRH_LEN#,"000000000")
+
+:SET &VARVALUE# = "LASTMELD"
+:SET &@LASTMELD# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+:SET &@LASTMELD_LEN# = STR_LENGTH(&@LASTMELD#)
+:SET &@LASTMELD_LEN# = FORMAT(&@LASTMELD_LEN#,"000000000")
+
+! :SET &VARVALUE# = "SIZEAH"
+! :SET &@SIZEAH# = GET_VAR(VARA.SEC_SQLI.GET_VARA_VALUE)
+! :SET &@SIZEAH_LEN# = STR_LENGTH(&@SIZEAH#)
+! :SET &@SIZEAH_LEN# = FORMAT(&@SIZEAH_LEN#,"000000000")
+
+:IF &@ARCHIVSET# <> ""
+:  ATTACH_RES STORE.ARCHIVE_SETTINGS.ALL, "*", T, Y
+:ELSE
+:  ATTACH_RES STORE.ARCHIVE_SETTINGS, "*", T, Y
+:ENDIF
+
+:IF &AR_REPLACE# = "TRUE"
+:  SET &V_REPLACE# = "REPLACE"
+:ELSE
+:  SET &V_REPLACE# = "IGNORE"
+:ENDIF
+
+:SET &UTILPARMS# = "-I&INIFILE# -B -E&V_REPLACE# -C&CLIENT# -X&$AGENT_RESOURCES_TASK#archive.uc_data.txt"
+
+! Execute Utility
+:INC JOBI.UTILITY.EXECUTE]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+         <login>{VARA.MAINTENANCE,LOGIN}</login>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>{VARA.MAINTENANCE,RETENTION_DAYS}</value>
+         <name>&amp;RETENTION_DAYS#</name>
+      </row>
+      <row>
+         <value>0</value>
+         <name>&amp;TRC_DB#</name>
+      </row>
+      <row>
+         <value>0</value>
+         <name>&amp;TRC_LEVEL#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>{VARA.MAINTENANCE, AGENT}</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>TRUE</value>
+         <variable_name>AR_MESSAGES#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>60</value>
+         <variable_name>AR_READ_DAYS#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>FALSE</value>
+         <variable_name>AR_REPLACE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>TRUE</value>
+         <variable_name>AR_STATISTICS#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>60</value>
+         <variable_name>AR_STATISTICS_DAYS#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>60</value>
+         <variable_name>AR_UNREAD_DAYS#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>&amp;$CLIENT#</value>
+         <variable_name>CLIENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>{UC_EX_PATH_JOBREPORT,{VARA.MAINTENANCE,AGENT,1}}</value>
+         <variable_name>DIRECTORY#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>Y.m.d H:M:S</value>
+         <variable_name>FORMAT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>1024</value>
+         <variable_name>SIZE#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ARCHIVE_SETTINGS</prompt_set>
+         <value>&amp;$SYSTEM#</value>
+         <variable_name>SYSTEM#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

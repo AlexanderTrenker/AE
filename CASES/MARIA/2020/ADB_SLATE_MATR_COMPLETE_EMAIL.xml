@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>ADB_SLATE_MATR_COMPLETE_EMAIL</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <time_zone>TZ.MST</time_zone>
+         <versioning_id>1629372030</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Date: 04/05/18
+
+Created by: Heather Tasca
+
+Navigation (Including job name): AD/PROCESS_FLOWS/SLATE_DECISION/UCB/ADB_CS_TO_SLATE_CE_COMPLETE_EMAIL
+
+Description: Email that process has completed.
+Developer:
+
+Script used: /prod/scripts/mailattach.pl
+ 
+Calendar: 
+
+Triggered by:				Triggering message:
+
+Rerun Instructions: FIX ERROR AND RERUN
+
+Call job:   __ YES    _X_ NO   All jobs are call jobs unless otherwise noted.
+
+Criticality: Process must continue, bypass this job if necessary
+
+Fixer: ps.cc
+
+Abend History:  Include date, time, and initials of modifier
+
+Change History:]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[/PS_FILEDIR/prod/scripts/mailattach.pl \
+--from \
+ps.cc@cu.edu \
+--to \
+theresa.jordan@colorado.edu \
+--cc \
+ps.cc@cu.edu \
+--subject \
+"ADB_SLATE_MATR_PROC Process Completed " \
+--message \
+"ADB_SLATE_MATR_PROC Process has completed successfully."
+
+:wait 5
+
+cd /PS_FILEDIR/AD_FILE_PARSER/CUBLD_SLATE_APPS
+rm CUBLD_SLATE_MATR.txt]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>ICSPRD_UX</agent>
+         <login>LOGINS</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key2>00543331</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PROD.INCLUDE.X.TBS.ENTERPRISEDATAHUB.EXECUTE_JENKINS_SCHEDULER_WITH_PROFILE</name>
+         <type>JOBI</type>
+         <versioning_id>1320388862</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT 'ENVIRONMENT=&ENVIRONMENT#'
+:PRINT 'JENKINSPATH=&JENKINSPATH#'
+:PRINT 'DEVJENKINS_PARM=&DEVJENKINS#'
+
+:IF &REGION# = 'dc3'
+  &CASHSTARTCMD jenkins-scheduler -appArgs &JENKINSPATH# -p environment='&ENVIRONMENT#-&REGION#' -p profile='&PROFILE_DC3#' -p action='&ACTION#' -s -v &DEVJENKINS#
+:ELSE
+  &CASHSTARTCMD jenkins-scheduler -appArgs &JENKINSPATH# -p environment='&ENVIRONMENT#-us-&REGION#-1' -p profile='&PROFILE_AWS#' -p action='&ACTION#' -s -v &DEVJENKINS#
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+</jobi>

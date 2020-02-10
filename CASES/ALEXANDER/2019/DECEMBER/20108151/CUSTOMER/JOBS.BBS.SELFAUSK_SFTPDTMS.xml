@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>Selfservice Auskunft</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>2</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.SELFAUSK_SFTPDTMS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Selbstauskunft: Holt csv Dateien von DTMS ab</description>
+         <versioning_id>1864936098</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!scp kann nicht verwendet werden:
+!debug1: Sending command: scp -v -f INT/Auskunftswerte*.csv
+!Sink: This service allows sftp connections only.
+
+:SET &BASEDIR#     = "/home/uc4/selfausk"
+:SET &SFTPCONNECT# = "-o IdentityFile=/home/uc4/.ssh/id_rsa_selfausk alv@aller.systemhaus.net"
+
+:IF &IDT# = "E" or "I"
+:  SET &DTMSEBENE# = "INT"
+:ELSE
+:  SET &DTMSEBENE# = "&IDT#"
+:ENDIF
+
+!Reste aufräumen, die nach einem Abbruch evtl. noch vorhanden sind
+rm -vf &BASEDIR#/download/*.csv
+
+!Alles von DTMS herunterladen
+echo "get &DTMSEBENE#/Auskunftswerte*.csv &BASEDIR#/download" > &BASEDIR#/sftp.get
+sftp -b &BASEDIR#/sftp.get &SFTPCONNECT#
+if [ $? -ne 0 ]; then
+  echo "##MESSAGE## SFTP für download fehlgeschlagen!"
+  echo "##CODE## 3002"
+  exit 3
+fi
+
+!Prüfung, ob 5 Dateien vorhanden sind
+if [ $(ls &BASEDIR#/download/Auskunftswerte*.csv |wc -l) -ne 5 ]; then
+  echo "##MESSAGE## Anzahl vorhandener Dateien ist ungleich 5!"
+  echo "##CODE## 3003"
+  exit 3
+fi
+
+!Prüfung, ob auch die aktuelle Datei dabei ist
+!Aktuelle Datei wird erst 18:30 erzeugt, damit man in Test auch tagsüber testen kann,
+!wird der Test nur in der P-Ebene durchgeführt
+:IF &IDT# = "P"
+  ls &BASEDIR#/download/Auskunftswerte_&DATUM_AM#*.csv
+  if [ $? -ne 0 ]; then
+    echo "##MESSAGE## Aktuelle Datei Auskunftswerte_&DATUM_AM#*.csv nicht vorhanden!"
+    echo "##CODE## 3004"
+    exit 3
+  fi
+:ENDIF
+]]></process>
+      </row>
+      <row>
+         <post_process>:INC JOBI.SHELL_POST</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.RH7_FILETRANS</agent>
+         <login>LOGIN.UC4</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

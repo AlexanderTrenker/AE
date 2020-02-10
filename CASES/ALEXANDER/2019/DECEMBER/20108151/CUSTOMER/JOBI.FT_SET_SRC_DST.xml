@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>ALLGEMEIN</archive_key1>
+         <archive_key2>JOBF</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.FT_SET_SRC_DST</name>
+         <type>JOBI</type>
+         <description>Setzen Attribute FT_SRC/DST_FILE</description>
+         <versioning_id>-1094957433</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Include erwartet die zwei Variablen
+! &FTQUELLE# und &FTZIEL#
+! und setzt damit die Attribute FT_SRC/DST_FILE
+!
+! Quelle
+:PRINT "QUELLE: >&FTQUELLE#<"
+:PUT_ATT FT_SRC_FILE = "&FTQUELLE#"
+! ----------------------------------------------
+! Ziel
+:PRINT "ZIEL  : >&FTZIEL#<"
+:PUT_ATT FT_DST_FILE = "&FTZIEL#"
+!
+
+]]></process>
+      </row>
+   </scripts>
+</jobi>

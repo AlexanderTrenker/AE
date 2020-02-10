@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.SHELL_POST</name>
+         <type>JOBI</type>
+         <description>Postprocessing für Java Programme</description>
+         <versioning_id>-697684044</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.SHELL_POST]======================================"
+!Liest Report aus, setzt Returncode anhand Severity und bereitet Daten für JOBI.SENDMAIL auf
+:SET &BATCHNAME# = &BATCH#
+:SET &CRLF# = UC_CRLF()
+
+! Sicherstellen, dass Variablen definiert sind
+:SET &MESSAGE#     = &MESSAGE#
+:SET &CODE#        = &CODE#
+:SET &DESCRIPTION# = &DESCRIPTION#
+:SET &LOGFILES#    = &LOGFILES#
+:SET &OUTPUTFILES# = &OUTPUTFILES#
+
+! for debugging
+! :SET &HND# = PREP_PROCESS_REPORT(,, "REP", "##*", "COL=DELIMITER,DELIMITER='##'")
+! :PROCESS &HND#
+! :  SET &LINE# = GET_PROCESS_LINE(&HND#)
+! :  PRINT "Line: &LINE#"
+! :ENDPROCESS
+! :CLOSE_PROCESS &HND#
+
+:SET &HND# = PREP_PROCESS_REPORT(,, "REP", "*##CODE##*", "COL=DELIMITER,DELIMITER='##'")
+:PROCESS &HND#
+:  SET &CODE# = GET_PROCESS_LINE(&HND#,3)
+:  SET &CODE# = STR_TRIM(&CODE#)
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:SET &HND# = PREP_PROCESS_REPORT(,, "REP", "##MESSAGE##*", "COL=DELIMITER,DELIMITER='##'")
+:PROCESS &HND#
+:  SET &MESSAGE# = GET_PROCESS_LINE(&HND#,3)
+:  SET &MESSAGE# = STR_TRIM(&MESSAGE#)
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:SET &HND# = PREP_PROCESS_REPORT(,, "REP", "##DESCRIPTION##*", "COL=DELIMITER,DELIMITER='##'")
+:PROCESS &HND#
+:  SET &LINE# = GET_PROCESS_LINE(&HND#,3)
+:  SET &LINE# = STR_TRIM(&LINE#)
+:  SET &LINELENGTH# = STR_LENGTH(&LINE#)
+:  SET &DESCRIPTIONLENGTH# = STR_LENGTH(&DESCRIPTION#)
+:  SET &TOTALLENGTH# = ADD(&DESCRIPTIONLENGTH#,&LINELENGTH#)
+:  IF &TOTALLENGTH# < 1022
+!:     P &DESCLINE# &DESCLINELENGTH# &TOTALLENGTH#
+:    SET &DESCRIPTION# = "&DESCRIPTION#&LINE#&CRLF#"
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:SET &HND# = PREP_PROCESS_REPORT(,, "REP", "##LOGFILE##*", "COL=DELIMITER,DELIMITER='##'")
+:PROCESS &HND#
+:  SET &LINE# = GET_PROCESS_LINE(&HND#,3)
+:  SET &LINE# = STR_TRIM(&LINE#)
+:  SET &LINELENGTH# = STR_LENGTH(&LINE#)
+:  SET &LOGFILESLENGTH# = STR_LENGTH(&LOGFILES#)
+:  SET &TOTALLENGTH# = ADD(&LOGFILESLENGTH#,&LINELENGTH#)
+:  IF &TOTALLENGTH# < 1022
+:    SET &LOGFILES# = "&LOGFILES#,&LINE#"
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:SET &HND# = PREP_PROCESS_REPORT(,, "REP", "##OUTFILE##*", "COL=DELIMITER,DELIMITER='##'")
+:PROCESS &HND#
+:  SET &LINE# = GET_PROCESS_LINE(&HND#,3)
+:  SET &LINE# = STR_TRIM(&LINE#)
+:  SET &LINELENGTH# = STR_LENGTH(&LINE#)
+:  SET &OUTPUTFILESLENGTH# = STR_LENGTH(&OUTPUTFILES#)
+:  SET &TOTALLENGTH# = ADD(&OUTPUTFILESLENGTH#,&LINELENGTH#)
+:  IF &TOTALLENGTH# < 1022
+:    SET &OUTPUTFILES# = "&OUTPUTFILES#,&LINE#"
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:SET &MAXRETCODE# = GET_ATT(MAX_RETCODE)
+:IF &CODE# = ""
+:  SET &RETURN# = GET_STATISTIC_DETAIL(,RETURN_CODE)
+:  SET &RETURN# = FORMAT(&RETURN#)
+:  IF &RETURN# > "0"
+:    SET &SEVERITY# = "3"
+:  ELSE
+:    SET &SEVERITY# = "1"
+:  ENDIF
+:ELSE
+:  SET &SEVERITY# = STR_CUT(&CODE#,1,1)
+:  MODIFY_STATE RETCODE = &SEVERITY#
+:ENDIF
+!Bei Severity >= 3 soll der Job auf jeden Fall abrechen, auch wenn Max. Retcode falsch gesetzt ist
+:IF &SEVERITY# >= "3"
+:  SET &MAXRETCODEP1# = &MAXRETCODE# + 1
+:  MODIFY_STATE RETCODE = &MAXRETCODEP1#
+:ENDIF
+
+:IF &MESSAGE# = ""
+:  SET &MESSAGE# = "Gestartet um &TIMESTAMP_AM#; beendet mit RC=&RETURN#"
+:ENDIF
+
+:MODIFY_STATE STATUS_TEXT = &MESSAGE#
+:PUT_ATT ARCHIVE_KEY2 = &CODE#
+:PUT_ATT ARCHIVE_KEY1 = &MESSAGE#
+
+:INC JOBI.SENDMAIL
+:PRINT "[END JOBI.SHELL_POST]======================================"]]></process>
+      </row>
+   </scripts>
+</jobi>

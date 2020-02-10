@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>SQL</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.MABFIBUABGL_TNBLISTEBILANZ</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>02 Sichert die Tabelle</description>
+         <versioning_id>1717698092</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[SQL_SET_STATEMENT_TERMINATOR TERM='@';
+begin
+dbatools.uc4tools.CreateSavTempTable('&TABLENAME#','SAVTEMPUC4.&BACKUPTABLENAME#','&COMMENT#');
+end;@]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC JOBI.INC.BASISPARAM
+:INC JOBI.SQL_BBS_PARAM
+
+:SET &TABLENAME#         = "TNBLISTE_BILANZ"
+:RSET &BACKUPTABLENAME#  = "TNBLISTEBIL_&TIMESTAMP_AM#"
+:SET &COMMENT#           = "&APPL#: Sicherung &TABLENAME#"
+]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &RETURN# = GET_STATISTIC_DETAIL(,RETURN_CODE)
+:IF &RETURN# = "0"
+!  Damit Job auch einzeln gestartet werden kann
+:  SET &KEEPDAYS# = &KEEPDAYS#
+:  IF &KEEPDAYS# = ""
+:    SET &KEEPDAYS# = "62"
+:  ENDIF
+
+!  Für das Aufräumen mittels JOBP.UC4.REORGTABLE wird die Aufbewahrungszeit hinterlegt
+:  SET &LDATE# = SYS_LDATE("YYYYMMDD")
+:  SET &DELDATE# = ADD_DAYS(&LDATE#, &KEEPDAYS#)
+:  PUT_VAR VARA.UC4.SAVETABLE, "&BACKUPTABLENAME#", "&LDATE#", "&KEEPDAYS#", "&DELDATE#"
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>SQL</platform>
+         <agent>HG.SQLORA</agent>
+         <login>LOGIN.SQL.SAVTEMPUC4APP</login>
+         <optional_reports>PLOG</optional_reports>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <T>MSSQL</T>
+         <database_name>[autofill...]</database_name>
+         <server_name>[autofill...]</server_name>
+         <sql_column_seperator>;</sql_column_seperator>
+         <sql_captions>1</sql_captions>
+         <sql_show_null>1</sql_show_null>
+         <sql_max_rows>0</sql_max_rows>
+         <sql_max_characters>50</sql_max_characters>
+         <data_source></data_source>
+         <A></A>
+         <sql_subst_character></sql_subst_character>
+         <sql_remove_crlf>1</sql_remove_crlf>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

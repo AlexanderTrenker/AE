@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_HPQC.PUB.INCLUDE.HPQC_ARRAYS_TO_DEFECT_XML</name>
+         <type>JOBI</type>
+         <description>Utility to convert arrays to an xml</description>
+         <versioning_id>-1940207194</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Include name =
+PCK.AUTOMIC_HPQC.PUB.INCLUDE.HPQC_ARRAYS_TO_DEFECT_XML
+= General description =
+Takes two arrays as inputs and produces defect field xml
+= Inputs =
+UC4RB_HPQC_FIELD_NAMES :  array of field names of a defect
+UC4RB_HPQC_FIELD_VALUES : array of values of field names of a defect
+= Behaviour =
+(see general description)
+= Outputs =
+It will publish UC4RB_HPQC_DEFECT_XML variable which contains the defect field xml
+= Rollback =
+(none)
+= Logging =
+AE logs will be created/displayed in the AE report.
+Java logs will be created at \temp\hpqc.log under agent installation directory.
+= Example =
+(none)]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[!--------------------------- Getting Template for Defect fields------------------------------------------
+:SET &DEFECT_FIELDS_TEMPALTE#="<Field Name=""HPQC_DEFECT_FIELD_NAME""><Value>HPQC_DEFECT_FIELD_VALUE</Value></Field>"
+
+:DEFINE &IDX#, unsigned
+:SET &IDX# =1
+
+:DEFINE &UC4RB_HPQC_DEFECT_XML#, string
+:SET &UC4RB_HPQC_DEFECT_XML#=""
+
+:SET &NAME_LEN#  = LENGTH(&UC4RB_HPQC_FIELD_NAMES#[])
+:SET &VALUE_LEN# = LENGTH(&UC4RB_HPQC_FIELD_VALUES#[])
+
+:IF &NAME_LEN# > 0
+
+:        SET &UC4RB_HPQC_DEFECT_XML#= STR_CAT(&UC4RB_HPQC_DEFECT_XML#,"<Fields>")
+
+:WHILE &IDX# LE &NAME_LEN#
+:        SET &UC4RB_HPQC_DEFECT_XML#= STR_CAT(&UC4RB_HPQC_DEFECT_XML#, &DEFECT_FIELDS_TEMPALTE#)
+:        SET &UC4RB_HPQC_DEFECT_XML#= STR_SUBSTITUTE(&UC4RB_HPQC_DEFECT_XML#,"HPQC_DEFECT_FIELD_NAME",&UC4RB_HPQC_FIELD_NAMES#[&IDX#])
+:        SET &UC4RB_HPQC_DEFECT_XML#= STR_SUBSTITUTE(&UC4RB_HPQC_DEFECT_XML#,"HPQC_DEFECT_FIELD_VALUE",&UC4RB_HPQC_FIELD_VALUES#[&IDX#])
+
+:SET &IDX# = &IDX# + 1
+:ENDWHILE
+:        SET &UC4RB_HPQC_DEFECT_XML#= STR_CAT("&UC4RB_HPQC_DEFECT_XML#","</Fields>")
+:ENDIF
+
+:P '&UC4RB_HPQC_DEFECT_XML#'
+
+:PUBLISH &UC4RB_HPQC_DEFECT_XML#,,"TOP"
+]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.STANDARDJOB</name>
+         <type>JOBI</type>
+         <description>Für Jobs, die nur einen Programmaufruf erfordern</description>
+         <versioning_id>-1632992505</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.STANDARDJOB]======================================"
+
+cd &RUNDIR#
+if [ $? -ne 0 ]; then
+   echo "##MESSAGE## Konnte nicht ins &RUNDIR# Verzeichnis wechseln !"
+   echo "##CODE## 3099"
+   exit 99
+fi
+
+echo
+echo "Current Host: $(hostname)"
+echo "Runtime Dir:  $(pwd)"
+echo "Execute Prog: $(which &PROGRAM#)"
+echo
+
+:IF &UC4_DEPLOYMENT_TEST# = "J"
+   echo "###########################"
+   echo "### UC4-DEPLOYMENT-TEST ###"
+   echo "###########################"
+   sleep 5
+   RC=0
+:ELSE
+!  $$=Aktuelle Prozessnummer; ${PIPESTATUS[0]} gibt den RC des ursprünglichen Kommandos zurück (nicht vom tee)
+   &PROGRAM# &OPTIONS# 2>&1 |tee /tmp/batch.$$; RC=${PIPESTATUS[0]}
+:ENDIF
+
+!### Outputfiles registrieren ###
+!&LOCALLOGDIR# ist auf dem DOPE Server z.B. /mnt/ctvdata
+!Für REGISTER_OUTPUTFILE muss der lokale Pfad angegeben werden
+:SET &LOCALLOGDIR# = &LOCALLOGDIR#
+:IF &LOCALLOGDIR# = ""
+:  SET &LOCALLOGDIR# = "&LOGSRV#/&SUBSYS#"
+:ENDIF
+grep "^##...FILE##" /tmp/batch.$$ 2> /dev/null | while read d REGFILE; do
+!  \ durch / ersetzen, falls vorhanden
+   REGFILE=$(echo "$REGFILE" | sed 's/\\/\//g')
+!  &LOCALLOGDIR# ergänzen, falls nicht vorhanden
+   echo "$REGFILE" | grep "&LOCALLOGDIR#" > /dev/null || REGFILE="&LOCALLOGDIR#/$REGFILE"
+   unix2dos $REGFILE
+:  REGISTER_OUTPUTFILE "$REGFILE", "N"
+done
+rm /tmp/batch.$$ 2> /dev/null
+
+!Returncode setzen
+echo
+echo "Return Code: $RC"
+exit $RC
+:PRINT "[START JOBI.STANDARDJOB]======================================"]]></process>
+      </row>
+   </scripts>
+</jobi>

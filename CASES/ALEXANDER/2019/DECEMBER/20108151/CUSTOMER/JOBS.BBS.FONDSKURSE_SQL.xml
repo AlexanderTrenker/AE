@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBS.BBS.FONDSKURSE_SQL</name>
+         <type>JOBI</type>
+         <versioning_id>-585970787</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! PVB 34569
+! cr22733
+! Script zur Übergabe an das UC4-Team
+! Es wird davon ausgegangen, dass das Script in DLLW1P mit Databaselink zu DLLW1E ausgeführt wird.
+:SET &DBCONNECT# = "dllw1&PROG_UC#.ad49.dir"
+
+SQL_ON_ERROR ACTION="ABEND";
+! TEST-Select, was gelöscht wird
+select count(*) from bbs.tbbkag_fonds_kurs@&DBCONNECT# kurs_i
+where exists (
+select fonds_p.fonds_id from bbs.tbbkag_fonds fonds_p
+where kurs_i.fonds_id = fonds_p.fonds_id);
+! DELETE Vor dem Insert:
+! Delete alle Kurse in Int, zu denen es auf Prod in der kag_fonds einen Fond gibt
+! d.h. Fonds-Kurse, die es nur auf Int gibt, werden nicht gelöscht
+delete from bbs.tbbkag_fonds_kurs@&DBCONNECT# kurs_i
+where exists (
+select fonds_p.fonds_id from bbs.tbbkag_fonds fonds_p
+where kurs_i.fonds_id = fonds_p.fonds_id);
+! TEST-Select, was insertet wird
+select count(*) from bbs.tbbkag_fonds_kurs kurs_p
+where exists (
+select fonds_i.fonds_id from bbs.tbbkag_fonds@&DBCONNECT# fonds_i
+where kurs_p.fonds_id = fonds_i.fonds_id);
+! Insert:
+! Es werden alle Fonds-Kurse von Prod übernommen, zu denen es auf Int in der kag_fonds einen Eintrag gibt.
+! d.h. Fonds-Kurse, die es auf Int nicht gibt, werden nicht übernommen
+insert into bbs.tbbkag_fonds_kurs@&DBCONNECT# kurs_i
+select * from bbs.tbbkag_fonds_kurs kurs_p
+where exists (
+select fonds_i.fonds_id from bbs.tbbkag_fonds@&DBCONNECT# fonds_i
+where kurs_p.fonds_id = fonds_i.fonds_id);
+!
+commit;
+! ---------------------------------------------
+! Alt, geändert durch CR 22474
+! ---------------------------------------------
+! SQL_ON_ERROR ACTION="ABEND";
+! DELETE FROM BBS.TBBKAG_FONDS_KURS@DLLW1E
+! ;
+! INSERT INTO BBS.TBBKAG_FONDS_KURS@DLLW1E
+!      SELECT * FROM BBS.TBBKAG_FONDS_KURS
+! ;
+]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.SCANREPORT</name>
+         <type>JOBI</type>
+         <description>JOB REPORT AUF FEHLERMELDUNG UNTERSUCHEN</description>
+         <versioning_id>996993138</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.SCANREPORT]================================"
+! -------------------------------------------------------------
+! Job-Report durchsuchen am Anfang nach "Job" in der Zeile muss
+! zusaetzlich folgender String "error(s)" bzw. "Fehler(n)" vor-
+! handen sein.
+! Beim Aufruf des Includes wird der im Fehlerfall gewuenschte
+! Rueckgabewert mitgegeben.
+! Wird ein Fehler diagnostiziert, so werden Rueckgabewert und
+! Statustext der Aufgabe entsprechend modifiziert.
+! --------------------------------------------------------------
+:PRINT ">>> Report wird auf Fehlermeldungen untersucht ..."
+:SET &RC# = RETURNWERT
+! --------------------------------------------------------------
+:SET &HND# = PREP_PROCESS_REPORT(JOBS, , , "Job*error(s)*")
+:PROCESS &HND#
+:  PRINT " -> Fehlermeldung im Report entdeckt!"
+:  MODIFY_STATE STATUS_TEXT = " -> Fehlermeldung im Report entdeckt!"
+:  MODIFY_STATE RETCODE = &RC#
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+! --------------------------------------------------------------
+:SET &HND# = PREP_PROCESS_REPORT(JOBS, , , "Job*Fehler(n)*")
+:PROCESS &HND#
+:  PRINT " -> Fehlermeldung im Report entdeckt!"
+:  MODIFY_STATE STATUS_TEXT = "Fehlermeldung im Report entdeckt ..."
+:  MODIFY_STATE RETCODE = &RC#
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+! --------------------------------------------------------------
+:SET &HND# = PREP_PROCESS_REPORT(JOBS, , , "ORA-*")
+:PROCESS &HND#
+:  PRINT " -> Fehlermeldung im Report entdeckt!"
+:  MODIFY_STATE STATUS_TEXT = "Fehlermeldung im Report entdeckt ..."
+:  MODIFY_STATE RETCODE = &RC#
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+! --------------------------------------------------------------
+:PRINT "=================================[ENDE JOBI.SCANREPORT]"]]></process>
+      </row>
+   </scripts>
+</jobi>

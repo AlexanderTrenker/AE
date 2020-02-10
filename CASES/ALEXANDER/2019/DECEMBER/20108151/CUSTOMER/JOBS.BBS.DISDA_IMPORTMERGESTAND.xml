@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>DISDA</archive_key2>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1058</ert>
+         <platform>SQL</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.DISDA_IMPORTMERGESTAND</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; MERGE TBBVTR_T_STAND [ZIEL_DB] &lt;PROD&gt;</description>
+         <versioning_id>1461055409</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[MERGE INTO      BBS.TBBVTR_T_STAND  BBS
+     USING  SPIEGELWORK.TBBVTR_T_STAND  TMP
+  ON (    BBS.MANDANT      = TMP.MANDANT
+      and BBS.VTR_T_ID     = TMP.VTR_T_ID
+      and BBS.WIRKSAM_ZUM  = TMP.WIRKSAM_ZUM
+     )
+  WHEN MATCHED
+       THEN UPDATE SET
+                        BBS.VTR_NR                   = TMP.VTR_NR
+                       ,BBS.AKTIV_ANSPR              = TMP.AKTIV_ANSPR
+                       ,BBS.ANW_JN                   = TMP.ANW_JN
+                       ,BBS.BTFR_JN                  = TMP.BTFR_JN
+                       ,BBS.BWR_EUROJAHRE_ANR        = TMP.BWR_EUROJAHRE_ANR
+                       ,BBS.CREATE_DAT               = TMP.CREATE_DAT
+                       ,BBS.DK_NEG_N_ZILLM           = TMP.DK_NEG_N_ZILLM
+                       ,BBS.DK_ZUF                   = TMP.DK_ZUF
+                       ,BBS.DR                       = TMP.DR
+                       ,BBS.DR_BON                   = TMP.DR_BON
+                       ,BBS.DR_BTFR                  = TMP.DR_BTFR
+                       ,BBS.DR_RIS_VN                = TMP.DR_RIS_VN
+                       ,BBS.DR_RIS_VN_KURSAEND       = TMP.DR_RIS_VN_KURSAEND
+                       ,BBS.DR_ZILLM                 = TMP.DR_ZILLM
+                       ,BBS.GAG                      = TMP.GAG
+                       ,BBS.GESCHL_STAT_SKZ          = TMP.GESCHL_STAT_SKZ
+                       ,BBS.GEW_VW_SKZ               = TMP.GEW_VW_SKZ
+                       ,BBS.KOLL_ART_SKZ             = TMP.KOLL_ART_SKZ
+                       ,BBS.KOLL_VTR_NR              = TMP.KOLL_VTR_NR
+                       ,BBS.LAND_SKZ                 = TMP.LAND_SKZ
+                       ,BBS.LFD_BTR_JN               = TMP.LFD_BTR_JN
+                       ,BBS.PROD_SKZ                 = TMP.PROD_SKZ
+                       ,BBS.PROD_T_SKZ               = TMP.PROD_T_SKZ
+                       ,BBS.RED_ZWI_DG               = TMP.RED_ZWI_DG
+                       ,BBS.RED_ZWI_RFB              = TMP.RED_ZWI_RFB
+                       ,BBS.STAND_ART_SKZ            = TMP.STAND_ART_SKZ
+                       ,BBS.STAND_NRF_JN             = TMP.STAND_NRF_JN
+                       ,BBS.S_ABS_KOST_E_BTR         = TMP.S_ABS_KOST_E_BTR
+                       ,BBS.S_ABS_KOST_LFD_BTR       = TMP.S_ABS_KOST_LFD_BTR
+                       ,BBS.S_ABS_KOST_O_ZILLM       = TMP.S_ABS_KOST_O_ZILLM
+                       ,BBS.S_AKTIV_ANSPR_MRKW       = TMP.S_AKTIV_ANSPR_MRKW
+                       ,BBS.S_AM_KOST                = TMP.S_AM_KOST
+                       ,BBS.S_AM_KOST_DK             = TMP.S_AM_KOST_DK
+                       ,BBS.S_ANS_DG                 = TMP.S_ANS_DG
+                       ,BBS.S_ANS_RFB                = TMP.S_ANS_RFB
+                       ,BBS.S_AUSG_AUFSCHL           = TMP.S_AUSG_AUFSCHL
+                       ,BBS.S_AUSZAHL_GEW_DG         = TMP.S_AUSZAHL_GEW_DG
+                       ,BBS.S_AUSZAHL_GEW_RFB        = TMP.S_AUSZAHL_GEW_RFB
+                       ,BBS.S_BON_GEW_DG             = TMP.S_BON_GEW_DG
+                       ,BBS.S_BON_GEW_RFB            = TMP.S_BON_GEW_RFB
+                       ,BBS.S_BRT_BTR                = TMP.S_BRT_BTR
+                       ,BBS.S_BTR_UEBTR              = TMP.S_BTR_UEBTR
+                       ,BBS.S_BTR_ZS                 = TMP.S_BTR_ZS
+                       ,BBS.S_DK_ZU_AB               = TMP.S_DK_ZU_AB
+                       ,BBS.S_DK_ZU_AB_BON           = TMP.S_DK_ZU_AB_BON
+                       ,BBS.S_E_BTR                  = TMP.S_E_BTR
+                       ,BBS.S_FOND_GEW_DG            = TMP.S_FOND_GEW_DG
+                       ,BBS.S_FOND_GEW_RFB           = TMP.S_FOND_GEW_RFB
+                       ,BBS.S_RATE_ZS                = TMP.S_RATE_ZS
+                       ,BBS.S_RED_VERR_FORD          = TMP.S_RED_VERR_FORD
+                       ,BBS.S_REN_ZS                 = TMP.S_REN_ZS
+                       ,BBS.S_RIS_BTR_1              = TMP.S_RIS_BTR_1
+                       ,BBS.S_RIS_BTR_2              = TMP.S_RIS_BTR_2
+                       ,BBS.S_RIS_BTR_3              = TMP.S_RIS_BTR_3
+                       ,BBS.S_RIS_BTR_BON            = TMP.S_RIS_BTR_BON
+                       ,BBS.S_RIS_BTR_DK_1           = TMP.S_RIS_BTR_DK_1
+                       ,BBS.S_RIS_BTR_DK_2           = TMP.S_RIS_BTR_DK_2
+                       ,BBS.S_RIS_BTR_DK_3           = TMP.S_RIS_BTR_DK_3
+                       ,BBS.S_RIS_BTR_MIN_TOD        = TMP.S_RIS_BTR_MIN_TOD
+                       ,BBS.S_RIS_BTR_PFLEGE         = TMP.S_RIS_BTR_PFLEGE
+                       ,BBS.S_RIS_BTR_TOD_BON        = TMP.S_RIS_BTR_TOD_BON
+                       ,BBS.S_RIS_BTR_VORAB          = TMP.S_RIS_BTR_VORAB
+                       ,BBS.S_SPAR_BTR               = TMP.S_SPAR_BTR
+                       ,BBS.S_SPAR_BTR_BON           = TMP.S_SPAR_BTR_BON
+                       ,BBS.S_VWALT_KOST             = TMP.S_VWALT_KOST
+                       ,BBS.S_VWALT_KOST_BON         = TMP.S_VWALT_KOST_BON
+                       ,BBS.S_VWALT_KOST_DK          = TMP.S_VWALT_KOST_DK
+                       ,BBS.S_VWALT_KOST_VORAB       = TMP.S_VWALT_KOST_VORAB
+                       ,BBS.S_ZINS_RIS_BTR_1         = TMP.S_ZINS_RIS_BTR_1
+                       ,BBS.S_ZINS_RIS_BTR_2         = TMP.S_ZINS_RIS_BTR_2
+                       ,BBS.S_ZINS_RIS_BTR_3         = TMP.S_ZINS_RIS_BTR_3
+                       ,BBS.S_ZINS_RIS_BTR_9         = TMP.S_ZINS_RIS_BTR_9
+                       ,BBS.S_ZINS_RM_DK             = TMP.S_ZINS_RM_DK
+                       ,BBS.S_ZINS_RM_GAG            = TMP.S_ZINS_RM_GAG
+                       ,BBS.S_ZUW_REN_ZS_FOND        = TMP.S_ZUW_REN_ZS_FOND
+                       ,BBS.V_SOND_SKZ               = TMP.V_SOND_SKZ
+                       ,BBS.WAEHRUNG_SKZ             = TMP.WAEHRUNG_SKZ
+                       ,BBS.ZAWEIS_SKZ               = TMP.ZAWEIS_SKZ
+            WHERE       BBS.MANDANT                  = TMP.MANDANT
+              AND       BBS.VTR_T_ID                 = TMP.VTR_T_ID
+              AND       BBS.WIRKSAM_ZUM              = TMP.WIRKSAM_ZUM
+              AND     (
+                           BBS.VTR_NR               != TMP.VTR_NR
+                        OR BBS.AKTIV_ANSPR          != TMP.AKTIV_ANSPR
+                        OR BBS.ANW_JN               != TMP.ANW_JN
+                        OR BBS.BTFR_JN              != TMP.BTFR_JN
+                        OR BBS.BWR_EUROJAHRE_ANR    != TMP.BWR_EUROJAHRE_ANR
+                        OR BBS.CREATE_DAT           != TMP.CREATE_DAT
+                        OR BBS.DK_NEG_N_ZILLM       != TMP.DK_NEG_N_ZILLM
+                        OR BBS.DK_ZUF               != TMP.DK_ZUF
+                        OR BBS.DR                   != TMP.DR
+                        OR BBS.DR_BON               != TMP.DR_BON
+                        OR BBS.DR_BTFR              != TMP.DR_BTFR
+                        OR BBS.DR_RIS_VN            != TMP.DR_RIS_VN
+                        OR BBS.DR_RIS_VN_KURSAEND   != TMP.DR_RIS_VN_KURSAEND
+                        OR BBS.DR_ZILLM             != TMP.DR_ZILLM
+                        OR BBS.GAG                  != TMP.GAG
+                        OR BBS.GESCHL_STAT_SKZ      != TMP.GESCHL_STAT_SKZ
+                        OR BBS.GEW_VW_SKZ           != TMP.GEW_VW_SKZ
+                        OR BBS.KOLL_ART_SKZ         != TMP.KOLL_ART_SKZ
+                        OR BBS.KOLL_VTR_NR          != TMP.KOLL_VTR_NR
+                        OR BBS.LAND_SKZ             != TMP.LAND_SKZ
+                        OR BBS.LFD_BTR_JN           != TMP.LFD_BTR_JN
+                        OR BBS.PROD_SKZ             != TMP.PROD_SKZ
+                        OR BBS.PROD_T_SKZ           != TMP.PROD_T_SKZ
+                        OR BBS.RED_ZWI_DG           != TMP.RED_ZWI_DG
+                        OR BBS.RED_ZWI_RFB          != TMP.RED_ZWI_RFB
+                        OR BBS.STAND_ART_SKZ        != TMP.STAND_ART_SKZ
+                        OR BBS.STAND_NRF_JN         != TMP.STAND_NRF_JN
+                        OR BBS.S_ABS_KOST_E_BTR     != TMP.S_ABS_KOST_E_BTR
+                        OR BBS.S_ABS_KOST_LFD_BTR   != TMP.S_ABS_KOST_LFD_BTR
+                        OR BBS.S_ABS_KOST_O_ZILLM   != TMP.S_ABS_KOST_O_ZILLM
+                        OR BBS.S_AKTIV_ANSPR_MRKW   != TMP.S_AKTIV_ANSPR_MRKW
+                        OR BBS.S_AM_KOST            != TMP.S_AM_KOST
+                        OR BBS.S_AM_KOST_DK         != TMP.S_AM_KOST_DK
+                        OR BBS.S_ANS_DG             != TMP.S_ANS_DG
+                        OR BBS.S_ANS_RFB            != TMP.S_ANS_RFB
+                        OR BBS.S_AUSG_AUFSCHL       != TMP.S_AUSG_AUFSCHL
+                        OR BBS.S_AUSZAHL_GEW_DG     != TMP.S_AUSZAHL_GEW_DG
+                        OR BBS.S_AUSZAHL_GEW_RFB    != TMP.S_AUSZAHL_GEW_RFB
+                        OR BBS.S_BON_GEW_DG         != TMP.S_BON_GEW_DG
+                        OR BBS.S_BON_GEW_RFB        != TMP.S_BON_GEW_RFB
+                        OR BBS.S_BRT_BTR            != TMP.S_BRT_BTR
+                        OR BBS.S_BTR_UEBTR          != TMP.S_BTR_UEBTR
+                        OR BBS.S_BTR_ZS             != TMP.S_BTR_ZS
+                        OR BBS.S_DK_ZU_AB           != TMP.S_DK_ZU_AB
+                        OR BBS.S_DK_ZU_AB_BON       != TMP.S_DK_ZU_AB_BON
+                        OR BBS.S_E_BTR              != TMP.S_E_BTR
+                        OR BBS.S_FOND_GEW_DG        != TMP.S_FOND_GEW_DG
+                        OR BBS.S_FOND_GEW_RFB       != TMP.S_FOND_GEW_RFB
+                        OR BBS.S_RATE_ZS            != TMP.S_RATE_ZS
+                        OR BBS.S_RED_VERR_FORD      != TMP.S_RED_VERR_FORD
+                        OR BBS.S_REN_ZS             != TMP.S_REN_ZS
+                        OR BBS.S_RIS_BTR_1          != TMP.S_RIS_BTR_1
+                        OR BBS.S_RIS_BTR_2          != TMP.S_RIS_BTR_2
+                        OR BBS.S_RIS_BTR_3          != TMP.S_RIS_BTR_3
+                        OR BBS.S_RIS_BTR_BON        != TMP.S_RIS_BTR_BON
+                        OR BBS.S_RIS_BTR_DK_1       != TMP.S_RIS_BTR_DK_1
+                        OR BBS.S_RIS_BTR_DK_2       != TMP.S_RIS_BTR_DK_2
+                        OR BBS.S_RIS_BTR_DK_3       != TMP.S_RIS_BTR_DK_3
+                        OR BBS.S_RIS_BTR_MIN_TOD    != TMP.S_RIS_BTR_MIN_TOD
+                        OR BBS.S_RIS_BTR_PFLEGE     != TMP.S_RIS_BTR_PFLEGE
+                        OR BBS.S_RIS_BTR_TOD_BON    != TMP.S_RIS_BTR_TOD_BON
+                        OR BBS.S_RIS_BTR_VORAB      != TMP.S_RIS_BTR_VORAB
+                        OR BBS.S_SPAR_BTR           != TMP.S_SPAR_BTR
+                        OR BBS.S_SPAR_BTR_BON       != TMP.S_SPAR_BTR_BON
+                        OR BBS.S_VWALT_KOST         != TMP.S_VWALT_KOST
+                        OR BBS.S_VWALT_KOST_BON     != TMP.S_VWALT_KOST_BON
+                        OR BBS.S_VWALT_KOST_DK      != TMP.S_VWALT_KOST_DK
+                        OR BBS.S_VWALT_KOST_VORAB   != TMP.S_VWALT_KOST_VORAB
+                        OR BBS.S_ZINS_RIS_BTR_1     != TMP.S_ZINS_RIS_BTR_1
+                        OR BBS.S_ZINS_RIS_BTR_2     != TMP.S_ZINS_RIS_BTR_2
+                        OR BBS.S_ZINS_RIS_BTR_3     != TMP.S_ZINS_RIS_BTR_3
+                        OR BBS.S_ZINS_RIS_BTR_9     != TMP.S_ZINS_RIS_BTR_9
+                        OR BBS.S_ZINS_RM_DK         != TMP.S_ZINS_RM_DK
+                        OR BBS.S_ZINS_RM_GAG        != TMP.S_ZINS_RM_GAG
+                        OR BBS.S_ZUW_REN_ZS_FOND    != TMP.S_ZUW_REN_ZS_FOND
+                        OR BBS.V_SOND_SKZ           != TMP.V_SOND_SKZ
+                        OR BBS.WAEHRUNG_SKZ         != TMP.WAEHRUNG_SKZ
+                        OR BBS.ZAWEIS_SKZ           != TMP.ZAWEIS_SKZ
+                      )
+ WHEN NOT MATCHED
+       THEN INSERT ( BBS.MANDANT
+                    ,BBS.VTR_T_ID
+                    ,BBS.WIRKSAM_ZUM
+                    ,BBS.VTR_NR
+                    ,BBS.AKTIV_ANSPR
+                    ,BBS.ANW_JN
+                    ,BBS.BTFR_JN
+                    ,BBS.BWR_EUROJAHRE_ANR
+                    ,BBS.CREATE_DAT
+                    ,BBS.DK_NEG_N_ZILLM
+                    ,BBS.DK_ZUF
+                    ,BBS.DR
+                    ,BBS.DR_BON
+                    ,BBS.DR_BTFR
+                    ,BBS.DR_RIS_VN
+                    ,BBS.DR_RIS_VN_KURSAEND
+                    ,BBS.DR_ZILLM
+                    ,BBS.GAG
+                    ,BBS.GESCHL_STAT_SKZ
+                    ,BBS.GEW_VW_SKZ
+                    ,BBS.KOLL_ART_SKZ
+                    ,BBS.KOLL_VTR_NR
+                    ,BBS.LAND_SKZ
+                    ,BBS.LFD_BTR_JN
+                    ,BBS.PROD_SKZ
+                    ,BBS.PROD_T_SKZ
+                    ,BBS.RED_ZWI_DG
+                    ,BBS.RED_ZWI_RFB
+                    ,BBS.STAND_ART_SKZ
+                    ,BBS.STAND_NRF_JN
+                    ,BBS.S_ABS_KOST_E_BTR
+                    ,BBS.S_ABS_KOST_LFD_BTR
+                    ,BBS.S_ABS_KOST_O_ZILLM
+                    ,BBS.S_AKTIV_ANSPR_MRKW
+                    ,BBS.S_AM_KOST
+                    ,BBS.S_AM_KOST_DK
+                    ,BBS.S_ANS_DG
+                    ,BBS.S_ANS_RFB
+                    ,BBS.S_AUSG_AUFSCHL
+                    ,BBS.S_AUSZAHL_GEW_DG
+                    ,BBS.S_AUSZAHL_GEW_RFB
+                    ,BBS.S_BON_GEW_DG
+                    ,BBS.S_BON_GEW_RFB
+                    ,BBS.S_BRT_BTR
+                    ,BBS.S_BTR_UEBTR
+                    ,BBS.S_BTR_ZS
+                    ,BBS.S_DK_ZU_AB
+                    ,BBS.S_DK_ZU_AB_BON
+                    ,BBS.S_E_BTR
+                    ,BBS.S_FOND_GEW_DG
+                    ,BBS.S_FOND_GEW_RFB
+                    ,BBS.S_RATE_ZS
+                    ,BBS.S_RED_VERR_FORD
+                    ,BBS.S_REN_ZS
+                    ,BBS.S_RIS_BTR_1
+                    ,BBS.S_RIS_BTR_2
+                    ,BBS.S_RIS_BTR_3
+                    ,BBS.S_RIS_BTR_BON
+                    ,BBS.S_RIS_BTR_DK_1
+                    ,BBS.S_RIS_BTR_DK_2
+                    ,BBS.S_RIS_BTR_DK_3
+                    ,BBS.S_RIS_BTR_MIN_TOD
+                    ,BBS.S_RIS_BTR_PFLEGE
+                    ,BBS.S_RIS_BTR_TOD_BON
+                    ,BBS.S_RIS_BTR_VORAB
+                    ,BBS.S_SPAR_BTR
+                    ,BBS.S_SPAR_BTR_BON
+                    ,BBS.S_VWALT_KOST
+                    ,BBS.S_VWALT_KOST_BON
+                    ,BBS.S_VWALT_KOST_DK
+                    ,BBS.S_VWALT_KOST_VORAB
+                    ,BBS.S_ZINS_RIS_BTR_1
+                    ,BBS.S_ZINS_RIS_BTR_2
+                    ,BBS.S_ZINS_RIS_BTR_3
+                    ,BBS.S_ZINS_RIS_BTR_9
+                    ,BBS.S_ZINS_RM_DK
+                    ,BBS.S_ZINS_RM_GAG
+                    ,BBS.S_ZUW_REN_ZS_FOND
+                    ,BBS.V_SOND_SKZ
+                    ,BBS.WAEHRUNG_SKZ
+                    ,BBS.ZAWEIS_SKZ
+                   )
+                   VALUES
+                   ( TMP.MANDANT
+                    ,TMP.VTR_T_ID
+                    ,TMP.WIRKSAM_ZUM
+                    ,TMP.VTR_NR
+                    ,TMP.AKTIV_ANSPR
+                    ,TMP.ANW_JN
+                    ,TMP.BTFR_JN
+                    ,TMP.BWR_EUROJAHRE_ANR
+                    ,TMP.CREATE_DAT
+                    ,TMP.DK_NEG_N_ZILLM
+                    ,TMP.DK_ZUF
+                    ,TMP.DR
+                    ,TMP.DR_BON
+                    ,TMP.DR_BTFR
+                    ,TMP.DR_RIS_VN
+                    ,TMP.DR_RIS_VN_KURSAEND
+                    ,TMP.DR_ZILLM
+                    ,TMP.GAG
+                    ,TMP.GESCHL_STAT_SKZ
+                    ,TMP.GEW_VW_SKZ
+                    ,TMP.KOLL_ART_SKZ
+                    ,TMP.KOLL_VTR_NR
+                    ,TMP.LAND_SKZ
+                    ,TMP.LFD_BTR_JN
+                    ,TMP.PROD_SKZ
+                    ,TMP.PROD_T_SKZ
+                    ,TMP.RED_ZWI_DG
+                    ,TMP.RED_ZWI_RFB
+                    ,TMP.STAND_ART_SKZ
+                    ,TMP.STAND_NRF_JN
+                    ,TMP.S_ABS_KOST_E_BTR
+                    ,TMP.S_ABS_KOST_LFD_BTR
+                    ,TMP.S_ABS_KOST_O_ZILLM
+                    ,TMP.S_AKTIV_ANSPR_MRKW
+                    ,TMP.S_AM_KOST
+                    ,TMP.S_AM_KOST_DK
+                    ,TMP.S_ANS_DG
+                    ,TMP.S_ANS_RFB
+                    ,TMP.S_AUSG_AUFSCHL
+                    ,TMP.S_AUSZAHL_GEW_DG
+                    ,TMP.S_AUSZAHL_GEW_RFB
+                    ,TMP.S_BON_GEW_DG
+                    ,TMP.S_BON_GEW_RFB
+                    ,TMP.S_BRT_BTR
+                    ,TMP.S_BTR_UEBTR
+                    ,TMP.S_BTR_ZS
+                    ,TMP.S_DK_ZU_AB
+                    ,TMP.S_DK_ZU_AB_BON
+                    ,TMP.S_E_BTR
+                    ,TMP.S_FOND_GEW_DG
+                    ,TMP.S_FOND_GEW_RFB
+                    ,TMP.S_RATE_ZS
+                    ,TMP.S_RED_VERR_FORD
+                    ,TMP.S_REN_ZS
+                    ,TMP.S_RIS_BTR_1
+                    ,TMP.S_RIS_BTR_2
+                    ,TMP.S_RIS_BTR_3
+                    ,TMP.S_RIS_BTR_BON
+                    ,TMP.S_RIS_BTR_DK_1
+                    ,TMP.S_RIS_BTR_DK_2
+                    ,TMP.S_RIS_BTR_DK_3
+                    ,TMP.S_RIS_BTR_MIN_TOD
+                    ,TMP.S_RIS_BTR_PFLEGE
+                    ,TMP.S_RIS_BTR_TOD_BON
+                    ,TMP.S_RIS_BTR_VORAB
+                    ,TMP.S_SPAR_BTR
+                    ,TMP.S_SPAR_BTR_BON
+                    ,TMP.S_VWALT_KOST
+                    ,TMP.S_VWALT_KOST_BON
+                    ,TMP.S_VWALT_KOST_DK
+                    ,TMP.S_VWALT_KOST_VORAB
+                    ,TMP.S_ZINS_RIS_BTR_1
+                    ,TMP.S_ZINS_RIS_BTR_2
+                    ,TMP.S_ZINS_RIS_BTR_3
+                    ,TMP.S_ZINS_RIS_BTR_9
+                    ,TMP.S_ZINS_RM_DK
+                    ,TMP.S_ZINS_RM_GAG
+                    ,TMP.S_ZUW_REN_ZS_FOND
+                    ,TMP.V_SOND_SKZ
+                    ,TMP.WAEHRUNG_SKZ
+                    ,TMP.ZAWEIS_SKZ
+                   )
+;]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:IF &EBENE# NE "P"
+:  STOP NOMSG, 4711, ">>> Aktivierung aufgrund der Ebene [&EBENE#] abgebrochen ..."
+:ENDIF
+:INC JOBI.SQL_BBS2_PARAM]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>SQL</platform>
+         <agent>HG.SQLORA</agent>
+         <login>LOGIN.SQL.SPIEGELAPP</login>
+         <optional_reports>PLOG</optional_reports>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <T>MSSQL</T>
+         <database_name>[autofill...]</database_name>
+         <server_name>[autofill...]</server_name>
+         <sql_column_seperator>;</sql_column_seperator>
+         <sql_captions>1</sql_captions>
+         <sql_show_null>1</sql_show_null>
+         <sql_max_rows>0</sql_max_rows>
+         <sql_max_characters>50</sql_max_characters>
+         <data_source></data_source>
+         <A></A>
+         <sql_subst_character></sql_subst_character>
+         <sql_remove_crlf>1</sql_remove_crlf>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

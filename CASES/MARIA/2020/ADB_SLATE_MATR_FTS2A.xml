@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>ADB_SLATE_MATR_FTS2A</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Moves file from file transfer server to appserver</description>
+         <time_zone>TZ.MST</time_zone>
+         <versioning_id>-713197170</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Date: 02/09/2018
+Migrated by: Jeff Gloyd
+
+Navigation (Including job name): AD/PROCESS_FLOWS/SLATE_DECISION/UCB
+
+Description: Moves file from file transfer server to appserver
+
+Developer:
+
+Script used: scp_generic.pl
+ 
+Calendar: 
+
+Triggered by:				Triggering message:
+
+Rerun Instructions: can be rerun
+
+Call job:   __ YES    __ NO   All jobs are call jobs unless otherwise noted.
+
+Criticality: Needs to complete.
+
+Fixer:ps.cc
+
+Abend History:  Include date, time, and initials of modifier
+04/17/18 - Failed showing "PS_FILEDIR/AD_FILE_PARSER/CUBLD_SLATE_UPDTS/CE//.: No such file or directory".  I added a slash at the beginning of line 10 and successfully reran the job. - HET
+
+
+Change History:
+04/04/18 - Added /ftp/home/reportingandanalytics/slate as a backup per 434742. - HET
+
+
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[/PS_FILEDIR/prod/scripts/scp_generic.pl \
+q00027 \
+/PS_FILEDIR/prod/logs/ADB_SLATE_MATR_FTS2A.log \
+1 \
+0 \
+1 \
+cutransfer.cu.edu \
+/ftp/AD \
+CUBLD_SLATE_MATR.txt \
+/PS_FILEDIR/AD_FILE_PARSER/CUBLD_SLATE_APPS/ \
+. \
+0]]></process>
+      </row>
+      <row>
+         <pre_process>:wait 10</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>ICSPRD_UX</agent>
+         <login>LOGINS</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

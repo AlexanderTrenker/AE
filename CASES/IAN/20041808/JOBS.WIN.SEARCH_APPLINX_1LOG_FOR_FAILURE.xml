@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>2</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.SEARCH_APPLINX_1LOG_FOR_FAILURE</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Generic serch on given log file for error, and map &amp;Server_Name_FILE_PROCCESSED</description>
+         <time_zone>TZ.IL</time_zone>
+         <versioning_id>-1252600209</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PSET &ACTIVE_AGENT# = SYS_ACT_HOST()
+:p " processing file - &FILE_TO_PROCESS# "
+:SET &TMP_NAME# = STR_SUB(&SERVER_NAME#, "-", "_")
+:SET &VARA_NAME# = "VARA.&TMP_NAME#_PROCESSED_FILES"
+:SET &NL# = UC_CRLF()
+:SET &SUBJECT# = "FOUND AN ERROR IN LOGS OF &SERVER_NAME# "
+
+:IF GET_VAR(&VARA_NAME#, &FILE_TO_PROCESS#, 1)= ""
+! --- First montioring line : Excecution of procedure failed: Application --
+:  SET &HND# = PREP_PROCESS_FILE("&ACTIVE_AGENT#", "\\&SERVER_NAME#\log\&FILE_TO_PROCESS#", "*Excecution of procedure failed: Application*", , 'UC_LOGIN=LOGIN.UC4')
+:  PROCESS &HND#
+:    P " FOUND AN ERROR IN LOG FILE "
+:    SET &ERROR_LINE# = GET_PROCESS_LINE(&HND#, 1)
+:    P " curr line is : &ERROR_LINE# "
+:    SET &DATE_AND_TIME# = STR_CUT(&ERROR_LINE#, 1, 19)
+:    P "&DATE_AND_TIME# !!!!"
+:    IF &FILE_TO_PROCESS#<> &RUNNING_LOG#
+:      PUT_VAR &VARA_NAME#, &FILE_TO_PROCESS#, &FILE_TO_PROCESS#
+:      SET &BODY# = "FILTER  1 - Excecution of procedure failed: Application WAS FOUND, Details:&NL#Server Name : &SERVER_NAME#&NL#Error in LOG - &FILE_TO_PROCESS#.&NL#LINE IS: &ERROR_LINE#"
+:      SET &OUT# = SEND_MAIL(&DST_LIST#, , &SUBJECT#, &BODY#)
+:      P " MAIL RETCODE - &OUT# "
+:      TERM_PROCESS
+:    ELSE
+:      SET &TMP_FILE_TO_PROCESS# = "gxlog-1-&DATE_AND_TIME#.txt"
+:      IF GET_VAR(&VARA_NAME#, &TMP_FILE_TO_PROCESS#, 1)= ""
+:        SET &GXLOG_FLAG# = ADD(&GXLOG_FLAG#, 1)
+:        PUT_VAR &VARA_NAME#, &TMP_FILE_TO_PROCESS#, &TMP_FILE_TO_PROCESS#
+:        SET &GXLOG_LAST_ERROR_LINE# = &ERROR_LINE#
+:      ENDIF
+:    ENDIF
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND#
+! -- After First step, sending mail with last error line
+! :P "Flag IS : &GXLOG_FLAG# , Last Line IS : &GXLOG_LAST_ERROR_LINE#"
+:  IF &GXLOG_FLAG# > 0
+:    SET &BODY# = "FILTER 1 - Excecution of procedure failed: Application WAS FOUND, Details:&NL#Server Name : &SERVER_NAME#&NL#Error in LOG - CURRENT GXLOG!.&NL#LINE IS: &GXLOG_LAST_ERROR_LINE#"
+:    SET &OUT# = SEND_MAIL(&DST_LIST#, , &SUBJECT#, &BODY#)
+:    P " MAIL RETCODE - &OUT# "
+:  ENDIF
+:  SET &GXLOG_FLAG# = 0
+! -- Beging the second monitoring line : Cannot connect session. The server has reached the full capacity of concurrent users --
+:  SET &HND1# = PREP_PROCESS_FILE("&ACTIVE_AGENT#", "\\&SERVER_NAME#\log\&FILE_TO_PROCESS#", "*> A problem occured during increasing of the RPC connections pool*", , 'UC_LOGIN=LOGIN.UC4')
+:  PROCESS &HND1#
+:    P " FOUND AN ERROR IN LOG FILE -- SECOND MONI "
+:    SET &ERROR_LINE# = GET_PROCESS_LINE(&HND1#, 1)
+:    P " curr line is : &ERROR_LINE# "
+:    SET &DATE_AND_TIME# = STR_CUT(&ERROR_LINE#, 1, 19)
+:    P "&DATE_AND_TIME# !!!!"
+:    IF &FILE_TO_PROCESS#<> &RUNNING_LOG#
+:      PUT_VAR &VARA_NAME#, &FILE_TO_PROCESS#, &FILE_TO_PROCESS#
+:      SET &BODY# = "FILTER 2 -  Cannot connect session. The server has reached the full capacity of concurrent users WAS FOUND, Details:&NL#Server Name : &SERVER_NAME#&NL#Error in LOG - &FILE_TO_PROCESS#.&NL#LINE IS: &ERROR_LINE#"
+:      SET &OUT# = SEND_MAIL(&DST_LIST#, , &SUBJECT#, &BODY#)
+:      P " MAIL RETCODE - &OUT# "
+:      TERM_PROCESS
+:    ELSE
+:      SET &TMP_FILE_TO_PROCESS# = "gxlog-2-&DATE_AND_TIME#.txt"
+:      IF GET_VAR(&VARA_NAME#, &TMP_FILE_TO_PROCESS#, 1)= ""
+:        SET &GXLOG_FLAG# = ADD(&GXLOG_FLAG#, 1)
+:        PUT_VAR &VARA_NAME#, &TMP_FILE_TO_PROCESS#, &TMP_FILE_TO_PROCESS#
+:        SET &GXLOG_LAST_ERROR_LINE# = &ERROR_LINE#
+:      ENDIF
+:    ENDIF
+:  ENDPROCESS
+! -- After First step, sending mail with last error line
+! :P "Flag IS : &GXLOG_FLAG# , Last Line IS : &GXLOG_LAST_ERROR_LINE#"
+:  IF &GXLOG_FLAG# > 0
+:    SET &BODY# = "FILTER 2 - Cannot connect session. The server has reached the full capacity of concurrent users WAS FOUND, Details:&NL#Server Name : &SERVER_NAME#&NL#Error in LOG - CURRENT GXLOG!.&NL#LINE IS: &GXLOG_LAST_ERROR_LINE#"
+:    SET &OUT# = SEND_MAIL(&DST_LIST#, , &SUBJECT#, &BODY#)
+:    P " MAIL RETCODE - &OUT# "
+:  ENDIF
+:ELSE
+:  P " IGNORING FILE, ALLREADY PROCESSED. "
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent>WIN03</agent>
+         <login>LOGIN.UC4</login>
+         <job_report_path>0</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>graber_sh@mac.org.il;feldman_ro@mac.org.il</value>
+         <name>&amp;DST_LIST#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

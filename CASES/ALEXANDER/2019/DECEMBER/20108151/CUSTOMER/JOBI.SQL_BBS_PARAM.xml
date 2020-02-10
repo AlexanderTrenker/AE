@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>UC4</archive_key1>
+         <archive_key2>ALLGEMEIN</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.SQL_BBS_PARAM</name>
+         <type>JOBI</type>
+         <description>Include zur Parametrisierung von BBS-SQL-Jobs ...</description>
+         <versioning_id>2022058071</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "[START JOBI.SQL_BBS_PARAM]==============================="
+! ------------------------------------------------
+! DB-Parameter aus Ebenen-Informationen ermitteln:
+! -------------+--------+---------------------+-------+
+! EBENE(&IDT#) | DB     | SERVER              | CLIENT |
+! -------------+--------+---------------------+--------+
+! E            | DLLW1E | dllw1e.ora          |  90    |
+! I            | DLLW1I | dllw1i.ora          | 100    |
+! W            | DLLW1W | dllw1w.ora          | 110    |
+! P            | DLLW1P | dllw1p.ora          | 100    |
+! -------------+--------+---------------------+--------+
+! Datenbank-Ebene festlegen:
+! --------------------------
+:SET &EBENE#  = GET_VAR("VARA.CONFIG_EBENE", "EBENE")
+:SET &IDT# = STR_CUT(&EBENE#, 1, 1)
+:PSET &DB_UC# = "DLLW1&IDT#"
+! ----------------------------
+! Fuer den Server alles klein:
+! ----------------------------
+:PSET &DB_LC# = STR_LC(&DB_UC#)
+:PSET &DB_SERVER# = "&DB_LC#.ora.a1-core.athora.net:1521"
+! ---------------
+! Welcher Client?
+! ---------------
+:SET &CLIENT# = SYS_ACT_CLIENT()
+:SET &CLIENT# = FORMAT("&CLIENT#","000")
+:PSET &DB_CLIENT# = "&CLIENT#"
+! --------------------------------
+:PUT_ATT SERVER_NAME = "&DB_SERVER#"
+:PUT_ATT DATABASE_NAME = "&DB_UC#"
+! --------------------------------
+:PRINT ""
+:PRINT ">>> PARAMETER:"
+:PRINT " -> SERVER_NAME = &DB_SERVER#"
+:PRINT " -> DATABASE_NAME = &DB_UC#"
+:PRINT ""
+:PRINT "================================[ENDE JOBI.SQL_BBS_PARAM]"]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>156</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.UC4.GEVO_MESSAGE</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Erzeugt Abmeldungsnachricht an User</description>
+         <versioning_id>1014442524</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &EBENE# = &EBENE#
+:BEGINREAD "Nachricht an alle aktiven User der AD-Gruppe G_AP_XENAPP_BBS_* schicken"
+:  IF &EBENE# = ""
+:    READ &EBENE#, "E,T,W,P", "Ebene", "P", "M"
+:  ENDIF
+:  READ &MESSAGE#, , "Nachrichtentext", "Heute Online Ende um 15 Uhr wegen Monatsschluss !!! - Bitte BBS GeVo's rechtzeitig beenden !!!", "KM"
+:ENDREAD
+
+:SET &HND# = PREP_PROCESS_VAR(VARA.UC4.GEFO_SERVERLIST)
+:PROCESS &HND#
+:  SET &CITRIXSERVER# = GET_PROCESS_LINE(&HND#, 1)
+:  SET &CITRIXSERVERE# = GET_PROCESS_LINE(&HND#, 2)
+:  SET &CITRIXSERVERACTIVE# = GET_PROCESS_LINE(&HND#, 3)
+:  IF &CITRIXSERVERE# = &EBENE#
+:    IF &CITRIXSERVERACTIVE# = "Y"
+      @echo off
+!     Nachricht an alle User in BBS Desktop AD-Gruppe schicken
+      for /f "tokens=1,2,3 delims= " %%a in ('net group G_AP_XENAPP_BBS_&CITRIXSERVERE# /DOMAIN') do (
+        msg %%a /server:&CITRIXSERVER#.a1-core.athora.net /TIME:7200 &MESSAGE#  2>NUL
+        msg %%b /server:&CITRIXSERVER#.a1-core.athora.net /TIME:7200 &MESSAGE#  2>NUL
+        msg %%c /server:&CITRIXSERVER#.a1-core.athora.net /TIME:7200 &MESSAGE#  2>NUL
+      )
+:    ENDIF
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent>HG.PCFREIGABE</agent>
+         <login>LOGIN.UC4_PCFREIGABE</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>1</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

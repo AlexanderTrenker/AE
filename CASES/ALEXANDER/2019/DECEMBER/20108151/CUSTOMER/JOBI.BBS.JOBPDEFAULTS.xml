@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.BBS.JOBPDEFAULTS</name>
+         <type>JOBI</type>
+         <description>BBS Joplan Defaults setzen</description>
+         <versioning_id>1857896355</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC JOBI.INC.BASISPARAM
+! Include zum Setzen BBS weit gültige Variablen, sollte in jedem BBS Jobplan aufgerufen werden.
+! Variablen aus Basisinclude für allgemeingültige Jobs verfügbar machen
+:RSET &TS#          = &TIMESTAMP_AM#
+:RSET &PSUBSYS#     = &SUBSYS#
+:RSET &PAPPL#       = &APPL#
+!
+:INC JOBI.SET_CR_NR
+!
+:RSET &LOGDIR#      = "&LOGSRV#/&SUBSYS#/log/&APPL#/&FOLDER#"
+:RSET &WORKDIR#     = "&LOGSRV#/&SUBSYS#/work/&APPL#/&FOLDER#"
+:RSET &DATDIR#      = "&LOGSRV#/&SUBSYS#/data/&APPL#"
+:RSET &INDIR#       = "&LOGSRV#/&SUBSYS#/input/&APPL#"
+:RSET &RUNDIR#      = "&RT#/&SUBSYS#/&APPL#"]]></process>
+      </row>
+   </scripts>
+</jobi>

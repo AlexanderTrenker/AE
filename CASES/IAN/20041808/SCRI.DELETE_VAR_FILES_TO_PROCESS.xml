@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.DELETE_VAR_FILES_TO_PROCESS</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Reset VARA_FILE_TO_PROCESS</description>
+         <time_zone>TZ.IL</time_zone>
+         <versioning_id>1106115762</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:DELETE_VAR &VARA_NAME#
+
+:SET &IGNORE_STRING# = "txt"
+:SET &MARK_DATE# = SYS_DATE(YYYYMMDD)
+:P "MARKED IS : &MARK_DATE#"
+:SET &VARA_TO_MAINTAIN# = "VARA.&TMP_NAME#_PROCESSED_FILES"
+
+:SET &HND# = PREP_PROCESS_VAR(&VARA_TO_MAINTAIN#)
+:PROCESS &HND#
+:  SET &PROCESSED_FILE# = GET_PROCESS_LINE(&HND#,1)
+:  SET &FILE_DATE# = STR_CUT(&PROCESSED_FILE#,9,10)
+:  SET &FILE_DATE# = STR_SUB(&FILE_DATE#,"-","")
+:  SET &IGNORE_FLAG# =  STR_FIND(&FILE_DATE#,&IGNORE_STRING#)
+:  IF &IGNORE_FLAG# = 0
+:    SET &RES# = DIFF_DATE(&MARK_DATE#,"&FILE_DATE#")
+:    IF &RES# > 30
+:      DELETE_VAR &VARA_TO_MAINTAIN#, &PROCESSED_FILE#
+:    ENDIF
+:  ENDIF
+:ENDPROCESS]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

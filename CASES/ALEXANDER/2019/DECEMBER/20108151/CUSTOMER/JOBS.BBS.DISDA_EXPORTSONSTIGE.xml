@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>DISDA</archive_key2>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>22</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.DISDA_EXPORTSONSTIGE</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>DISDA -&gt; EXPORT SONSTIGE [QUELL_DB]</description>
+         <versioning_id>2110298796</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! -------------------------------------------
+! Parameter für JOBI.GETPW_DBTOOLS definieren:
+! -------------------------------------------
+:SET &ORADB# = "DLLW1&IDT#"
+:SET &ORAUSER# = "SPIEGELAPP"
+:SET &PARAFILE# = "&BATCH#_&ORADB#.PAR"
+:SET &DUMPFILE# = "&BATCH#_&ORADB#.DMP"
+:SET &EXPSCRIPT# = "&BATCH#_&ORADB#"
+! ----------------------------------
+:SET &LOGFILE# = "&LOGDIR#/&EXPSCRIPT#.log"
+:INC JOBI.DBTOOLS_CREATEFOLDER
+!:INC JOBI.DBTOOLS_DELETEFILE "EDIZIONE" = "&EXP_PATH#/dmp/&DUMPFILE#"
+:INC JOBI.GETPW_DBTOOLS
+! -----------------------------
+! Parameterdatei zusammenbauen:
+! -----------------------------
+cat << __EOF__  > &PARAFILE#
+SCHEMAS=BABSY, CD, CRM, IMS, NB, NG, PR, SERV, TUSSY, VU
+DUMPFILE=&DUMPFILE#
+REUSE_DUMPFILES=YES
+DIRECTORY=&DIRECTORY#
+FLASHBACK_TIME="TO_TIMESTAMP('&TS#', 'YYYYMMDDHH24MISS')"
+LOGFILE=&DIRECTORY#_LOG:&EXPSCRIPT#_&TIMESTAMP_AM#.log
+CONTENT=DATA_ONLY
+INCLUDE=TABLE:"IN (
+       'TBPVNR_USERID'
+      ,'TCDBW_OP_EV'
+      ,'TCRKONTAKT'
+      ,'TCRSCHL_SMALLINT'
+      ,'TCRSCHL_SMALLINT_Z'
+      ,'TNBPROG_STEU'
+      ,'TNBABLAUF_WERTE'
+      ,'TNBVTR_EREI_VERM'
+      ,'TNBEXT_ANTRAG'
+      ,'TNG_BANK'
+      ,'TBEUSERID'
+      ,'TTS0056'
+      ,'TZZORG'
+      ,'TZZORGSTR'
+      ,'TZZNATION'
+      ,'TVU_GDV'
+      ,'TPRFV_PARTNERDATEN'
+      ,'TPRFV_KOPFDATEN'
+      ,'TPRFV_LAV'
+      ,'TPRFV_PAUSCH_GA_RE'
+      ,'TPRFV_SICHERHEITEN'
+)"
+__EOF__
+:INC JOBI.DBTOOLS_RUNEXPORT]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[:INC JOBI.DBTOOLS_FILESEND "MODUS"="COPY"
+:INC JOBI.SCANREPORT "RETURNWERT"="8"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>HG.ORACLE</agent>
+         <login>LOGIN.UC4</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

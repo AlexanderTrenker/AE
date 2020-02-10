@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>2540</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.UC4.GEVO_KILL</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Listet oder beendet alle BBS GeVo Prozesse</description>
+         <versioning_id>32302069</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &EBENE# = &EBENE#
+:BEGINREAD "Killen aller BBS GeVo Prozesse"
+:  IF &EBENE# = ""
+:    READ &EBENE#, "E,T,W,P", "Ebene", "P", "M"
+:  ENDIF
+:  READ &OPTION#, "List only,Kill am all", "Ausführungsoption", "Kill am all", "KM"
+:ENDREAD
+
+:SET &HND# = PREP_PROCESS_VAR(VARA.UC4.GEFO_SERVERLIST)
+:PROCESS &HND#
+:  SET &CITRIXSERVER# = GET_PROCESS_LINE(&HND#, 1)
+:  SET &CITRIXSERVERE# = GET_PROCESS_LINE(&HND#, 2)
+:  SET &CITRIXSERVERACTIVE# = GET_PROCESS_LINE(&HND#, 3)
+:  IF &CITRIXSERVERE# = &EBENE#
+:    IF &CITRIXSERVERACTIVE# = "Y"
+      @echo off
+      echo ############################################################################################################################################################################
+      cd c:\pstools
+!     Alle angemeldeten User listen:
+      psloggedon -l \\&CITRIXSERVER#.a1-core.athora.net
+!     Alle laufenden BBS Prozesse vorher listen:
+      del \\&CITRIXSERVER#.a1-core.athora.net\C$\temp\bbsproclist_&CITRIXSERVER#.txt 2>NUL
+      copy c:\pstools\pslist.exe \\&CITRIXSERVER#.a1-core.athora.net\C$\temp\ 2>NUL 1>NUL
+      psexec \\&CITRIXSERVER#.a1-core.athora.net -s /w d:\BBS_&EBENE#\Cor\bin cmd /c "FOR /f %%I IN ('dir /b *.exe') DO (c:\temp\pslist.exe -e -accepteula %%~nI >> c:\temp\bbsproclist_&CITRIXSERVER#.txt)" 2>NUL
+      echo ####################### Prozessliste vorher auf &CITRIXSERVER#:
+      find ":" \\&CITRIXSERVER#.a1-core.athora.net\C$\temp\bbsproclist_&CITRIXSERVER#.txt  | find /V "Process information"
+
+:      IF &OPTION# = "Kill am all"
+!       Alle laufenden BBS Prozesse killen:
+        copy c:\pstools\pskill.exe \\&CITRIXSERVER#.a1-core.athora.net\C$\temp\ 2>NUL 1>NUL
+        psexec \\&CITRIXSERVER#.a1-core.athora.net -s /w d:\BBS_&EBENE#\Cor\bin cmd /c "FOR /f %%I IN ('dir /b *.exe') DO (c:\temp\pskill.exe -accepteula %%I)" 2>NUL
+
+!       Alle laufenden BBS Prozesse nachher listen:
+        del \\&CITRIXSERVER#.a1-core.athora.net\C$\temp\bbsproclist_&CITRIXSERVER#.txt 2>NUL
+        psexec \\&CITRIXSERVER#.a1-core.athora.net -s /w d:\BBS_&EBENE#\Cor\bin cmd /c "FOR /f %%I IN ('dir /b *.exe') DO (c:\temp\pslist.exe -e -accepteula %%~nI >> c:\temp\bbsproclist_&CITRIXSERVER#.txt)" 2>NUL
+        echo ####################### Prozessliste nach kill auf &CITRIXSERVER#:
+        find ":" \\&CITRIXSERVER#.a1-core.athora.net\C$\temp\bbsproclist_&CITRIXSERVER#.txt  | find /V "Process information"
+:      ENDIF
+
+      echo.
+      echo.
+      echo.
+:    ENDIF
+:  ENDIF
+:ENDPROCESS
+
+]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent>HG.PCFREIGABE</agent>
+         <login>LOGIN.UC4_PCFREIGABE</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>1</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>3</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_IBM_WEBSPHERE.PUB.ACTION.UPDATE_APPLN_ADVANCED</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <rollback_enabled>1</rollback_enabled>
+         <description>Websphere Update Application Advanced</description>
+         <versioning_id>-2115635748</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+ PCK.AUTOMIC_IBM_WEBSPHERE.PUB.ACTION.UPDATE_APPLN_ADVANCED
+
+= General description =
+This action is used to update an installed application.
+	*If parameter 'Host' is not provided, the local WebSphere installation is targeted
+	*If parameters 'Username' and 'Password' are not provided the WebSphere security has to be turned off.
+
+= Failure Conditions =
+* If "File Location" is not provided when user selects "Update Type" as "Replace or add a single module".
+
+= Inputs =
+* Host				: IP or hostname of the server where either the target WAS server (Standalone) or the WAS Deployment Manager (Network Deployment) is located. E.g. vvnwas01
+* Port				: Port number as defined in SOAP_CONNECTOR_ADDRESS. E.g. 8880
+* Username			: Username used to authenticate with WAS.
+* Password			: Password used to authenticate with WAS.
+* WSAdmin Tool Bin Directory	: Path to the bin directory containing the wsadmin tool which will be used to connect to the WebSphere Server. E.g. C:\Program Files (x86)\IBM\WebSphere\AppServer\bin
+* Application Name		: Application name you want to update. E.g. sampleApplication
+* Update Type			: Specify operation you want to perform. Possible options: Replace the entire application, Replace or add a single module,  Replace or add a single file, Replace add or delete multiple files.
+* New File Path			: Provide full remote or local file path to the new EAR, module or file. E.g. E:\websphere\ibm-web-bnd.xmi. Possible extension: EAR, WAR, JAR, or SAR archive.
+* File Location			: Specify path beginning with the installed application archive file to the module to be replaced or added. E.g. WEB-INF\ibm-web-bnd.xmi. Required if Update Type is selected as either "Replace or add a single module" or "Replace or add a single file". For others will be ignored without failing the action.
+* Context-Root			: Specify context-root if you are adding a new module. E.g. /root. Required if Update Type is selected as "Replace or add a single module" and you specifically want to "add" a war file.
+* Binding			: Effective only if Update Type is selected as either "Replace entire application" or "Replace or add a single module". Possible options : Merge new and existing bindings, Use new bindings, Use existing bindings. Required only if Update Type is selected as either "Replace entire application" or "Replace or add a single module". For others will be ignored without failing the action.
+* Generate Default Bindings	: Applicable only if using "new" or "merged" bindings. Possible options: YES or NO. Optional, effective only if Binding is selected as "Merge new and existing bindings" or "Use new bindings" and Update Type is selected as either "Replace entire application" or "Replace or add a single module".
+* Override Existing Bindings	: Specifies whether generated bindings are to replace existing bindings. Possible options: YES or NO. Optional, effective only if Binding is selected as "Merge new and existing bindings" or "Use new bindings".
+* Specific bindings file	: Provide full path to the binding file if you want to override existing default bindings. E.g. E:\upload\virtual-host.xml. Optional, effective only if "Generate Default Bindings" is set to "Yes/True".
+* Virtual Host Name		: Provide default Virtual Host name if you want to use for Web and SIP modules. E.g. default_host. Optional, effective only if "Generate Default Bindings" is set to "Yes/True".
+* Sudo Password 	        : The password for the sudo command.
+* Options       	        : Run using sudo password (and sudo username if specified).
+* Sudo Username   		: The username to be used for the sudo command. 	
+* Overwrite Agent		: Overwrites the default agent
+* Overwrite Login		: Overwrites the default login
+
+Note:
+	* Update Type: Following are the 4 options while updating an application-
+		1. Replace the entire application:  Indicates that you want to update the entire application. By default, binding information for installed modules is merged with the binding information for updated modules. To change this default behavior, select 'Use new bindings' or 'Use existing bindings'.
+		2. Replace or add a single module:  Indicates that you want to update an individual application module. Generally, you cannot add or update a module if it depends on other classes outside the module, such as classes within an optional package or library. Client-side processing involves introspecting input module classes and those classes might not load successfully unless class dependencies also are resolved.
+		3. Replace or add a single file: Indicates that you want to update individual files at any scope within the deployed application. When a single file is provided as an update input, binding information option cannot be specified and is ignored, if provided.
+		4. Replace add or delete multiple files: Indicates that you want to update a partial application. Using a subset of application components provided in a compressed .zip file format you can update, add, and delete files and modules. When a partial application is provided as an update input, binding information option cannot be specified and is ignored, if provided.
+	
+	* Bindings: User can opt for the below written options for the binding configuration.
+		1. Merge new and existing bindings -  
+			a. It merges bindings from the new version with the bindings from the old version, uninstalls the old version and installs the new version. 
+			b. The binding information from new version of the EAR file or module is preferred over the corresponding one from the old version.
+			c. If any element of binding is missing in the new version, the corresponding element from the old version is used.
+		2. Use existing bindings - 
+			a. Binding information from the old version of the application or module is preferred over the corresponding binding information from the new version.
+			b. If any element of the binding does not exist in the old version, the element from the new version is used.
+		3. Use new bindings -
+			a. Binding information from the new version of the application or module is preferred over the corresponding binding information from the old version.
+			b. The bindings from the old version of the application or module are ignored
+
+	* Generate Default Bindings: If you select Generate default bindings, then it completes any incomplete bindings in the application with default values. It does not change existing bindings. The following bindings are generated-
+		1. Enterprise bean (EJB) JNDI names are generated in the form prefix/ejb-name. The default prefix is ejb, but can be overridden. The ejb-name is as specified in the deployment descriptors <ejb-name>tag or in its corresponding annotation for EJB 3.0 or later modules. The product does not generate default values for enterprise beans in an EJB 3.0 or later module  because the run time provides container default values.
+		2. EJB references are bound if an <ejb-link> is found. Otherwise, if a unique enterprise bean is found with a matching home (or local home) interface as the referenced bean, the reference is resolved automatically. The product does not generate default values for EJB reference in an EJB 3.0, EJB 3.1, Web 2.4, or Web 2.5 module because the run time provides container default values or automatically resolves the target references.
+		3. Resource reference bindings are derived from the <res-ref-name> tag or its corresponding annotation for Java Platform, Enterprise Edition (Java EE) 5 or 6 modules. This action assumes that the java:comp/env name is the same as the resource global JNDI name.
+		4. Connection factory bindings for EJB 2.0 and EJB 2.1 JAR files are generated based on the JNDI name and authorization information provided. This action results in default connection factory settings for each EJB 2.0 and EJB 2.1 JAR file in the application being installed. No bean-level connection factory bindings are generated.
+		5. Data source bindings for EJB 1.1 JAR files are generated based on the JNDI name, data source user name and password options. This action results in default data source settings for each JAR file. No bean-level data source bindings are generated.
+		6. For EJB 2.0 or later message-driven beans deployed as Java EE Connector Architecture (JCA) 1.5-compliant resources, the JNDI names corresponding to activationSpec instances are generated in the form eis/MDB_ejb-name. Message destination references are bound if a <message-destination-link> is found, then the JNDI name is set to ejs/message-destination-linkName. Otherwise, the JNDI name is set to eis/message-destination-refName.
+		7. For EJB 2.0 or later message-driven beans deployed against listener ports, the listener ports are derived from the message-driven bean <ejb-name> tag with the string Port appended.
+		8. For .war files, the virtual host is set as default_host unless otherwise specified.
+
+	* Override Existing Bindings: The default is to not override existing bindings, select Override existing bindings to have generated bindings replace existing bindings.
+	* New Binding File Path:Specifies a bindings file that overrides the default binding. Change the behavior of the default binding with an XML document.
+	* Virtual Host Name: Specifies the virtual host for the web module (WAR file) or Session Initiation Protocol (SIP) module (SAR file). 
+
+= Behavior =
+(none)
+
+=Return Value=
+(none)
+
+= Outputs =
+* Return code is 0 in case of success.
+* Return code is non zero in case of failure.
+
+= Rollback =
+The action will take a backup of the application before updating the application. Following are the two options to rollback if the action fails:
+* Open the Statistics of the action and select "Rollback" from the dropdown menu.
+* Select the Rollback option from the bar on the Activity window. 
+
+Note:
+* If the action successfully updates the application, user cannot rollback to the previous version of the application.
+* The action will fail if the backup fails.
+* User cannot rollback if the backup files are missing.
+
+= Logging =
+AE logs will be displayed in the AE report.
+
+= Example =
+New Binding File Path: 
+
+<?xml version="1.0"?>
+<!DOCTYPE dfltbndngs SYSTEM "dfltbndngs.dtd">
+<dfltbndngs>
+  <module-bindings>
+    <war-binding>
+      <jar-name>hello.war</jar-name>
+      <resource-ref-bindings>
+        <resource-ref-binding>
+          <resource-ref-name>jdbc/MyDataSrc</resource-ref-name>
+          <jndi-name>war/override/dataSource</jndi-name>
+        </resource-ref-binding>
+      </resource-ref-bindings>
+    </war-binding>
+  </module-bindings>
+</dfltbndngs>]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.SET_BACKUP_DIRECTORY</process>
+      </row>
+   </scripts>
+   <sync_list>
+      <row>
+         <abend_action>SET_FREE</abend_action>
+         <else_action>W</else_action>
+         <end_action>SET_FREE</end_action>
+         <line_number>1</line_number>
+         <start_action>SET_EXCLUSIVE</start_action>
+         <sync_object>UC4_SY.AS_WAS_PARALLEL_SYNC</sync_object>
+      </row>
+   </sync_list>
+   <object_variables>
+      <row>
+         <name>&amp;UC4RB_BACKUP_DIRECTORY#</name>
+      </row>
+      <row>
+         <name>&amp;UC4RB_BACKUP_REPORT#</name>
+      </row>
+   </object_variables>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>UPDATE_APPLN_ADVANCED</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.JOB.UPDATE_APPLN_ADVANCED@GENERIC</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.PROMPTSET.CONNECTION</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.PROMPTSET.UPDATE_APPLN_ADVANCED</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.PROMPTSET.BINDING_INFORMATION</prompt_set>
+         <display_order>3</display_order>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <display_order>4</display_order>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>5</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;AGENT#</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;LOGIN#</value>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+         <backup_object>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.ACTION.BACKUP.APPLICATION</backup_object>
+         <rollback_object>PCK.AUTOMIC_IBM_WEBSPHERE.PRV.ACTION.ROLLBACK.UPDATE_APPLN</rollback_object>
+      </row>
+   </rollback_definitions>
+</jobp>

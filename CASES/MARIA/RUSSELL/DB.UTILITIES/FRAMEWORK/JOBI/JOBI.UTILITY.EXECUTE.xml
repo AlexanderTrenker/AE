@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.UTILITY.EXECUTE</name>
+         <type>JOBI</type>
+         <versioning_id>-1975830284</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &KEEP_UTILITY_LOGS# = GET_VAR(VARA.MAINTENANCE,KEEP_UTILITY_LOGS,1)
+:IF &KEEP_UTILITY_LOGS# = ""
+:  SET &KEEP_UTILITY_LOGS# = "Y"
+:ENDIF
+
+:SWITCH &$PLATFORM#
+:  CASE "WINDOWS"
+!    Set windows parameters for batch jobs
+:    PUT_ATT WIN_LOGON_AS_BATCH = "Y"
+:    PUT_ATT JOB_OBJECT = "Y"
+
+:     INCLUDE JOBI.WINDOWS.ENV, NOFOUND=IGNORE
+cd /D &UTILDIR#
+
+:IF &USE_JAVA# = "Y"
+where java
+java -version
+java -jar &UTILITY#.jar &UTILPARMS#
+:ELSE
+&UTILDIR#\&UTILITY# &UTILPARMS#
+:ENDIF
+
+@set retcode=%errorlevel%
+@echo RETURN_CODE %retcode%
+@if %retcode% LSS 0 (
+    @echo WARNING: Return code was negative. Setting return code to 0
+    @set retcode=0
+)
+
+:SET &RETURN_CODE# = "@if NOT %retcode% == 0 goto :retcode"
+DEL /F &INIFILE#
+
+:  CASE "UNIX"
+:     INCLUDE JOBI.UNIX.ENV, NOFOUND=IGNORE
+cd &UTILDIR#
+
+:IF &USE_JAVA# = "Y"
+which java
+java -version
+java -jar &UTILITY#.jar &UTILPARMS#
+:ELSE
+&UTILDIR#/&UTILITY# &UTILPARMS#
+:ENDIF
+
+rc=$?
+echo RETURN_CODE $rc
+:SET &RETURN_CODE# = "exit $rc"
+rm -f &INIFILE#
+rm -f &LCKFILE#
+:  OTHER
+:ENDSWITCH
+
+:IF &UTILITY# = "ucybdbun"
+:  SET &REG_TRANSPORT# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,TRANSPORT#)
+:  REGISTER_OUTPUTFILE "&REG_TRANSPORT#","N"
+:ENDIF
+:IF &UTILITY# = "ucybdbrt"
+:  REGISTER_OUTPUTFILE "&XMLFILE#", "N"
+:  REGISTER_OUTPUTFILE "&OUTFILE#", "N"
+:ENDIF
+:IF &UTILITY# = "ucybdbrr"
+:  REGISTER_OUTPUTFILE "&OUTFILE#", "N"
+:ENDIF
+:IF &UTILITY# = "ucybdbchg"
+:  SET &REG_TRANSPORT# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,T_TRANSPORT#)
+:  REGISTER_OUTPUTFILE "&REG_TRANSPORT#","N"
+:ENDIF
+
+:IF STR_UC(&KEEP_UTILITY_LOGS#) = "N"
+   echo Purging &LOGFILE#
+:  IF &$PLATFORM# = "WINDOWS"
+    DEL /F "&LOGFILE#"
+:  ELSE
+    rm -f &LOGFILE#
+:  ENDIF
+:ELSE
+:  REGISTER_OUTPUTFILE "&LOGFILE#","N"
+:ENDIF
+
+
+:REGISTER_OUTPUTFILE "&TRCFILE#","N"
+
+&RETURN_CODE#]]></process>
+      </row>
+   </scripts>
+</jobi>

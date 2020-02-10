@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>WSPIEGEL</archive_key2>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>976</ert>
+         <platform>SQL</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.BBS.WSPIEGEL_KONFVERDST1</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>WSPIEGEL -&gt; KONFIGURATION IMPORT VERDST1</description>
+         <versioning_id>1202967350</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[SELECT DISTINCT
+ 'IMPORTVERDST1' AS "HINWEIS"
+,SUBSTR(TO_CHAR(BUCH_PER),1,4) AS BUCH_PER
+  FROM TBBBUCH_VERD_ST1
+ ORDER BY BUCH_PER
+;]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:RSET &APPL# = "WSPIEGEL"
+:INC JOBI.SQL_BBS_PARAM]]></pre_process>
+      </row>
+      <row>
+         <post_process>:INC JOBI.BBS.WSPIEGEL_REP2VARA "WACKELDACKEL" = "IMPORTVERDST1"</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>SQL</platform>
+         <agent>HG.SQLORA</agent>
+         <login>LOGIN.SQL.BBSBAT</login>
+         <optional_reports>PLOG</optional_reports>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <T>MSSQL</T>
+         <database_name>[autofill...]</database_name>
+         <server_name>[autofill...]</server_name>
+         <sql_column_seperator>;</sql_column_seperator>
+         <sql_captions>1</sql_captions>
+         <sql_show_null>1</sql_show_null>
+         <sql_max_rows>0</sql_max_rows>
+         <sql_max_characters>80</sql_max_characters>
+         <data_source></data_source>
+         <A></A>
+         <sql_subst_character></sql_subst_character>
+         <sql_remove_crlf>1</sql_remove_crlf>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

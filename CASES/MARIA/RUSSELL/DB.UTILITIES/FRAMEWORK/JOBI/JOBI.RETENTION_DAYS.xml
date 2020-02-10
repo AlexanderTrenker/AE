@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.RETENTION_DAYS</name>
+         <type>JOBI</type>
+         <versioning_id>1625189067</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Retention Days Modification
+:IF GET_PUBLISHED_VALUE(&$RESTART_RUNID#,RETENTION_DAYS#) <> ""
+:  SET &@RET_DAYS# = GET_PUBLISHED_VALUE(&$RESTART_RUNID#,RETENTION_DAYS#)
+:  SET &@RET_DAYS# = RESOLVE_VAR(&@RET_DAYS#)
+:  IF ISNUMERIC(&@RET_DAYS#) = "Y"
+:    SET &@RET_DATE# = ADD_DAYS(&$PHYS_DATE_YYYYMMDD#,&@RET_DAYS#)
+:    PUT VARA.REGISTERED_OUTPUTFILES,"&$AGENT#,&$LOGIN#,&uc_register_ofile",&uc_register_ofile,&$AGENT#,&$LOGIN#,&@RET_DATE#,&$RESTART_RUNID#
+:    PUT VARA.REGISTERED_OUTPUTFILES.AGENTS,"&$AGENT#,&$LOGIN#",&$AGENT#,&$LOGIN#
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

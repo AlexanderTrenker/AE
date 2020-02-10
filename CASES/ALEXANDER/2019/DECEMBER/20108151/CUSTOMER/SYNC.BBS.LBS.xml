@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sync>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <archive_key2>LBS</archive_key2>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>SYNC.BBS.LBS</name>
+         <type>SYNC</type>
+         <description>Sicherstellen das nur eine LBS Verarbeitung aktiv ist</description>
+         <versioning_id>799725927</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Wert (wenn keine LBS-JPs laufen) = 1 (die maximale Anzahl der aktiven Jobpläne).
+Wird unbedingt benötig bei Start von einzelnen JPs per BSL.]]></Docu>
+      </row>
+   </documentation>
+   <state_definitions>
+      <row>
+         <state>LBS_START_MOEGLICH</state>
+         <description>Noch weitere LBS Starts zulaessig.</description>
+      </row>
+      <row>
+         <state>MAX_LBS_AKTIV</state>
+         <description>Maximale Anzahl aktiver LBS Jobs ist aktiviert.</description>
+      </row>
+   </state_definitions>
+   <action_definitions>
+      <row>
+         <action>LBS_STARTEN</action>
+         <line_number>1</line_number>
+         <check_operator>&gt; </check_operator>
+         <set_operator>- </set_operator>
+         <check_status>LBS_START_MOEGLICH</check_status>
+         <set_status>LBS_START_MOEGLICH</set_status>
+         <check_value>1</check_value>
+         <set_value>1</set_value>
+      </row>
+      <row>
+         <action>LBS_STARTEN</action>
+         <line_number>2</line_number>
+         <check_operator>= </check_operator>
+         <set_operator>= </set_operator>
+         <check_status>LBS_START_MOEGLICH</check_status>
+         <set_status>MAX_LBS_AKTIV</set_status>
+         <check_value>1</check_value>
+      </row>
+      <row>
+         <action>LBS_STOPPEN</action>
+         <line_number>3</line_number>
+         <check_operator>= </check_operator>
+         <set_operator>= </set_operator>
+         <check_status>MAX_LBS_AKTIV</check_status>
+         <set_status>LBS_START_MOEGLICH</set_status>
+         <set_value>1</set_value>
+      </row>
+      <row>
+         <action>LBS_STOPPEN</action>
+         <line_number>4</line_number>
+         <check_operator>&gt; </check_operator>
+         <set_operator>+ </set_operator>
+         <check_status>LBS_START_MOEGLICH</check_status>
+         <set_status>LBS_START_MOEGLICH</set_status>
+         <set_value>1</set_value>
+      </row>
+   </action_definitions>
+   <sync_states>
+      <row>
+         <status>LBS_START_MOEGLICH</status>
+         <value>1</value>
+      </row>
+   </sync_states>
+</sync>

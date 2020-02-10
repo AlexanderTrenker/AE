@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dash>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>DASH.POSTMAN</name>
+         <type>DASH</type>
+         <versioning_id>-1581701279</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <DASH>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8ZGFzaGJvYXJkIGNvbHM9IjMiIHJvd3M9IjIiIHN0YXRpYz0iZmFsc2UiPgogICAgPHdpZGdldHM+CiAgICAgICAgPGVudHJ5PgogICAgICAgICAgICA8d2lkZ2V0IGlkPSJhbmFseXRpY3MuY2hhcnQudmFyYSI+ck8wQUJYUURvWHNOQ2lBZ0luUnBkR3hsSWlBNklDSWlMQTBLSUNBaVpHVnpZM0pwY0hScGIyNGlJRG9nSWlJc0RRb2dJQ0p0YjJSbGJDSWdPaUI3RFFvZ0lDQWdJblpoY21FaUlEb2dJaUlzRFFvZ0lDQWdJbTExYkhScFgzTmxjbWxsY3lJZ09pQjBjblZsTEEwS0lDQWdJQ0p6YVc1bmJHVmZjMlZ5YVdWelgyMTFiSFJwWDNKdmR5SWdPaUIwY25WbExBMEtJQ0FnSUNKdFlYQndhVzVuWDJOdmJtWnBaM1Z5WVhScGIyNGlJRG9nZXcwS0lDQWdJQ0FnSW1sa1pXNTBhV1pwWlhJaUlEb2dJaUlzRFFvZ0lDQWdJQ0FpWlcxd2RIa2lJRG9nZEhKMVpTd05DaUFnSUNBZ0lDSjJZV3gxWlUxaGNIQnBibWR6SWlBNklGc2dYUTBLSUNBZ0lIMHNEUW9nSUNBZ0luTm9iM2RmYkdWblpXNWtJaUE2SUdaaGJITmxMQTBLSUNBZ0lDSnNaV2RsYm1SZmNHOXphWFJwYjI0aUlEb2dJbEpKUjBoVUlpd05DaUFnSUNBaVkyRndkR2x2YmlJZ09pQWlJaXdOQ2lBZ0lDQWljM1ZpWDJOaGNIUnBiMjRpSURvZ0lpSXNEUW9nSUNBZ0luTm9iM2RmZG1Gc2RXVnpJaUE2SUhSeWRXVXNEUW9nSUNBZ0luTm9iM2RmY0dWeVkyVnVkR0ZuWlY5MllXeDFaWE1pSURvZ2RISjFaU3dOQ2lBZ0lDQWljMmh2ZDE5d1pYSmpaVzUwWVdkbFgzUnZiMngwYVhCZmRtRnNkV1Z6SWlBNklHWmhiSE5sTEEwS0lDQWdJQ0oyWVd4MVpWOW1iM0p0WVhRaUlEb2dJazVQVGtVaUxBMEtJQ0FnSUNKeVpXeGxkbUZ1ZEY5a1pXTnBiV0ZzY3lJZ09pQXlMQTBLSUNBZ0lDSjBhRzkxYzJGdVpITmZjMlZ3WVhKaGRHOXlJaUE2SUNJc0lpd05DaUFnSUNBaVpHVmphVzFoYkY5elpYQmhjbUYwYjNJaUlEb2dJaTRpTEEwS0lDQWdJQ0p1ZFcxaVpYSmZjMk5oYkdsdVp5SWdPaUJtWVd4elpTd05DaUFnSUNBaWJuVnRZbVZ5WDNCeVpXWnBlQ0lnT2lBaUlpd05DaUFnSUNBaWJuVnRZbVZ5WDNOMVptWnBlQ0lnT2lBaUlpd05DaUFnSUNBaWRHbHRaVjlwYm5CMWRGOTFibWwwSWlBNklDSlRSVU5QVGtSVElpd05DaUFnSUNBaWRtRnlZVjltYVd4MFpYSmZZMjl1Wm1sbmRYSmhkR2x2YmlJZ09pQjdEUW9nSUNBZ0lDQWlabWxzZEdWeVgyVnVZV0pzWldRaUlEb2dabUZzYzJVc0RRb2dJQ0FnSUNBaVptbHNkR1Z5WDNSNWNHVWlJRG9nSWtWUlZVRk1VeUlzRFFvZ0lDQWdJQ0FpWm1sc2RHVnlYMk52YkhWdGJpSWdPaUF3TEEwS0lDQWdJQ0FnSW1acGJIUmxjbDkwWlhoMElpQTZJQ0lpRFFvZ0lDQWdmU3dOQ2lBZ0lDQWlZMmhoY25SZmRIbHdaU0lnT2lBaVEwOU1WVTFPSWcwS0lDQjlEUXA5PC93aWRnZXQ+CiAgICAgICAgICAgIDxnZW9tZXRyeSBoZWlnaHQ9IjEiIHdpZHRoPSIxIiB4PSIwIiB5PSIwIi8+CiAgICAgICAgPC9lbnRyeT4KICAgIDwvd2lkZ2V0cz4KICAgIDxjb25maWd1cmF0aW9ucy8+CjwvZGFzaGJvYXJkPgo=</DASH>
+      </row>
+   </documentation>
+   <object_authorizations>
+      <row>
+         <auth_object_id>1002078</auth_object_id>
+         <bitcode>11</bitcode>
+         <line_number>1</line_number>
+      </row>
+   </object_authorizations>
+</dash>

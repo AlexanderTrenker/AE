@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>BBS</archive_key1>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.BBS.AKTIVWERTE_NB43P173</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>12 CTV Ausloeser bearbeiten queuen</description>
+         <versioning_id>-2099398053</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu>für CR31194 Teile kommentiert und nach gelungenen Lauf Kommentar wieder entfernt</Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &RUN_CTV# = "J"
+:IF &RUN_BEARBEITER_CTV# = "J"
+:  SET &RUN_OBJECT#    = "JOBS.BBS.AKTIVWERTE_NB43P173"
+:  PSET &BRIEF#           = "A"
+:  PSET &PROGRAMMTYPAUSL# = "173"
+:  PSET &VTRFILESTR#      = "einz_grp_direkt"
+:  PSET &CNT#             = "1"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &BRIEF#           = "B"
+:  PSET &PROGRAMMTYPAUSL# = "174"
+:  PSET &VTRFILESTR#      = "einz_grp_rueck"
+:  PSET &CNT#             = "2"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &BRIEF#           = "C"
+:  PSET &PROGRAMMTYPAUSL# = "175"
+:  PSET &VTRFILESTR#      = "koll_grp_direkt"
+:  PSET &CNT#             = "3"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &BRIEF#           = "D"
+:  PSET &PROGRAMMTYPAUSL# = "176"
+:  PSET &VTRFILESTR#      = "koll_grp_rueck"
+:  PSET &CNT#             = "4"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &BRIEF#           = "E"
+:  PSET &PROGRAMMTYPAUSL# = "177"
+:  PSET &VTRFILESTR#      = "koll_grp"
+:  PSET &CNT#             = "5"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &BRIEF#           = "F"
+:  PSET &PROGRAMMTYPAUSL# = "178"
+:  PSET &VTRFILESTR#      = "koll_FO_grp"
+:  PSET &CNT#             = "6"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &BRIEF#           = "G"
+:  PSET &PROGRAMMTYPAUSL# = "179"
+:  PSET &VTRFILESTR#      = "koll_FO_grp"
+:  PSET &CNT#             = "7"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:  PSET &BRIEF#           = "H"
+:  PSET &PROGRAMMTYPAUSL# = "180"
+:  PSET &VTRFILESTR#      = "einz_FO_grp"
+:  PSET &CNT#             = "8"
+:  INC JOBI.RUN_OBJECT_MANDANTEN_PASS_VALUES
+:ENDIF
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>
