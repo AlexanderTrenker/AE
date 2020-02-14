@@ -22,13 +22,16 @@
    </user_group_attributes>
    <members>
       <row>
+         <USERNAME>SNEHA/ENTERPRISE</USERNAME>
+      </row>
+      <row>
          <USERNAME>JERK/JERK</USERNAME>
       </row>
    </members>
    <authorizations>
       <row>
          <auth_group>1</auth_group>
-         <bitcode>225</bitcode>
+         <bitcode>1</bitcode>
          <filter_object_type>*</filter_object_type>
          <filter_object_name>*</filter_object_name>
          <filter_agent_name1>*</filter_agent_name1>
@@ -54,6 +57,19 @@
       </row>
       <row>
          <auth_group>1</auth_group>
+         <bitcode>5</bitcode>
+         <filter_object_type>JOBI</filter_object_type>
+         <filter_object_name>*</filter_object_name>
+         <filter_agent_name1>*</filter_agent_name1>
+         <filter_agent_name2>*</filter_agent_name2>
+         <filter_user_id1>*</filter_user_id1>
+         <filter_user_id2>*</filter_user_id2>
+         <filter_file_names1>*</filter_file_names1>
+         <filter_file_names2>*</filter_file_names2>
+         <line_number>3</line_number>
+      </row>
+      <row>
+         <auth_group>1</auth_group>
          <bitcode>4</bitcode>
          <filter_object_type>JOBP</filter_object_type>
          <filter_object_name>JOBP.SCHDOPEN.WORKFLOW.SP</filter_object_name>
@@ -63,7 +79,7 @@
          <filter_user_id2>*</filter_user_id2>
          <filter_file_names1>*</filter_file_names1>
          <filter_file_names2>*</filter_file_names2>
-         <line_number>3</line_number>
+         <line_number>4</line_number>
       </row>
    </authorizations>
 </usrg>

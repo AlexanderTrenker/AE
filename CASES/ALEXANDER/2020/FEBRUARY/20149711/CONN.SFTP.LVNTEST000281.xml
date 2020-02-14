@@ -77,6 +77,11 @@
       </row>
       <row>
          <type>4</type>
+         <name>useFtpProxy</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>4</type>
          <name>userId</name>
          <value>root</value>
       </row>
