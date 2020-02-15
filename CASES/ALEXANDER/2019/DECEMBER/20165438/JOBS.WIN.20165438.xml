@@ -11,21 +11,22 @@
          <auto_deactivation>A</auto_deactivation>
          <child_flags>00000000000000000000000000000000</child_flags>
          <ert>1</ert>
+         <ert_trend>2</ert_trend>
          <platform>WINDOWS</platform>
-         <last_runtimes>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <last_runtimes>AQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
          <max_parallel_action>1</max_parallel_action>
          <mrt_time>000000</mrt_time>
-         <name>JOBS.WIN.20165438.ERROR</name>
+         <name>JOBS.WIN.20165438</name>
          <type>JOBS</type>
          <inherit_output_filter>N</inherit_output_filter>
          <queue>CLIENT_QUEUE</queue>
-         <versioning_id>-309322096</versioning_id>
+         <versioning_id>-121112566</versioning_id>
       </row>
    </general_attributes>
    <scripts>
       <row>
          <process><![CDATA[! insert these lines in your script to determine if an error occurred
-dur
+dir
 @set retcode=%errorlevel%
 @if NOT %ERRORLEVEL% == 0 goto :retcode
 ]]></process>

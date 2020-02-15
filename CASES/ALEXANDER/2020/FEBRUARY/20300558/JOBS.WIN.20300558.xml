@@ -15,20 +15,27 @@
          <last_runtimes>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
          <max_parallel_action>1</max_parallel_action>
          <mrt_time>000000</mrt_time>
-         <name>JOBS.WIN.20165438.ERROR</name>
+         <name>JOBS.WIN.20300558</name>
          <type>JOBS</type>
          <inherit_output_filter>N</inherit_output_filter>
          <queue>CLIENT_QUEUE</queue>
-         <versioning_id>-309322096</versioning_id>
+         <versioning_id>1429221166</versioning_id>
       </row>
    </general_attributes>
    <scripts>
       <row>
          <process><![CDATA[! insert these lines in your script to determine if an error occurred
-dur
-@set retcode=%errorlevel%
-@if NOT %ERRORLEVEL% == 0 goto :retcode
+ipconfig /all
+! @set retcode=%errorlevel%
+! @if NOT %ERRORLEVEL% == 0 goto :retcode
 ]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:BEGINREAD "GUI Version Number Maintenance PROMPT INPUT"
+:READ &UPDATE_TYPE#,"'INQUIRE','INSERT','DELETE'",'Select Update type',,M
+:READ &VER_NO#,"15",'Enter GUI Version number (15 Chars)',,M
+:READ &USER_ID#,"08",'Enter the GUI user ID (8 chars)',,
+:ENDREAD]]></pre_process>
       </row>
    </scripts>
    <job_attributes>

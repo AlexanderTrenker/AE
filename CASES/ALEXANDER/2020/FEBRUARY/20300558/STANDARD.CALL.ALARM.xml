@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<call>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>12</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt>120</mrt>
+         <mrt_method>257</mrt_method>
+         <mrt_time>000000</mrt_time>
+         <name>STANDARD.CALL.ALARM</name>
+         <type>CALL</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>1</sub_type>
+         <versioning_id>1362364001</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!:INCL STANDARD.CALL.ALARM.SCRIPT
+!:ON_ERROR RESUME
+
+! two different newlines: one for UC4, one for Automation Point
+:set &nl# = UC_CRLF
+:set &tl# = "\n"
+! Get Operator
+:set &userid# = SYS_USER_NAME
+:set &dep# = SYS_USER_DEP
+:ADD_ATT OPERATOR, '&userid#/&dep#'
+:P userid=&userid#
+! Get Error
+:read &UC_CAUSE_NAME,,
+:read &UC_CAUSE_NR,,
+:read &UC_CAUSE_STATE,,
+:read &UC_CAUSE_RETCODE,,
+
+:SET &UC_CAUSE_RETCODE = STR_LTRIM("&UC_CAUSE_RETCODE")
+!
+:INC PXPC.RESTART_INSTRUCTIONS
+!
+
+!
+:SET &ARCHIVE1# = GET_STATISTIC_DETAIL(&UC_CAUSE_NR, ARCHIVE_KEY_1,&UC_CAUSE_NAME)
+:PRINT "ARCHIVE1=&ARCHIVE1#"
+
+:SET &ARCHIVE2# = GET_STATISTIC_DETAIL(&UC_CAUSE_NR, ARCHIVE_KEY_2,&UC_CAUSE_NAME)
+:PRINT "ARCHIVE2=&ARCHIVE2#"
+!
+:SET &RUNNR# = SYS_ACT_ME_NR()
+!!! exclusions !!!
+:SET &EXCLUDE# = "N"
+!
+! exclude delay cancellations
+! object must have been cancelled and end in the word .DELAY
+:IF &UC_CAUSE_STATE = '1850'
+:  SET &EXCLUDE# = STR_MATCH("&UC_CAUSE_NAME", "*.DELAY")
+:ENDIF
+!
+:IF &EXCLUDE# = "Y"
+:  STOP MSG, 51, "That type of cancellation is not reported - no ticket generated."
+!
+:ELSE
+!
+! Get Parentage & other details
+:  set &parentname# = SYS_ACT_PARENT_NAME('ACT')
+:  set &parentnr#   = SYS_ACT_PARENT_NR('ACT')
+:  set &parenttyp#  = SYS_ACT_PARENT_TYP('ACT')
+:  set &system#     = GET_UC_SYSTEM_NAME
+:  set &client#     = SYS_ACT_CLIENT
+:  set &statustext# = get_msg_txt(&UC_CAUSE_STATE,'')
+:  p &statustext#
+! :  if &UC_CAUSE_STATE = '0000'
+! :    set &statustext# = ' '
+! :  endif
+!
+! Re/format
+!    ensure everything is an integer, or format() might fail
+
+! UC_CAUSE_* variables seem to always be integers, and converting them results in "0" ???
+!   isnumeric(&UC_CAUSE_RETCODE) returns N!
+!   so format(&UC_CAUSE_RETCODE) should fail!
+!   ...but it doesn't
+:  set &UC_CAUSE_RETCODE = format(&UC_CAUSE_RETCODE)
+:  set &UC_CAUSE_NR      = format(&UC_CAUSE_NR)
+!
+:  if 'N' = isnumeric(&client#)
+:    set &client#      =   cint(&client#)
+:    set &client#      = format(&client#)
+:  endif
+!
+:  if 'N' = isnumeric(&parentnr#)
+:    set &parentnr#      =   cint(&parentnr#)
+:    set &parentnr#      = format(&parentnr#)
+:  endif
+!
+!SET 1st parent number to be used later to skip sending TRAPS if needed.
+: SET &PARENTFAIL# = &parentnr#
+: SET &PARENTFAIL# = FORMAT(&PARENTFAIL#)
+!
+!! Grab the job report if the failing object was a job
+!:SET &OBJECT_TYPE# = GET_OBJECT_TYPE("&UC_CAUSE_NAME")
+!:IF &OBJECT_TYPE# = "JOBS"
+!:  PRINT "&nl#&nl#"
+!:  SET &HND# = PREP_PROCESS_REPORT( , &UC_CAUSE_NR, "REP", , , )
+!:  PROCESS &HND#
+!:    SET &RET# = GET_PROCESS_LINE(&HND#)
+!:    PRINT &RET#
+!:  ENDPROCESS
+!:  PRINT "&nl#&nl#"
+!:ENDIF
+!
+! Assign blame
+! Sensible defaults
+:  SET           &CFGITM# = "STOL-UC4-PROD"
+:  SET           &WRKGRP# = "ACTPRODUCTIONSUPPORT"
+:  SET         &OPERATOR# = "PROD_SUPPORT"
+:  SET          &CULPRIT# = "UC4"
+:  SET               &TZ# = "TZ.CST"
+:  SET           &FOLDER# = "Corporate"
+:  SET      &INFO_READER# = "NO"
+:  SET &SUPPRESS_RUNTIME# = "NO"
+:  SET    &SUPPRESS_LATE# = "NO"
+!
+! ACTPRODUCTIONSUPPORT
+! SSFSS ? ACTFINANCIALSYSTEMSSUPPORT
+! SSRPT ? ACTBUSINESSINTELLIGENCEARCHITECTURE
+! SSAPD ? ACTFINANCECORPORATESYSTEMSSUPPORTAPPDEV
+! SSETL - ACTINFORMATIONTRANSFORMATION
+! WBHST - ACTWEBHOSTING
+!
+! Other defaults
+:  SET &IMPACT#   =  "Medium (Group / Unit affected)"
+!                  "High (Department affected)"
+:  SET &PRIORITY# =  "P8"
+!                  "P16"
+:  SET &CATEGORY# =  "Batch Abend"
+:  SET &DISRUPT#  =  "Intermittent Service Disruption"
+:  SET &CLASS#    =  "Restart/Rerun/Recycle"
+:  SET &SERVICE#  =  "Default 24 x 7 Service"
+!
+! Strip off various combinations of the first four
+! characters of our standardized job names
+:  SET &BIZID#   = STR_CUT(&UC_CAUSE_NAME,1,4)
+:  SET &ENVIRON# = STR_CUT(&UC_CAUSE_NAME,1,1)
+:  SET &SEGMENT# = STR_CUT(&UC_CAUSE_NAME,2,1)
+:  SET &HIGHLVL# = STR_CUT(&UC_CAUSE_NAME,3,2)
+!
+:  PRINT "env      = &ENVIRON#"
+:  PRINT "segment  = &SEGMENT#"
+:  PRINT "business = &HIGHLVL#"
+:  PRINT "biz ID   = &BIZID#"
+!
+:IF &BIZID# = 'P1ET'
+:  SET  &STATUS_TEXT# = GET_UC_OBJECT_STATUS( ,&UC_CAUSE_NR,"STATUS_TEXT")
+:  P STATUS_TEXT = &STATUS_TEXT#
+:  ELSE
+:  SET  &STATUS_TEXT# = ' '
+:  ENDIF
+! Unified Production Control settings
+:  IF &HIGHLVL#  = "PC"
+:    SET &BIZID# = "PXPC"
+:  ENDIF
+!
+! Standard settings
+:  IF &HIGHLVL#  = "STAN"
+:    SET &BIZID# = "STANDARD"
+:  ENDIF
+!
+! override the defaults if we can
+:  SET &CFG_VAR# = "&BIZID#.CFG.CALL.ERR"
+!:  IF GET_OBJECT_TYPE("&CFG_VAR#") <> 20223
+!:    PRINT "Found &CFG_VAR#, using its values."
+!:    SET &HANDLE# = PREP_PROCESS_VAR("&CFG_VAR#")
+!:    PROCESS &HANDLE#
+!:      SET &VARIABLE# = GET_PROCESS_LINE(&HANDLE#, 1)
+!:      SET &VALUE#    = GET_PROCESS_LINE(&HANDLE#, 2)
+!:      SET_SCRIPT_VAR &VARIABLE#=&VALUE#
+!:      PRINT "&VARIABLE# = &VALUE#"
+!:    ENDPROCESS
+!:    CLOSE_PROCESS &HANDLE#
+!:  ENDIF
+!
+:  set &CFGITM# = get_var(&CFG_VAR#,"CFGITM",1)
+:    set &TZ# = get_var(&CFG_VAR#,"tz",1)
+:      set &FOLDER# = get_var(&CFG_VAR#,"folder",1)
+:        set &WRKGRP# = get_var(&CFG_VAR#,"WRKGRP",1)
+! Hopefully the default Time Zone has just been overwritten, so let's get a date
+!    oh and also, we're doing SYS_DATE instead of SYS_DATE_PHYSICAL
+:  set &date# = SYS_DATE("MM/DD/YYYY",&TZ#)
+:  set &time# = SYS_TIME("HH:MM:SS",&TZ#)
+!
+! all parents
+!
+! detour - we have to start setting up the ticket description here, because it's length limited
+! Multiply-nested parent jobplans can easily break autoticketing
+:  SET &CALLDESCR# = "&nl#&nl#$$DESCRIPTION{&UC_CAUSE_NAME failed &STATUS_TEXT#, return code &UC_CAUSE_RETCODE&nl#&statustext# (&UC_CAUSE_STATE) in run# &UC_CAUSE_NR&nl#Archive1: &ARCHIVE1#&nl#&nl#time / date:  &time# &date#&nl#"
+:  SET &TKTDESCR1# =         "$$DESCRIPTION{&UC_CAUSE_NAME failed &STATUS_TEXT#, return code &UC_CAUSE_RETCODE\n&statustext# (&UC_CAUSE_STATE) in run# &UC_CAUSE_NR\nArchive1: &ARCHIVE1#\nArchive2: &ARCHIVE2#\n\ntime / date:  &time# &date#\n"
+:  set &DESCR_LEN# = str_length(&TKTDESCR1#)
+!
+! Extension for nested jobplans
+:  set &topname# = SYS_ACT_TOP_NAME()
+:  set &toprun#  = SYS_ACT_TOP_NR()
+:  set &toprun#  =   cint(&toprun#)
+:  if 'Y' = isnumeric(&toprun#)
+:    set &toprun#          = format(&toprun#)
+:  endif
+:  set &currun#  = &UC_CAUSE_NR
+!
+!:print "myname:        &UC_CAUSE_NAME"
+!:print "parent name:   &parentname#"
+:print "Top Name = &topname#"
+:print "Top RunID = &toprun#"
+!!!01/09/15 JLG - Addition to allow UC_CAUSE_NR = 0 (FAULT_START Impossible)to still
+!!!invoke STANDARD.CALL.ALARM
+:IF &currun# = "0"
+:      set &parentage# = "parent: &topname#, run# &toprun#"
+:      set &parenttkt# = "parent: &topname#, run# &toprun#"
+:ELSE
+!**************************************************
+:  set &parentage# = ""
+:  set &parenttkt# = ""
+:  set &parentcnt# = '0'
+!!!!!!This section added as the SYS_ACT_TOP_NAME() fails to get a value if the failing object!!!
+!!!!!!was restarted from a post-condition. Jesse!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+: if &toprun# = '0'
+!:   print "Current Parent run number value= &parentnr#"
+:     set &lookupnr# = GET_PARENT_NR(&parentnr#, PRC)
+:     set &lookupnr#  =   cint(&lookupnr#)
+:      if 'Y' = isnumeric(&lookupnr#)
+:       set &lookupnr#          = format(&lookupnr#)
+:      endif
+!:   print "Current lookupnr value= &lookupnr#"
+:          while &lookupnr# <> '0'
+:            set &srchabv# = GET_PARENT_NR(&lookupnr#, PRC)
+:            set &srchabv#  =   cint(&srchabv#)
+:             if 'Y' = isnumeric(&srchabv#)
+:               set &srchabv#          = format(&srchabv#)
+:             endif
+!:   print "Current srchabv value= &srchabv#"
+:             if &srchabv# = '0'
+:               set &parentnr# = &lookupnr#
+:               set &lookupnr# = '0'
+:            else
+:               set &lookupnr# = &srchabv#
+:             endif
+:          endwhile
+:     set &toprun# = &parentnr#
+:     set &toprun#  =   cint(&toprun#)
+:      if 'Y' = isnumeric(&toprun#)
+:       set &toprun#          = format(&toprun#)
+:      endif
+: endif
+:print "2nd print is Top RunID = &toprun#"
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!   build the list -- grandparent and above
+!:print "checking whether current run &currun# is top run &toprun#"
+:  while &currun# <> &toprun#
+!:  print "current run &currun# is not top run &toprun#"
+:    set &curnam# = GET_PARENT_NAME(&currun#, PRC)
+:    set &currun# = GET_PARENT_NR(&currun#, PRC)
+:    if 'Y' = isnumeric(&currun#)
+:      set &currun#          = format(&currun#)
+:    endif
+:    set &parentcnt# = add(&parentcnt#, 1)
+:    if 'Y' = isnumeric(&parentcnt#)
+:      set &parentcnt#          = format(&parentcnt#)
+:    endif
+:    if &parentcnt# = 1
+:      set &parentage# = "parent: &curnam#, run# &currun#"
+:      set &parenttkt# = "parent: &curnam#, run# &currun#"
+:    else
+:      set &parentage#     = "&parentage#&nl#parent &parentcnt#: &curnam#, run# &currun#"
+:      set &parenttkt_tmp# = "&parenttkt#&tl#parent &parentcnt#: &curnam#, run# &currun#"
+!
+!      calculate lengths - SEND_SNMP_TRAP is limited to 256 characters per string parameter
+!        (exceeding the limit breaks auto-ticketing!)
+:      set &next_len# = str_length(&parenttkt_tmp#)
+:      set &len_sum# = add(&DESCR_LEN#, &next_len#)
+:      print "DESCR length: &DESCR_LEN#   next length: &next_len#   sum: &len_sum#"
+!:      print "next chunk: &parenttkt_tmp#"
+!        [using < 255 because two characters get added in somewhere]
+:      if &len_sum# < "255"
+:        set &parenttkt# = &parenttkt_tmp#
+:      endif
+:    endif
+!:  print "next up: &curnam#, run# &currun#"
+:  endwhile
+:ENDIF
+!
+! Set the Archive Keys for easy viewing
+:  PUT_ATT ARCHIVE_KEY1 = "&UC_CAUSE_NAME / &parentname#"
+:  PUT_ATT ARCHIVE_KEY2 = "&BIZID#"
+:  PUT_ATT INT_ACCOUNT  = "&UC_CAUSE_NR"
+!
+! Print it in the CallOperator - concise version
+:  PUT_ATT CALL_TEXT = "Automic job error in &UC_CAUSE_NAME: &statustext# (&UC_CAUSE_STATE)&nl#"
+:  PUT_ATT_APPEND CALL_TEXT = "run# &UC_CAUSE_NR had return code &UC_CAUSE_RETCODE @ &time# on &date#&nl#"
+:  PUT_ATT_APPEND CALL_TEXT = "&parentage#&nl#"
+!
+! Duplicate ticket suppression
+:  include STANDARD.CALL.ALARM.RESTART_CHECK
+!
+:  SET &INFO_READER# = STR_UC(&INFO_READER#)
+:  IF &INFO_READER# = "Y" OR "YES" OR "TRUE" OR "ON"
+:    INCLUDE STANDARD.CALL.ALARM.INFO_READER, NOFOUND=IGNORE, EXT_REPORT=OFF
+:  ENDIF
+!
+! setup for the trap
+! HPServiceDesk ticket gets Steve's \n alternative, because real newlines break Automation Point
+! UC4 CALL.OPER report gets real newlines
+:  SET  &TKTSUMMARY# = "$$SUMMARY{Automic job error in &UC_CAUSE_NAME: &statustext# (&UC_CAUSE_STATE)}"
+!       &TKTDESCR1# was set previously
+:  SET  &TKTDESCR2# = "&parenttkt#}"
+!
+! report simulation of the ticket description
+!: SET &CALLDESCR# = "&nl#&nl#$$DESCRIPTION{&UC_CAUSE_NAME failed with return code &UC_CAUSE_RETCODE&nl#&nl#UC4 reported &statustext# (&UC_CAUSE_STATE) in run# &UC_CAUSE_NR&nl#&nl#time / date:   &time# &date#&nl#parent: &parentname#, run# &parentnr#}&nl#"
+!:  SET &CALLDESCR#    = "&nl#&nl#$$DESCRIPTION{&UC_CAUSE_NAME failed, return code &UC_CAUSE_RETCODE&nl#&statustext# (&UC_CAUSE_STATE) in run# &UC_CAUSE_NR&nl#&nl#time / date:  &time# &date#&nl#parent: &parentname#, run# &parentnr#}&nl#"
+!
+:  SET  &TKTWRKCI#   = "$$TOWORKGROUP{&WRKGRP#} $$CONFIGURATIONITEM{&CFGITM#}"
+!update hptks
+!:  SET  &TKTOPTS#    = "$$JOBNAME{&UC_CAUSE_NAME} $$JOBSTEP{&UC_CAUSE_NR} $$PROGNAME{&parentname#} $$ABENDCODE{&UC_CAUSE_RETCODE}"
+:  SET  &TKTOPTS#    = "$$JOBNAME{&UC_CAUSE_NAME} $$JOBSTEP{&toprun#} $$PROGNAME{&topname#} $$ABENDCODE{&UC_CAUSE_RETCODE}"
+! debugging length issues; trap can't handle everything
+!:  SET  &TKTOPT2#     = "$$IMPACT{&IMPACT#} $$PRIORITY{&PRIORITY#} $$CATEGORY{&CATEGORY#} $$DISRUPTTYPE{&DISRUPT#} $$CLASSIFICATION{&CLASS#} $$FOLDER{&FOLDER#}"
+:  SET  &TKTOPT2#      = "$$IMPACT{&IMPACT#} $$PRIORITY{&PRIORITY#} $$CATEGORY{&CATEGORY#} $$DISRUPTTYPE{&DISRUPT#} $$CLASSIFICATION{&CLASS#} $$FOLDER{&FOLDER#}"
+:  SET  &TKTOPT2_BI#   = "$$IMPACT{&IMPACT#} $$PRIORITY{&PRIORITY#} $$CATEGORY{&CATEGORY#} $$FOLDER{&FOLDER#}"
+!
+! Print it in the CallOperator report
+:  PRINT "&TKTSUMMARY#"
+:  PRINT "&CALLDESCR#"
+:  print "&parentage#"
+:  PRINT "&TKTWRKCI#"
+:  PRINT "&TKTOPTS#"
+:  PRINT "&TKTOPT2#"
+!
+!:  PRINT "-----------------------------------------------------------------"
+!:  PRINT "debug for 'maximum length exceeded'"
+!:  PRINT "&TKTSUMMARY#"
+!:  PRINT "&TKTDESCR1#"
+!:  PRINT "&TKTDESCR2#"
+!:  PRINT "&TKTOPTS#"
+!:  PRINT "&TKTWRKCI#"
+!:  PRINT "&TKTOPT2#"
+!:  PRINT "&TKTOPT2_BI#"
+!:  PRINT "-----------------------------------------------------------------"
+!
+!IF Parent was Manually cancelled, skip TRAP.
+:SET &STATUS# = GET_UC_OBJECT_STATUS( ,&PARENTFAIL#,"STATUS")
+:PRINT "STATUS of Parent = &STATUS#"
+!
+!:SET &TYPE# = GET_PARENT_TYPE(&UC_CAUSE_NR, ACT)
+:SET &TYPE# = GET_PARENT_TYPE(&PARENTFAIL#, PRC)
+:PRINT "The type of the superordinate task is: &TYPE#"
+! IF Status of parent is Manually cancelled "1850" or "1851"
+:IF &STATUS# <> '1850' OR '1851'
+!
+! behavioral differences between PROD and DEV, restarted or not
+:  IF &client# = "199"
+!
+:    IF &restarted# <> "Y"
+!
+:      IF &bizid# = "P5BI"
+!      troubleshooting BI trap failures
+!:        SEND_SNMP_TRAP 50000,"&TKTSUMMARY#","&TKTDESCR1#&TKTDESCR2#","&TKTOPTS#","&TKTWRKCI#","&TKTOPT2_BI#"
+:PSET &RUN# = &UC_CAUSE_NR
+:PSET &SUMMARY# = "&TKTSUMMARY#"
+:PSET &DESC# = "&TKTDESCR1#&TKTDESCR2#"
+:PSET &OPT# = "&TKTOPTS#"
+:PSET &CI# = "&TKTWRKCI#"
+:PSET &OPT2# = "&TKTOPT2_BI#"
+!
+: SET &ACCT# = ACTIVATE_UC_OBJECT(PXPC.GENERATE.TICKET,WAIT,,,,PASS_VALUES)
+!ECHO &ALL# >> \\msp0wautt003.cead.prd\Applications\REXX\TEST_ALARM.TXT
+:      ELSE
+!:        SEND_SNMP_TRAP 50000,"&TKTSUMMARY#","&TKTDESCR1#&TKTDESCR2#","&TKTOPTS#","&TKTWRKCI#","&TKTOPT2#"
+!:PSET &ALL# = "&TKTSUMMARY#","&TKTDESCR1#&TKTDESCR2#","&TKTOPTS#","&TKTWRKCI#","&TKTOPT2#"
+:PSET &RUN# = &UC_CAUSE_NR
+:PSET &SUMMARY# = "&TKTSUMMARY#"
+:PSET &DESC# = "&TKTDESCR1#&TKTDESCR2#"
+:PSET &OPT# = "&TKTOPTS#"
+:PSET &CI# = "&TKTWRKCI#"
+:PSET &OPT2# = "&TKTOPT2#"
+: SET &ACCT# = ACTIVATE_UC_OBJECT(PXPC.GENERATE.TICKET,WAIT,,,,PASS_VALUES)
+!ECHO &ALL# >> \\msp0wautt003.cead.prd\Applications\REXX\TEST_ALARM.TXT
+:      ENDIF
+:    ENDIF
+
+
+:  ELSE
+:    PRINT "We'd be sending an SNMP trap now if this were production..."
+:  ENDIF
+
+: ELSE
+!  After any manual cancel, check if Activator is a USER or C_Period, if so send trap, else skip trap and disable alarm.
+:   IF &TYPE# <> "JOBP" OR "JSCH"
+!:   IF &TYPE# = "USER" OR "C_PERIOD" OR "SCRI" OR "!EVNT" OR "EVNT"
+:       IF &client# = "1"
+:          IF &restarted# <> "Y"
+:             IF &bizid# = "P5BI"
+!           troubleshooting BI trap failures
+!:            SEND_SNMP_TRAP 50000,"&TKTSUMMARY#","&TKTDESCR1#&TKTDESCR2#","&TKTOPTS#","&TKTWRKCI#","&TKTOPT2_BI#"
+!: PSET &ALL# = "&TKTSUMMARY#","&TKTDESCR1#&TKTDESCR2#","&TKTOPTS#","&TKTWRKCI#","&TKTOPT2_BI#"
+:PSET &RUN# = &UC_CAUSE_NR
+:PSET &SUMMARY# = "&TKTSUMMARY#"
+:PSET &DESC# = "&TKTDESCR1#&TKTDESCR2#"
+:PSET &OPT# = "&TKTOPTS#"
+:PSET &CI# = "&TKTWRKCI#"
+:PSET &OPT2# = "&TKTOPT2_BI#"
+:  SET &ACCT# = ACTIVATE_UC_OBJECT(PXPC.GENERATE.TICKET,WAIT,,,,PASS_VALUES)
+!ECHO &ALL# >> \\msp0wautt003.cead.prd\Applications\REXX\TEST_ALARM.TXT
+:           ELSE
+!:            SEND_SNMP_TRAP 50000,"&TKTSUMMARY#","&TKTDESCR1#&TKTDESCR2#","&TKTOPTS#","&TKTWRKCI#","&TKTOPT2#"
+!: PSET &ALL# = "&TKTSUMMARY#","&TKTDESCR1#&TKTDESCR2#","&TKTOPTS#","&TKTWRKCI#","&TKTOPT2#"
+:PSET &RUN# = &UC_CAUSE_NR
+:PSET &SUMMARY# = "&TKTSUMMARY#"
+:PSET &DESC# = "&TKTDESCR1#&TKTDESCR2#"
+:PSET &OPT# = "&TKTOPTS#"
+:PSET &CI# = "&TKTWRKCI#"
+:PSET &OPT2# = "&TKTOPT2#"
+:  SET &ACCT# = ACTIVATE_UC_OBJECT(PXPC.GENERATE.TICKET,WAIT,,,,PASS_VALUES)
+!ECHO &ALL# >> \\msp0wautt003.cead.prd\Applications\REXX\TEST_ALARM.TXT
+:            ENDIF
+:          ENDIF
+:      ELSE
+:       PRINT "We'd be sending an SNMP trap now if this were production..."
+:     ENDIF
+:   ELSE
+:  PRINT "Parent was manually cancelled, no trap sent"
+:  ADD_COMMENT &RUNNR#, "Automated Alarm Cancel because of manual cancel."
+!  Remove all recipients and then Add UC4ADMIN/UC4ADMIN to recieve the alert.
+:  REMOVE_ATT RECIPIENT,"*"
+:  ADD_ATT RECIPIENT,"UC4ADMIN/UC4ADMIN"
+:   SET &MYNR# = SYS_ACT_ME_NR()
+:   SET &STATUS# = CANCEL_UC_OBJECT(&MYNR#)
+:  ENDIF
+:ENDIF
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+   <notification_attributes>
+      <row>
+         <priority>2</priority>
+      </row>
+   </notification_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</call>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PXPC.RESTART_INSTRUCTIONS</name>
+         <type>JOBI</type>
+         <description>Retrieves Restart_Instructions (if they exist) and prints to Comment of failing object</description>
+         <versioning_id>1548274269</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &OBJECT# = "&UC_CAUSE_NAME"
+:SET &FAILED_OBJECT# = "&UC_CAUSE_NR"
+!
+!
+:SET &XMLDOCU# = XML_OPEN(DOCU,"&OBJECT#","@Info")
+:IF &XMLDOCU# = ' '
+!:  SET &OUT# =SEND_MAIL("alan.jow@assurant.com;barb.hable@assurant.com;angel.vazquez@assurant.com",,"Info Tab Not Found","Info tab not found in object &OBJECT#")
+:P "JOB DOES NOT HAVE INFO TAB"
+:  else
+:SET &NR# = XML_GET_CHILD_COUNT(&XMLDOCU#)
+:SET &NR# = FORMAT(&NR#)
+:XML_CLOSE
+!:PRINT "Number of sub-elements of Content: &NR#"
+!
+:IF &NR# <> "0"
+:SET &XMLDOCU# = XML_OPEN(DOCU,"&OBJECT#","@Info")
+:SET &HND# = XML_GET_FIRST_CHILD(&XMLDOCU#)
+!
+:   WHILE &HND# <> ""
+:      SET &NAME# = XML_GET_NODE_NAME(&HND#)
+:      PRINT "element: &NAME#"
+:      SET &HND# = XML_GET_NEXTSIBLING(&HND#)
+:      IF &NAME# = "Restart_Instructions"
+:        PRINT "Restart_Instructions found"
+:        SET &FOUND# = "Y"
+:        ELSE
+:          PRINT "Restart_Instructions not found"
+:      ENDIF
+:   ENDWHILE
+:IF &FOUND# = "Y"
+:  SET &NODE# = XML_SELECT_NODE(&XMLDOCU#, "Restart_Instructions")
+:  SET &TEXT# = XML_GET_NODE_TEXT(&NODE#)
+:     SET &INSTR_LEN# = STR_LENGTH (&TEXT#)
+:     SET &INSTR_LEN# = FORMAT(&INSTR_LEN#)
+:       IF &INSTR_LEN# = '61'
+:  SET &CHECK# = STR_CUT(&TEXT#,48,13)
+:   P &check#
+:  IF &CHECK# = 'documentation'
+:  P Docu tab has the default instructions, not adding comments to object.
+:  ENDIF
+:ELSE
+!In AE v11, This script function can only process 1024 characters. Exceeding this limit has the effect that no return code (or txt) is supplied. A Char count of "0" will be provided
+:     SET &INSTR_LEN# = STR_LENGTH (&TEXT#)
+:     SET &INSTR_LEN# = FORMAT(&INSTR_LEN#)
+:       PRINT "Total Chars for Restart_Instructions=&INSTR_LEN#"
+:   IF &INSTR_LEN# > "1024"
+:      ADD_COMMENT &FAILED_OBJECT#, "Restart_Instructions are too large (1024+ chars), please see object's Documentation>Info>Restart_Instructions"
+:      ELSE
+:      IF &INSTR_LEN# = "0"
+!:        ADD_COMMENT &FAILED_OBJECT#, "Restart_Instructions do not exist, please see object's Documentation>Info>Restart_Instructions"
+: P "No Instructions to update."
+:    ELSE
+!Insert into Comment of run id xxxxxxx
+:      ADD_COMMENT &FAILED_OBJECT#, "&TEXT#"
+:   ENDIF
+:   ENDIF
+:   ENDIF
+:ENDIF
+:XML_CLOSE
+:ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>
