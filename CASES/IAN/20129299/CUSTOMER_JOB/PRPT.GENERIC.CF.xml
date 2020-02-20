@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.1</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PRPT.GENERIC.CF</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1660108617</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="572" icon="PRPT" id="PRPTS" left="279" top="4" width="634"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Check File"><properties><entry name="text">Check File</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>AGENT#</name>
+         <reference>VARA.SEC_SQLI.CF.AGENTS</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="1" enabled="1" fill="b" filter="0" focus="0" id="AGENTs.00" nl="1" quotes="" strict="1" text="Agent" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="SQLI_SEC">VARA.SEC_SQLI.CF.AGENTS</entry><entry name="text">Agent</entry><entry name="quotes"/><entry name="id">AGENTs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">1</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>10</line_number>
+         <name>CHECK_FOR_DDHHMM#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <value>0:00:00</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CHECK_FOR_DDHHMMs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="([0-9]|[0-9][0-9]):[0-5][0-9]:[0-5][0-9]" resetable="1" separator=";" showaspassword="0" text="Check for (days:hh:mi)" tooltip="" upper="0" required="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Check for (days:hh:mi)</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">CHECK_FOR_DDHHMMs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex">([0-9]|[0-9][0-9]):[0-5][0-9]:[0-5][0-9]</entry><entry name="required">1</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>8</line_number>
+         <name>CHECK_TYPE#</name>
+         <reference>VARA.CF.CHECK_TYPE</reference>
+         <reference_type>VARA</reference_type>
+         <value>EXISTS</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="CHECK_TYPEs.00" nl="1" quotes="" text="Check File(s)" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.CHECK_TYPE</entry><entry name="text">Check File(s)</entry><entry name="quotes"/><entry name="id">CHECK_TYPEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>11</line_number>
+         <name>CHECK_UNTIL_OFFSET#</name>
+         <reference>VARA.CF.CHECK_FOR_OFFSET</reference>
+         <reference_type>VARA</reference_type>
+         <value>current_datetime</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="CHECK_UNTIL_OFFSETs.00" nl="1" quotes="" text="Check for offset" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.CHECK_FOR_OFFSET</entry><entry name="text">Check for offset</entry><entry name="quotes"/><entry name="id">CHECK_UNTIL_OFFSETs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>19</line_number>
+         <name>DEPENDENCY_STATUS#</name>
+         <reference>VARA.CF.DEPENDENCY.STATUS</reference>
+         <reference_type>VARA</reference_type>
+         <value>ANY_OK</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="DEPENDENCY_STATUSs.00" nl="1" quotes="" strict="1" text="Dependency Status" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.DEPENDENCY.STATUS</entry><entry name="text">Dependency Status</entry><entry name="quotes"/><entry name="id">DEPENDENCY_STATUSs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>17</line_number>
+         <name>EXEC_OBJECT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="EXEC_OBJECTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Execute Object" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Execute Object</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">EXEC_OBJECTs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>FILE_DATE#</name>
+         <reference>VARA.CF.DATE</reference>
+         <reference_type>VARA</reference_type>
+         <value>modified</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="FILE_DATEs.00" nl="1" quotes="" text="File date" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.DATE</entry><entry name="text">File date</entry><entry name="quotes"/><entry name="id">FILE_DATEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <max_value>1024</max_value>
+         <name>FILENAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="1" id="FILENAMEs.00" inputassistance="0" len="1024" multiline="0" multilineIcon="0" nl="1" regex="" resetable="1" separator="" showaspassword="0" text="File name" tooltip="" upper="0" required="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">File name</entry><entry name="multiselect">0</entry><entry name="separator"/><entry name="len">1024</entry><entry name="quotes"/><entry name="id">FILENAMEs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">1</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>18</line_number>
+         <name>INSERT_WF#</name>
+         <reference>VARA.CF.YN</reference>
+         <reference_type>VARA</reference_type>
+         <value>N</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="INSERT_WFs.00" nl="1" quotes="" text="Insert into Workflow" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.YN</entry><entry name="text">Insert into Workflow</entry><entry name="quotes"/><entry name="id">INSERT_WFs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>LOGIN#</name>
+         <reference>VARA.SEC_SQLI.CF.LOGINS</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="1" enabled="1" fill="b" filter="0" focus="0" id="LOGINs.00" nl="1" quotes="" strict="1" text="Login" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="SQLI_SEC">VARA.SEC_SQLI.CF.LOGINS</entry><entry name="text">Login</entry><entry name="quotes"/><entry name="id">LOGINs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">1</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>MINSIZE#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="MINSIZEs.00" max="" min="" nl="1" text="Minimum size (bytes)" tooltip="-1 checks for a zero block file"><properties><entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry><entry name="text">Minimum size (bytes)</entry><entry name="min"/><entry name="max"/><entry name="quotes"/><entry name="id">MINSIZEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">-1 checks for a zero block file</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue">0</entry></properties></integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>9</line_number>
+         <name>MODE#</name>
+         <reference>VARA.CF.MODE</reference>
+         <reference_type>VARA</reference_type>
+         <value>SINGLE_CHECK</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="MODEs.00" nl="1" quotes="" text="Select mode?" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.MODE</entry><entry name="text">Select mode?</entry><entry name="quotes"/><entry name="id">MODEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>14</line_number>
+         <name>SORTCOL#</name>
+         <reference>VARA.CF.COLUMNS</reference>
+         <reference_type>VARA</reference_type>
+         <value>date</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="SORTCOLs.00" nl="1" quotes="" text="Sort Column" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.COLUMNS</entry><entry name="text">Sort Column</entry><entry name="quotes"/><entry name="id">SORTCOLs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>15</line_number>
+         <name>SORTORD#</name>
+         <reference>VARA.CF.ORDER</reference>
+         <reference_type>VARA</reference_type>
+         <value>ascending</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="SORTORDs.00" nl="1" quotes="" text="Sort Order" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.ORDER</entry><entry name="text">Sort Order</entry><entry name="quotes"/><entry name="id">SORTORDs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>STABLE_SECS#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="STABLE_SECSs.00" max="" min="" nl="1" text="Stable for (seconds)" tooltip=""><properties><entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry><entry name="text">Stable for (seconds)</entry><entry name="min"/><entry name="max"/><entry name="quotes"/><entry name="id">STABLE_SECSs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue">0</entry></properties></integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>16</line_number>
+         <name>STATIC_VARA#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="0" fill="b" focus="0" id="STATIC_VARAs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Save Reults to Static Variable" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Save Reults to Static Variable</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">STATIC_VARAs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">1</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>12</line_number>
+         <name>STOP_FIRST_MATCH#</name>
+         <reference>VARA.CF.YN</reference>
+         <reference_type>VARA</reference_type>
+         <value>Y</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="STOP_FIRST_MATCHs.00" nl="1" quotes="" text="Stop on first match?" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.YN</entry><entry name="text">Stop on first match?</entry><entry name="quotes"/><entry name="id">STOP_FIRST_MATCHs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>13</line_number>
+         <name>SUBDIRS#</name>
+         <reference>VARA.CF.YN</reference>
+         <reference_type>VARA</reference_type>
+         <value>N</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="SUBDIRSs.00" nl="1" quotes="" text="Search Sub Directories?" tooltip="" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CF.YN</entry><entry name="text">Search Sub Directories?</entry><entry name="quotes"/><entry name="id">SUBDIRSs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>7</line_number>
+         <name>WITHIN_DDHHMM#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <value>0:00:00</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="WITHIN_DDHHMMs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="([0-9]|[0-9][0-9]):[0-5][0-9]:[0-5][0-9]" resetable="1" separator=";" showaspassword="0" text="Date Within (days:hh:mi)" tooltip="" upper="0" required="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Date Within (days:hh:mi)</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">WITHIN_DDHHMMs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex">([0-9]|[0-9][0-9]):[0-5][0-9]:[0-5][0-9]</entry><entry name="required">1</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+   </elements>
+</prpt>

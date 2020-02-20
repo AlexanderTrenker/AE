@@ -12,7 +12,7 @@
          <child_flags>00000000000000000000000000000000</child_flags>
          <ert>1</ert>
          <platform>WINDOWS</platform>
-         <last_runtimes>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <last_runtimes>AQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
          <max_parallel_action>1</max_parallel_action>
          <mrt_time>000000</mrt_time>
          <name>JOBS.WIN.20165438.ERROR</name>
@@ -25,7 +25,8 @@
    <scripts>
       <row>
          <process><![CDATA[! insert these lines in your script to determine if an error occurred
-dur
+!dur
+dir
 @set retcode=%errorlevel%
 @if NOT %ERRORLEVEL% == 0 goto :retcode
 ]]></process>

@@ -12,14 +12,13 @@
          <child_flags>00000000000000000000000000000000</child_flags>
          <ert>1</ert>
          <platform>UNIX</platform>
-         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <last_runtimes>AQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
          <max_parallel_action>1</max_parallel_action>
          <mrt_time>000000</mrt_time>
          <name>JOBS.ZZZ.REGISTER_FILES</name>
-         <has_prompts>1</has_prompts>
          <type>JOBS</type>
          <inherit_output_filter>N</inherit_output_filter>
-         <queue>QUEUE.COMMON.REGULAR_PRIORITY</queue>
+         <queue>CLIENT_QUEUE</queue>
          <versioning_id>-475380396</versioning_id>
       </row>
    </general_attributes>
@@ -28,36 +27,44 @@
          <process><![CDATA[! JOBS.TEST.REGISTER_FILES
 !
 !
-:include jobi.common.all_jobs
+!:include jobi.common.all_jobs
 
-:PRINT "&OUTPUT_DIRECTORY#/test01.txt"
-:PRINT "&OUTPUT_DIRECTORY#/test02.txt"
-:PRINT "&OUTPUT_DIRECTORY#/test03.txt"
-:PRINT "&OUTPUT_DIRECTORY#/test04.txt"
-:PRINT "&OUTPUT_DIRECTORY#/test05.txt"
-:PRINT "&OUTPUT_DIRECTORY#/test06.txt"
-:PRINT "&OUTPUT_DIRECTORY#/test07.txt"
-:PRINT "&OUTPUT_DIRECTORY#/test08.txt"
-:PRINT "&OUTPUT_DIRECTORY#/test09.txt"
-
-
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test01.txt","N"
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test02.txt","N"
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test03.txt","N"
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test04.txt","N"
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test05.txt","N"
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test06.txt","N"
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test07.txt","N"
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test08.txt","N"
-:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test09.txt","N"]]></process>
+!:PRINT "&OUTPUT_DIRECTORY#/test01.txt"
+!:PRINT "&OUTPUT_DIRECTORY#/test02.txt"
+!:PRINT "&OUTPUT_DIRECTORY#/test03.txt"
+!:PRINT "&OUTPUT_DIRECTORY#/test04.txt"
+!:PRINT "&OUTPUT_DIRECTORY#/test05.txt"
+!:PRINT "&OUTPUT_DIRECTORY#/test06.txt"
+!:PRINT "&OUTPUT_DIRECTORY#/test07.txt"
+!:PRINT "&OUTPUT_DIRECTORY#/test08.txt"
+!:PRINT "&OUTPUT_DIRECTORY#/test09.txt"
+ls -ltr
+pwd
+:REGISTER_OUTPUTFILE "/root/test01.txt","N"
+:REGISTER_OUTPUTFILE "test02.txt","N"
+:REGISTER_OUTPUTFILE "test03.txt","N"
+:REGISTER_OUTPUTFILE "test04.txt","N"
+:REGISTER_OUTPUTFILE "test05.txt","N"
+:REGISTER_OUTPUTFILE "test06.txt","N"
+:REGISTER_OUTPUTFILE "test07.txt","N"
+:REGISTER_OUTPUTFILE "test08.txt","N"
+:REGISTER_OUTPUTFILE "test09.txt","N"
+!:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test02.txt","N"
+!:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test03.txt","N"
+!:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test04.txt","N"
+!:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test05.txt","N"
+!:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test06.txt","N"
+!:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test07.txt","N"
+!:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test08.txt","N"
+!:REGISTER_OUTPUTFILE "&OUTPUT_DIRECTORY#/test09.txt","N"]]></process>
       </row>
    </scripts>
    <job_attributes>
       <row>
          <activation_at_runtime>1</activation_at_runtime>
          <platform>UNIX</platform>
-         <agent>HOSTG.JOBSUB</agent>
-         <login>LOGIN.COMMON.UNIX.JOBSUB.AUTOMIC</login>
+         <agent>UNIX01</agent>
+         <login>@LOGIN.ALL</login>
          <job_report_path>2</job_report_path>
          <priority>0</priority>
          <resources_needed>1</resources_needed>
@@ -67,13 +74,6 @@
          <unix_cmd></unix_cmd>
       </row>
    </job_attributes>
-   <prompt_set_list>
-      <row>
-         <line_number>1</line_number>
-         <prompt_set>PRPT.COMMON.CONTEXT</prompt_set>
-         <display_order>1</display_order>
-      </row>
-   </prompt_set_list>
    <rollback_definitions>
       <row>
       </row>

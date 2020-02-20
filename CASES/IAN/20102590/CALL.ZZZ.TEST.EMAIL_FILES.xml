@@ -11,14 +11,15 @@
          <auto_deactivation>A</auto_deactivation>
          <child_flags>00000000000000000000000000000000</child_flags>
          <ert>1</ert>
-         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <ert_trend>2</ert_trend>
+         <last_runtimes>AQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
          <max_parallel_action>1</max_parallel_action>
          <mrt_time>000000</mrt_time>
          <name>CALL.ZZZ.TEST.EMAIL_FILES</name>
          <type>CALL</type>
          <has_object_variables>1</has_object_variables>
          <inherit_output_filter>N</inherit_output_filter>
-         <queue>QUEUE.COMMON.REGULAR_PRIORITY</queue>
+         <queue>CLIENT_QUEUE</queue>
          <sub_type>3</sub_type>
          <description>Email registered files</description>
          <versioning_id>-1986064713</versioning_id>
@@ -113,8 +114,8 @@ table td {
    </notification_attributes>
    <notification_content>
       <row>
-         <email>shari.tanguay@oregonstate.edu</email>
          <line_number>1</line_number>
+         <user_id>IAN/ENTERPRISE</user_id>
       </row>
    </notification_content>
    <object_variables>
