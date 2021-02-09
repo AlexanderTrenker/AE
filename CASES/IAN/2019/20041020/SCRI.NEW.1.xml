@@ -2,7 +2,7 @@
 <scri>
    <metadata>
       <row>
-         <version>12.3.1</version>
+         <version>12.3.4</version>
       </row>
    </metadata>
    <general_attributes>
@@ -11,20 +11,27 @@
          <auto_deactivation>A</auto_deactivation>
          <child_flags>00000000000000000000000000000000</child_flags>
          <ert>1</ert>
-         <ert_trend>2</ert_trend>
-         <last_runtimes>AQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <last_runtimes>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
          <max_parallel_action>1</max_parallel_action>
          <mrt_time>000000</mrt_time>
-         <name>SCRI.20025466</name>
+         <name>SCRI.NEW.1</name>
          <type>SCRI</type>
          <inherit_output_filter>N</inherit_output_filter>
          <queue>CLIENT_QUEUE</queue>
-         <versioning_id>1263894628</versioning_id>
+         <versioning_id>602776302</versioning_id>
       </row>
    </general_attributes>
    <scripts>
       <row>
-         <process>:PRINT Hello</process>
+         <process><![CDATA[:SET &var# = '0000011580000000'
+
+
+
+:SET &format# = FORMAT(&var#)
+
+
+
+:PRINT 'format: &format#']]></process>
       </row>
    </scripts>
    <script_attributes>
